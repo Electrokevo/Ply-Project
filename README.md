@@ -61,13 +61,15 @@ Este proyecto consiste en la implementación de un **analizador para el lenguaje
 
 ## 📁 Estructura del Proyecto
 
-C:.
-├───Algorithms
-│   ├───BinarySearch.cs
-│   ├───QuickSort.cs
-│   └───Program.cs
-└───Ply
-    └───PLY.py
+/Ply-Project/
+│
+├── /Algorithms/ # Solucion para algoritmos de c#
+│	├── BinarySearch.cs
+│	├── QuickSort.cs
+│	└── Program.cs
+├── /PLY/ # Solucion para el project
+│	└── Program.cs
+└── README.md # Este archivo
 
 ---
 
