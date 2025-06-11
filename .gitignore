@@ -1,9 +1,11 @@
 #visual studio crap
 .vs/
+bin/
+obj/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
+*.py[cod] 
 *$py.class
 
 # C extensions
