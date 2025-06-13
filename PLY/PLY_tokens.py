@@ -1,17 +1,47 @@
-#Valor en mayúscula porque se usará en el retorno del token
+#Valor en mayï¿½scula porque se usarï¿½ en el retorno del token
 reserved = {
    'if' : 'IF',
    'then' : 'THEN',
    'else' : 'ELSE',
    'while' : 'WHILE',
    'for' : 'FOR',
-   "return" : "RETURN"
+   "return" : "RETURN",
+   "do" : "DO",
+   "void" : "VOID",
+   "class" : "CLASS",
+   "new" : "NEW",
+   "using" : "USING",
+   "var" : "VAR",
+   
+   #Modificadores de acceso
+   "public" : "PUBLIC",
+   "private" : "PRIVATE",
+   "protected" : "PROTECTED",
+   "internal" : "INTERNAL",
+   "file" : "FILE",
+   
+   #Datos primitivos
+   "bool": "BOOL",
+   "byte": "BYTE",
+   "sbyte": "SBYTE",
+   "char": "CHAR",
+   "decimal": "DECIMAL",
+   "double": "DOUBLE",
+   "float": "FLOAT",
+   "int": "INT",
+   "uint": "UINT",
+   "nint": "NINT",
+   "nuint": "NUINT",
+   "long": "LONG",
+   "ulong": "ULONG",
+   "short": "SHORT",
+   "ushort": "USHORT"
 
 }
 
 # List of token names.   This is always required
 tokens = (
-    "FLOAT",
+    "FLOATNUM",
     'NUMBER',
     'PLUS',
     'MINUS',
@@ -26,10 +56,11 @@ tokens = (
     "RBRACKET",
     "ID",
     "STRING",
-    "CHAR",
+    "CHARACTER",
     "LSQBRACKET",
     "RSQBRACKET",
-    "COMMA"
+    "COMMA",
+    "CLASSOBJECT"
 
 ) + tuple(reserved.values())
 
@@ -48,3 +79,4 @@ t_RBRACKET = r"}"
 t_COMMA = r","
 t_LSQBRACKET = r"\["
 t_RSQBRACKET = r"\]"
+t_CLASSOBJECT = r"[A-Z][a-zA-Z_]*"

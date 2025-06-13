@@ -1,6 +1,6 @@
 from PLY_tokens import *
 
-def t_FLOAT(t):
+def t_FLOATNUM(t):
     r'\d+\.\d*'
     t.value = float(t.value)    
     return t
@@ -16,7 +16,7 @@ def t_STRING(t):
     t.value = str(t.value)    
     return t
 
-def t_CHAR(t):
+def t_CHARACTER(t):
     r'\'.\''
     t.value = str(t.value)    
     return t

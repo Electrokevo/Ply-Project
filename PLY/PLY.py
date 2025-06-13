@@ -18,7 +18,7 @@ lexer = lex.lex()
 #Lectura del archivo a tokenizar
 #Start_Levin Moran
 buffer = ''''''
-archivo = open("./Algorithms/LexicTests/BinarySearch.cs", "r")
+archivo = open("./Algorithms/LexicTests/BinarySearch.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")
@@ -31,7 +31,7 @@ lexer.input(buffer)
 
 # Tokenize
 # Modified by Levin Moran
-archivo = open(rutaArchivo, "w") 
+archivo = open(rutaArchivo, "w", encoding="UTF-8") 
 while True:
     tok = lexer.token()
     if not tok: 
