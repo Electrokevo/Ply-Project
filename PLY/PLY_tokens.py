@@ -1,4 +1,6 @@
-#Valor en may�scula porque se usar� en el retorno del token
+#Valor en mayúscula porque se usará en el retorno del token
+
+#Start_Levin Moran
 reserved = {
    'if' : 'IF',
    'then' : 'THEN',
@@ -60,7 +62,8 @@ tokens = (
     "LSQBRACKET",
     "RSQBRACKET",
     "COMMA",
-    "CLASSOBJECT"
+    "CLASSOBJECT",
+    "DOT"
 
 ) + tuple(reserved.values())
 
@@ -80,3 +83,7 @@ t_COMMA = r","
 t_LSQBRACKET = r"\["
 t_RSQBRACKET = r"\]"
 t_CLASSOBJECT = r"[A-Z][a-zA-Z_]*"
+t_DOT = r"\."
+
+
+#End_Levin Moran
