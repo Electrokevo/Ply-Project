@@ -37,6 +37,8 @@ def t_newline(t):
 t_ignore  = ' \t'
 
 # Error handling rule
+# Modified by Levin Moran
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
+    message = ("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
+    return message
