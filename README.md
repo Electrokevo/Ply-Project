@@ -4,6 +4,18 @@
 
 ---
 
+## 📃 Intrucciones
+
+El archivo a ejecutar es PLY.py, se lo puede ejecutar con el siguiente comando dentro de la carpeta PLY:
+
+`python PLY.py`
+
+Al ejecutarlo no se deberia mostrar nada en consola, pero se crea un nuevo archivo en la carpeta logs, con el nombre del usuario que clono el repositoria y la fecha.
+
+Este archivo contiene todos los tokens que el lexer analizo, incluye informacion como el tipo de token, su valor y la posicion del mismo.
+
+Nota: Por alguna razon al clonar el repositorio la carpeta de logs y de los algoritmos se clona dentro o fuera de la carpeta PLY, por lo que en caso de recibir un error al ejecutar el archivo PLY.py, por favor intente cambiar el path de los archivos en el mismo PLY.py
+
 ## 📌 Introducción
 
 C# es un lenguaje de programación moderno, innovador, de código abierto, multiplataforma y orientado a objetos. Se encuentra entre los cinco lenguajes más utilizados en GitHub. Algunas de sus características más destacadas incluyen:
