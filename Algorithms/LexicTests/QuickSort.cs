@@ -48,5 +48,10 @@ public class QuickSort
         {
             Console.Write(item + " ");
         }
+
+        //test
+        float f = 1.0F;
+        double d = 1.0;
+        decimal de = 1.0M;
     }
 }

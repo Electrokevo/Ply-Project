@@ -43,8 +43,10 @@ reserved = {
 
 # List of token names.   This is always required
 tokens = (
-    "FLOATNUM",
-    'NUMBER',
+    "FLOAT_TYPE",
+    "DOUBLE_TYPE",
+    "DECIMAL_TYPE",
+    'INTEGER_TYPE',
     'PLUS',
     'MINUS',
     'TIMES',
@@ -63,8 +65,19 @@ tokens = (
     "RSQBRACKET",
     "COMMA",
     "CLASSOBJECT",
-    "DOT"
-
+    "DOT",
+    "OR",
+    "AND",
+    "NOT",
+    "GREATER_THAN",
+    "LESS_THAN",
+    "GREATER_EQUALS_THAN",
+    "LESS_EQUALS_THAN",
+    "PLUS_EQUAL",
+    "MINUS_EQUAL",
+    "TIMES_EQUAL",
+    "DIVIDE_EQUAL",
+    "MODULE_EQUAL",
 ) + tuple(reserved.values())
 
 # Regular expression rules for simple tokens
@@ -84,6 +97,20 @@ t_LSQBRACKET = r"\["
 t_RSQBRACKET = r"\]"
 t_CLASSOBJECT = r"[A-Z][a-zA-Z_]*"
 t_DOT = r"\."
+#Start_Kevin Mejia
+t_OR = r'\|\|'
+t_AND = r'&&'
+t_NOT = r'!'
+t_GREATER_THAN = r'>'
+t_LESS_THAN = r'<'
+t_GREATER_EQUALS_THAN = r'>='
+t_LESS_EQUALS_THAN = r'<='
+t_PLUS_EQUAL = r'\+='
+t_MINUS_EQUAL = r'-='
+t_TIMES_EQUAL = r'\*='
+t_DIVIDE_EQUAL = r'/='
+t_MODULE_EQUAL = r'%='
+#End_Kevin Mejia
 
 
 #End_Levin Moran

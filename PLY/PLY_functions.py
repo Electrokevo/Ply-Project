@@ -1,12 +1,24 @@
 from PLY_tokens import *
 
-def t_FLOATNUM(t):
-    r'\d+\.\d*'
-    t.value = float(t.value)    
+# A regular expression rule with some action code
+
+#Start Kevin Mejia
+def t_FLOAT_TYPE(t):
+    r'\d+\.\d*[fF]'
+    t.value = float(t.value[:-1])
     return t
 
-# A regular expression rule with some action code
-def t_NUMBER(t):
+def t_DOUBLE_TYPE(t):
+    r'\d+\.\d*'
+    t.value = float(t.value)
+    return t
+
+def t_DECIMAL_TYPE(t):
+    r'\d+\.\d*[mM]'
+    t.value = float(t.value[:-1])    
+    return t
+
+def t_INTEGER_TYPE(t):
     r'\d+'
     t.value = int(t.value)    
     return t
@@ -20,8 +32,7 @@ def t_CHARACTER(t):
     r'\'.\''
     t.value = str(t.value)    
     return t
-
-
+#End Kevin Mejia
 
 def t_ID(t):
     r'[a-z_][a-zA-Z_0-9]*'
