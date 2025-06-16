@@ -1,0 +1,469 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    BOOL
+    BYTE
+    CHAR
+    CHARACTER
+    CLASS
+    CLASSOBJECT
+    COMMA
+    DECIMAL
+    DIVIDE_EQUAL
+    DO
+    DOT
+    DOUBLE
+    ELSE
+    FILE
+    FLOAT
+    FOR
+    GREATER_EQUALS_THAN
+    GREATER_THAN
+    IF
+    INT
+    INTERNAL
+    LBRACKET
+    LESS_EQUALS_THAN
+    LESS_THAN
+    LONG
+    LSQBRACKET
+    MINUS_EQUAL
+    MODULE
+    MODULE_EQUAL
+    NEW
+    NINT
+    NOT
+    NUINT
+    OR
+    PLUS_EQUAL
+    PRIVATE
+    PROTECTED
+    PUBLIC
+    RBRACKET
+    RETURN
+    RSQBRACKET
+    SBYTE
+    SHORT
+    STRING
+    THEN
+    TIMES_EQUAL
+    UINT
+    ULONG
+    USHORT
+    USING
+    VAR
+    VOID
+    WHILE
+
+Grammar
+
+Rule 0     S' -> assignment
+Rule 1     assignment -> ID EQUALS expression SEMICOLON
+Rule 2     expression -> expression PLUS term
+Rule 3     expression -> expression MINUS term
+Rule 4     expression -> term
+Rule 5     term -> term TIMES factor
+Rule 6     term -> term DIVIDE factor
+Rule 7     term -> factor
+Rule 8     factor -> INTEGER_TYPE
+Rule 9     factor -> FLOAT_TYPE
+Rule 10    factor -> DOUBLE_TYPE
+Rule 11    factor -> DECIMAL_TYPE
+Rule 12    factor -> LPAREN expression RPAREN
+
+Terminals, with rules where they appear
+
+AND                  : 
+BOOL                 : 
+BYTE                 : 
+CHAR                 : 
+CHARACTER            : 
+CLASS                : 
+CLASSOBJECT          : 
+COMMA                : 
+DECIMAL              : 
+DECIMAL_TYPE         : 11
+DIVIDE               : 6
+DIVIDE_EQUAL         : 
+DO                   : 
+DOT                  : 
+DOUBLE               : 
+DOUBLE_TYPE          : 10
+ELSE                 : 
+EQUALS               : 1
+FILE                 : 
+FLOAT                : 
+FLOAT_TYPE           : 9
+FOR                  : 
+GREATER_EQUALS_THAN  : 
+GREATER_THAN         : 
+ID                   : 1
+IF                   : 
+INT                  : 
+INTEGER_TYPE         : 8
+INTERNAL             : 
+LBRACKET             : 
+LESS_EQUALS_THAN     : 
+LESS_THAN            : 
+LONG                 : 
+LPAREN               : 12
+LSQBRACKET           : 
+MINUS                : 3
+MINUS_EQUAL          : 
+MODULE               : 
+MODULE_EQUAL         : 
+NEW                  : 
+NINT                 : 
+NOT                  : 
+NUINT                : 
+OR                   : 
+PLUS                 : 2
+PLUS_EQUAL           : 
+PRIVATE              : 
+PROTECTED            : 
+PUBLIC               : 
+RBRACKET             : 
+RETURN               : 
+RPAREN               : 12
+RSQBRACKET           : 
+SBYTE                : 
+SEMICOLON            : 1
+SHORT                : 
+STRING               : 
+THEN                 : 
+TIMES                : 5
+TIMES_EQUAL          : 
+UINT                 : 
+ULONG                : 
+USHORT               : 
+USING                : 
+VAR                  : 
+VOID                 : 
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+assignment           : 0
+expression           : 1 2 3 12
+factor               : 5 6 7
+term                 : 2 3 4 5 6
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . assignment
+    (1) assignment -> . ID EQUALS expression SEMICOLON
+
+    ID              shift and go to state 2
+
+    assignment                     shift and go to state 1
+
+state 1
+
+    (0) S' -> assignment .
+
+
+
+state 2
+
+    (1) assignment -> ID . EQUALS expression SEMICOLON
+
+    EQUALS          shift and go to state 3
+
+
+state 3
+
+    (1) assignment -> ID EQUALS . expression SEMICOLON
+    (2) expression -> . expression PLUS term
+    (3) expression -> . expression MINUS term
+    (4) expression -> . term
+    (5) term -> . term TIMES factor
+    (6) term -> . term DIVIDE factor
+    (7) term -> . factor
+    (8) factor -> . INTEGER_TYPE
+    (9) factor -> . FLOAT_TYPE
+    (10) factor -> . DOUBLE_TYPE
+    (11) factor -> . DECIMAL_TYPE
+    (12) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 7
+    FLOAT_TYPE      shift and go to state 8
+    DOUBLE_TYPE     shift and go to state 9
+    DECIMAL_TYPE    shift and go to state 10
+    LPAREN          shift and go to state 11
+
+    expression                     shift and go to state 4
+    term                           shift and go to state 5
+    factor                         shift and go to state 6
+
+state 4
+
+    (1) assignment -> ID EQUALS expression . SEMICOLON
+    (2) expression -> expression . PLUS term
+    (3) expression -> expression . MINUS term
+
+    SEMICOLON       shift and go to state 12
+    PLUS            shift and go to state 13
+    MINUS           shift and go to state 14
+
+
+state 5
+
+    (4) expression -> term .
+    (5) term -> term . TIMES factor
+    (6) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 4 (expression -> term .)
+    PLUS            reduce using rule 4 (expression -> term .)
+    MINUS           reduce using rule 4 (expression -> term .)
+    RPAREN          reduce using rule 4 (expression -> term .)
+    TIMES           shift and go to state 15
+    DIVIDE          shift and go to state 16
+
+
+state 6
+
+    (7) term -> factor .
+
+    TIMES           reduce using rule 7 (term -> factor .)
+    DIVIDE          reduce using rule 7 (term -> factor .)
+    SEMICOLON       reduce using rule 7 (term -> factor .)
+    PLUS            reduce using rule 7 (term -> factor .)
+    MINUS           reduce using rule 7 (term -> factor .)
+    RPAREN          reduce using rule 7 (term -> factor .)
+
+
+state 7
+
+    (8) factor -> INTEGER_TYPE .
+
+    TIMES           reduce using rule 8 (factor -> INTEGER_TYPE .)
+    DIVIDE          reduce using rule 8 (factor -> INTEGER_TYPE .)
+    SEMICOLON       reduce using rule 8 (factor -> INTEGER_TYPE .)
+    PLUS            reduce using rule 8 (factor -> INTEGER_TYPE .)
+    MINUS           reduce using rule 8 (factor -> INTEGER_TYPE .)
+    RPAREN          reduce using rule 8 (factor -> INTEGER_TYPE .)
+
+
+state 8
+
+    (9) factor -> FLOAT_TYPE .
+
+    TIMES           reduce using rule 9 (factor -> FLOAT_TYPE .)
+    DIVIDE          reduce using rule 9 (factor -> FLOAT_TYPE .)
+    SEMICOLON       reduce using rule 9 (factor -> FLOAT_TYPE .)
+    PLUS            reduce using rule 9 (factor -> FLOAT_TYPE .)
+    MINUS           reduce using rule 9 (factor -> FLOAT_TYPE .)
+    RPAREN          reduce using rule 9 (factor -> FLOAT_TYPE .)
+
+
+state 9
+
+    (10) factor -> DOUBLE_TYPE .
+
+    TIMES           reduce using rule 10 (factor -> DOUBLE_TYPE .)
+    DIVIDE          reduce using rule 10 (factor -> DOUBLE_TYPE .)
+    SEMICOLON       reduce using rule 10 (factor -> DOUBLE_TYPE .)
+    PLUS            reduce using rule 10 (factor -> DOUBLE_TYPE .)
+    MINUS           reduce using rule 10 (factor -> DOUBLE_TYPE .)
+    RPAREN          reduce using rule 10 (factor -> DOUBLE_TYPE .)
+
+
+state 10
+
+    (11) factor -> DECIMAL_TYPE .
+
+    TIMES           reduce using rule 11 (factor -> DECIMAL_TYPE .)
+    DIVIDE          reduce using rule 11 (factor -> DECIMAL_TYPE .)
+    SEMICOLON       reduce using rule 11 (factor -> DECIMAL_TYPE .)
+    PLUS            reduce using rule 11 (factor -> DECIMAL_TYPE .)
+    MINUS           reduce using rule 11 (factor -> DECIMAL_TYPE .)
+    RPAREN          reduce using rule 11 (factor -> DECIMAL_TYPE .)
+
+
+state 11
+
+    (12) factor -> LPAREN . expression RPAREN
+    (2) expression -> . expression PLUS term
+    (3) expression -> . expression MINUS term
+    (4) expression -> . term
+    (5) term -> . term TIMES factor
+    (6) term -> . term DIVIDE factor
+    (7) term -> . factor
+    (8) factor -> . INTEGER_TYPE
+    (9) factor -> . FLOAT_TYPE
+    (10) factor -> . DOUBLE_TYPE
+    (11) factor -> . DECIMAL_TYPE
+    (12) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 7
+    FLOAT_TYPE      shift and go to state 8
+    DOUBLE_TYPE     shift and go to state 9
+    DECIMAL_TYPE    shift and go to state 10
+    LPAREN          shift and go to state 11
+
+    expression                     shift and go to state 17
+    term                           shift and go to state 5
+    factor                         shift and go to state 6
+
+state 12
+
+    (1) assignment -> ID EQUALS expression SEMICOLON .
+
+    $end            reduce using rule 1 (assignment -> ID EQUALS expression SEMICOLON .)
+
+
+state 13
+
+    (2) expression -> expression PLUS . term
+    (5) term -> . term TIMES factor
+    (6) term -> . term DIVIDE factor
+    (7) term -> . factor
+    (8) factor -> . INTEGER_TYPE
+    (9) factor -> . FLOAT_TYPE
+    (10) factor -> . DOUBLE_TYPE
+    (11) factor -> . DECIMAL_TYPE
+    (12) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 7
+    FLOAT_TYPE      shift and go to state 8
+    DOUBLE_TYPE     shift and go to state 9
+    DECIMAL_TYPE    shift and go to state 10
+    LPAREN          shift and go to state 11
+
+    term                           shift and go to state 18
+    factor                         shift and go to state 6
+
+state 14
+
+    (3) expression -> expression MINUS . term
+    (5) term -> . term TIMES factor
+    (6) term -> . term DIVIDE factor
+    (7) term -> . factor
+    (8) factor -> . INTEGER_TYPE
+    (9) factor -> . FLOAT_TYPE
+    (10) factor -> . DOUBLE_TYPE
+    (11) factor -> . DECIMAL_TYPE
+    (12) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 7
+    FLOAT_TYPE      shift and go to state 8
+    DOUBLE_TYPE     shift and go to state 9
+    DECIMAL_TYPE    shift and go to state 10
+    LPAREN          shift and go to state 11
+
+    term                           shift and go to state 19
+    factor                         shift and go to state 6
+
+state 15
+
+    (5) term -> term TIMES . factor
+    (8) factor -> . INTEGER_TYPE
+    (9) factor -> . FLOAT_TYPE
+    (10) factor -> . DOUBLE_TYPE
+    (11) factor -> . DECIMAL_TYPE
+    (12) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 7
+    FLOAT_TYPE      shift and go to state 8
+    DOUBLE_TYPE     shift and go to state 9
+    DECIMAL_TYPE    shift and go to state 10
+    LPAREN          shift and go to state 11
+
+    factor                         shift and go to state 20
+
+state 16
+
+    (6) term -> term DIVIDE . factor
+    (8) factor -> . INTEGER_TYPE
+    (9) factor -> . FLOAT_TYPE
+    (10) factor -> . DOUBLE_TYPE
+    (11) factor -> . DECIMAL_TYPE
+    (12) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 7
+    FLOAT_TYPE      shift and go to state 8
+    DOUBLE_TYPE     shift and go to state 9
+    DECIMAL_TYPE    shift and go to state 10
+    LPAREN          shift and go to state 11
+
+    factor                         shift and go to state 21
+
+state 17
+
+    (12) factor -> LPAREN expression . RPAREN
+    (2) expression -> expression . PLUS term
+    (3) expression -> expression . MINUS term
+
+    RPAREN          shift and go to state 22
+    PLUS            shift and go to state 13
+    MINUS           shift and go to state 14
+
+
+state 18
+
+    (2) expression -> expression PLUS term .
+    (5) term -> term . TIMES factor
+    (6) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 2 (expression -> expression PLUS term .)
+    PLUS            reduce using rule 2 (expression -> expression PLUS term .)
+    MINUS           reduce using rule 2 (expression -> expression PLUS term .)
+    RPAREN          reduce using rule 2 (expression -> expression PLUS term .)
+    TIMES           shift and go to state 15
+    DIVIDE          shift and go to state 16
+
+
+state 19
+
+    (3) expression -> expression MINUS term .
+    (5) term -> term . TIMES factor
+    (6) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 3 (expression -> expression MINUS term .)
+    PLUS            reduce using rule 3 (expression -> expression MINUS term .)
+    MINUS           reduce using rule 3 (expression -> expression MINUS term .)
+    RPAREN          reduce using rule 3 (expression -> expression MINUS term .)
+    TIMES           shift and go to state 15
+    DIVIDE          shift and go to state 16
+
+
+state 20
+
+    (5) term -> term TIMES factor .
+
+    TIMES           reduce using rule 5 (term -> term TIMES factor .)
+    DIVIDE          reduce using rule 5 (term -> term TIMES factor .)
+    SEMICOLON       reduce using rule 5 (term -> term TIMES factor .)
+    PLUS            reduce using rule 5 (term -> term TIMES factor .)
+    MINUS           reduce using rule 5 (term -> term TIMES factor .)
+    RPAREN          reduce using rule 5 (term -> term TIMES factor .)
+
+
+state 21
+
+    (6) term -> term DIVIDE factor .
+
+    TIMES           reduce using rule 6 (term -> term DIVIDE factor .)
+    DIVIDE          reduce using rule 6 (term -> term DIVIDE factor .)
+    SEMICOLON       reduce using rule 6 (term -> term DIVIDE factor .)
+    PLUS            reduce using rule 6 (term -> term DIVIDE factor .)
+    MINUS           reduce using rule 6 (term -> term DIVIDE factor .)
+    RPAREN          reduce using rule 6 (term -> term DIVIDE factor .)
+
+
+state 22
+
+    (12) factor -> LPAREN expression RPAREN .
+
+    TIMES           reduce using rule 12 (factor -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 12 (factor -> LPAREN expression RPAREN .)
+    SEMICOLON       reduce using rule 12 (factor -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 12 (factor -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 12 (factor -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 12 (factor -> LPAREN expression RPAREN .)
+
