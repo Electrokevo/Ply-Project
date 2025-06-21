@@ -1,6 +1,17 @@
-import PLY
+import ply.lex as lex
 import ply.yacc as yacc
-from PLY_tokens import tokens
+from PLY_tokens import *
+from PLY_functions import *
+
+#Start_Levin Moran
+from subprocess import getoutput
+from datetime import datetime
+
+usuarioGit = getoutput("git config user.name")
+fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
+nombreArchivo = f"lexic-{usuarioGit}-{fechaHora}.txt"
+rutaArchivo = f"./Logs/{nombreArchivo}"
+#End_Levin Moran
 
 #reglas en minúscula y tokens en mayúscula
 
@@ -45,17 +56,18 @@ def p_factor_expr(p):
 
 # Error rule for syntax errors
 def p_error(p):
-    print("Syntax error in input!")
+    print("Syntax error in input!" , p)
 
+# Build the lexer
+lexer = lex.lex()
 
 # Build the parser
 parser = yacc.yacc()
 
-while True:
-   try:
-       s = input('c# > ')
-   except EOFError:
-       break
-   if not s: continue
-   result = parser.parse(s)
-   print(result)
+archivo = open("./Algorithms/LexicTests/BinarySearch.cs", encoding="UTF-8")
+for linea in archivo:
+        lexer.input(linea)
+        resultado = parser.parse(linea, lexer=lexer)
+        print("Resultado del parser:")
+        print(resultado)
+archivo.close()
