@@ -1,0 +1,2 @@
+Asignación correcta: a = 3;
+Asignación correcta: b = 4.5;

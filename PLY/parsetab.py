@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'AND BOOL BYTE CHAR CHARACTER CLASS CLASSOBJECT COMMA DECIMAL DECIMAL_TYPE DIVIDE DIVIDE_EQUAL DO DOT DOUBLE DOUBLE_TYPE ELSE EQUALS FILE FLOAT FLOAT_TYPE FOR GREATER_EQUALS_THAN GREATER_THAN ID IF INT INTEGER_TYPE INTERNAL LBRACKET LESS_EQUALS_THAN LESS_THAN LONG LPAREN LSQBRACKET MINUS MINUS_EQUAL MODULE MODULE_EQUAL NEW NINT NOT NUINT OR PLUS PLUS_EQUAL PRIVATE PROTECTED PUBLIC RBRACKET RETURN RPAREN RSQBRACKET SBYTE SEMICOLON SHORT STRING THEN TIMES TIMES_EQUAL UINT ULONG USHORT USING VAR VOID WHILEassignment : ID EQUALS expression SEMICOLONexpression : expression PLUS termexpression : expression MINUS termexpression : termterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : INTEGER_TYPE\n               | FLOAT_TYPE\n               | DOUBLE_TYPE\n               | DECIMAL_TYPEfactor : LPAREN expression RPAREN'
+_lr_signature = 'AND BOOL BYTE CHAR CHARACTER CLASS CLASSOBJECT COMMA DECIMAL DECIMAL_TYPE DIVIDE DIVIDE_EQUAL DO DOT DOUBLE DOUBLE_TYPE ELSE EQUALS FILE FLOAT FLOAT_TYPE FOR GREATER_EQUALS_THAN GREATER_THAN ID IF INT INTEGER_TYPE INTERNAL LBRACKET LESS_EQUALS_THAN LESS_THAN LONG LPAREN LSQBRACKET MINUS MINUS_EQUAL MODULE MODULE_EQUAL NEW NINT NOT NUINT OR PLUS PLUS_EQUAL PRIVATE PROTECTED PUBLIC RBRACKET RETURN RPAREN RSQBRACKET SBYTE SEMICOLON SHORT STRING THEN TIMES TIMES_EQUAL UINT ULONG USHORT USING VAR VOID WHILEprogram : assignmentsassignments : assignments assignmentassignments : assignmentassignment : ID EQUALS expression SEMICOLONexpression : expression PLUS termexpression : expression MINUS termexpression : termterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : INTEGER_TYPE\n               | FLOAT_TYPE\n               | DOUBLE_TYPE\n               | DECIMAL_TYPEfactor : LPAREN expression RPAREN'
     
-_lr_action_items = {'ID':([0,],[2,]),'$end':([1,12,],[0,-1,]),'EQUALS':([2,],[3,]),'INTEGER_TYPE':([3,11,13,14,15,16,],[7,7,7,7,7,7,]),'FLOAT_TYPE':([3,11,13,14,15,16,],[8,8,8,8,8,8,]),'DOUBLE_TYPE':([3,11,13,14,15,16,],[9,9,9,9,9,9,]),'DECIMAL_TYPE':([3,11,13,14,15,16,],[10,10,10,10,10,10,]),'LPAREN':([3,11,13,14,15,16,],[11,11,11,11,11,11,]),'SEMICOLON':([4,5,6,7,8,9,10,18,19,20,21,22,],[12,-4,-7,-8,-9,-10,-11,-2,-3,-5,-6,-12,]),'PLUS':([4,5,6,7,8,9,10,17,18,19,20,21,22,],[13,-4,-7,-8,-9,-10,-11,13,-2,-3,-5,-6,-12,]),'MINUS':([4,5,6,7,8,9,10,17,18,19,20,21,22,],[14,-4,-7,-8,-9,-10,-11,14,-2,-3,-5,-6,-12,]),'RPAREN':([5,6,7,8,9,10,17,18,19,20,21,22,],[-4,-7,-8,-9,-10,-11,22,-2,-3,-5,-6,-12,]),'TIMES':([5,6,7,8,9,10,18,19,20,21,22,],[15,-7,-8,-9,-10,-11,15,15,-5,-6,-12,]),'DIVIDE':([5,6,7,8,9,10,18,19,20,21,22,],[16,-7,-8,-9,-10,-11,16,16,-5,-6,-12,]),}
+_lr_action_items = {'ID':([0,2,3,5,15,],[4,4,-3,-2,-4,]),'$end':([1,2,3,5,15,],[0,-1,-3,-2,-4,]),'EQUALS':([4,],[6,]),'INTEGER_TYPE':([6,14,16,17,18,19,],[10,10,10,10,10,10,]),'FLOAT_TYPE':([6,14,16,17,18,19,],[11,11,11,11,11,11,]),'DOUBLE_TYPE':([6,14,16,17,18,19,],[12,12,12,12,12,12,]),'DECIMAL_TYPE':([6,14,16,17,18,19,],[13,13,13,13,13,13,]),'LPAREN':([6,14,16,17,18,19,],[14,14,14,14,14,14,]),'SEMICOLON':([7,8,9,10,11,12,13,21,22,23,24,25,],[15,-7,-10,-11,-12,-13,-14,-5,-6,-8,-9,-15,]),'PLUS':([7,8,9,10,11,12,13,20,21,22,23,24,25,],[16,-7,-10,-11,-12,-13,-14,16,-5,-6,-8,-9,-15,]),'MINUS':([7,8,9,10,11,12,13,20,21,22,23,24,25,],[17,-7,-10,-11,-12,-13,-14,17,-5,-6,-8,-9,-15,]),'RPAREN':([8,9,10,11,12,13,20,21,22,23,24,25,],[-7,-10,-11,-12,-13,-14,25,-5,-6,-8,-9,-15,]),'TIMES':([8,9,10,11,12,13,21,22,23,24,25,],[18,-10,-11,-12,-13,-14,18,18,-8,-9,-15,]),'DIVIDE':([8,9,10,11,12,13,21,22,23,24,25,],[19,-10,-11,-12,-13,-14,19,19,-8,-9,-15,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'assignment':([0,],[1,]),'expression':([3,11,],[4,17,]),'term':([3,11,13,14,],[5,5,18,19,]),'factor':([3,11,13,14,15,16,],[6,6,6,6,20,21,]),}
+_lr_goto_items = {'program':([0,],[1,]),'assignments':([0,],[2,]),'assignment':([0,2,],[3,5,]),'expression':([6,14,],[7,20,]),'term':([6,14,16,17,],[8,8,21,22,]),'factor':([6,14,16,17,18,19,],[9,9,9,9,23,24,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,17 +26,20 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> assignment","S'",1,None,None,None),
-  ('assignment -> ID EQUALS expression SEMICOLON','assignment',4,'p_assignment','PLY_yacc.py',8),
-  ('expression -> expression PLUS term','expression',3,'p_expression_plus','PLY_yacc.py',12),
-  ('expression -> expression MINUS term','expression',3,'p_expression_minus','PLY_yacc.py',16),
-  ('expression -> term','expression',1,'p_expression_term','PLY_yacc.py',20),
-  ('term -> term TIMES factor','term',3,'p_term_times','PLY_yacc.py',24),
-  ('term -> term DIVIDE factor','term',3,'p_term_div','PLY_yacc.py',28),
-  ('term -> factor','term',1,'p_term_factor','PLY_yacc.py',32),
-  ('factor -> INTEGER_TYPE','factor',1,'p_factor_num','PLY_yacc.py',36),
-  ('factor -> FLOAT_TYPE','factor',1,'p_factor_num','PLY_yacc.py',37),
-  ('factor -> DOUBLE_TYPE','factor',1,'p_factor_num','PLY_yacc.py',38),
-  ('factor -> DECIMAL_TYPE','factor',1,'p_factor_num','PLY_yacc.py',39),
-  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','PLY_yacc.py',43),
+  ("S' -> program","S'",1,None,None,None),
+  ('program -> assignments','program',1,'p_program','PLY_yacc.py',19),
+  ('assignments -> assignments assignment','assignments',2,'p_assignments_multiple','PLY_yacc.py',23),
+  ('assignments -> assignment','assignments',1,'p_assignments_single','PLY_yacc.py',27),
+  ('assignment -> ID EQUALS expression SEMICOLON','assignment',4,'p_assignment','PLY_yacc.py',31),
+  ('expression -> expression PLUS term','expression',3,'p_expression_plus','PLY_yacc.py',35),
+  ('expression -> expression MINUS term','expression',3,'p_expression_minus','PLY_yacc.py',39),
+  ('expression -> term','expression',1,'p_expression_term','PLY_yacc.py',43),
+  ('term -> term TIMES factor','term',3,'p_term_times','PLY_yacc.py',47),
+  ('term -> term DIVIDE factor','term',3,'p_term_div','PLY_yacc.py',51),
+  ('term -> factor','term',1,'p_term_factor','PLY_yacc.py',55),
+  ('factor -> INTEGER_TYPE','factor',1,'p_factor_num','PLY_yacc.py',59),
+  ('factor -> FLOAT_TYPE','factor',1,'p_factor_num','PLY_yacc.py',60),
+  ('factor -> DOUBLE_TYPE','factor',1,'p_factor_num','PLY_yacc.py',61),
+  ('factor -> DECIMAL_TYPE','factor',1,'p_factor_num','PLY_yacc.py',62),
+  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','PLY_yacc.py',66),
 ]
