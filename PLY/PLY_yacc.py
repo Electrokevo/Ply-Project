@@ -18,19 +18,42 @@ arch = open(rutaArchivo, "w", encoding="UTF-8")
 
 # TODO: Ver que hacer aca
 def p_program(p):
-    'program : body'
+    'program : usings class'
+    p[0] = p[1]
+
+def p_usings(p):
+    '''usings : usings
+    | using'''
+    p[0] = p[1]
+
+def p_using(p):
+    '''using : USING CLASSOBJECT SEMICOLON'''
+    p[0] = p[1]
+
+def p_class(p):
+    '''class : modifier CLASS CLASSOBJECT block'''
+    p[0] = p[1]
+
+def p_block(p):
+    '''block : LBRACKET body RBRACKET'''
     p[0] = p[1]
 
 def p_body(p):
     '''body : lines SEMICOLON
-            | lines SEMICOLON body'''
+            | lines SEMICOLON body
+            | function'''
+
+def p_lines(p):
+    '''lines : assignment 
+    | expression 
+    | declaration
+    | if
+    | loop
+    | return'''
 
 def p_funtion(p):
     '''function : modifier data_type ID LPAREN declaration RPAREN block
                 | modifier VOID ID LPAREN declaration RPAREN block'''
-
-def p_using(p):
-    '''using : USING CLASSOBJECT SEMICOLON '''
 
 def p_return(p):
     '''return : RETURN ID
@@ -42,14 +65,21 @@ def p_type(p):
     | DECIMAL_TYPE
     | INTEGER_TYPE'''
 
-def p_block(p):
-    '''block : LBRACKET body RBRACKET'''
-
 def p_if(p):
-    '''if : IF LPAREN logical_expression RPAREN block'''
+    '''if : IF LPAREN logical_expression RPAREN block
+    | IF LPAREN logical_expression RPAREN block elseif
+    | IF LPAREN logical_expression RPAREN block else'''
 
 def p_elseif(p):
-    '''elseif : if ELSE if LBRACKET body RBRACKET'''
+    '''elseif : ELSE IF LPAREN logical_expression RPAREN block
+    | ELSE IF LPAREN logical_expression RPAREN block elseif
+    | ELSE IF LPAREN logical_expression RPAREN block else'''
+
+def p_else(p):
+    '''else : ELSE block'''
+
+def p_loop(p):
+    '''loop : while_loop'''
 
 def p_while_loop(p):
     '''while_loop : WHILE LPAREN logical_expression RPAREN block'''
@@ -63,43 +93,6 @@ def p_logical_factor(p):
     | FALSE
     | ID
     | logical_expression'''
-
-def p_logical_operator(p):
-    '''logical_operator : OR
-    | AND
-    | NOT
-    | GREATER_THAN
-    | LESS_THAN
-    | GREATER_EQUALS_THAN
-    | LESS_EQUALS_THAN'''
-
-def p_class(p):
-    '''class : modifier CLASS CLASSOBJECT block'''
-
-def p_modifier(p):
-    '''modifier : PUBLIC 
-    | PRIVATE 
-    | PROTECTED 
-    | INTERNAL'''
-
-def p_data_type(p):
-    '''data_type : INT 
-    | FLOAT 
-    | BOOL 
-    | BYTE 
-    | CHAR 
-    | SBYTE 
-    | DECIMAL 
-    | DOUBLE 
-    | LONG 
-    | SHORT 
-    | UINT'''
-
-
-def p_lines(p):
-    '''lines : assignment 
-    | expression 
-    | declaration'''
 
 def p_assignment(p):
     '''assignment : ID EQUALS expression
@@ -123,6 +116,33 @@ def p_factor_num(p):
     '''factor : INTEGER_TYPE
     | LPAREN expression RPAREN'''
 
+def p_modifier(p):
+    '''modifier : PUBLIC 
+    | PRIVATE 
+    | PROTECTED 
+    | INTERNAL'''
+
+def p_data_type(p):
+    '''data_type : INT 
+    | FLOAT 
+    | BOOL 
+    | BYTE 
+    | CHAR 
+    | SBYTE 
+    | DECIMAL 
+    | DOUBLE 
+    | LONG 
+    | SHORT 
+    | UINT'''
+
+def p_logical_operator(p):
+    '''logical_operator : OR
+    | AND
+    | NOT
+    | GREATER_THAN
+    | LESS_THAN
+    | GREATER_EQUALS_THAN
+    | LESS_EQUALS_THAN'''
 #Start_Levin Moran
 
 # Error rule for syntax errors

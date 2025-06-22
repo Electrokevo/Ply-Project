@@ -28,224 +28,195 @@ Unused terminals:
 Grammar
 
 Rule 0     S' -> program
-Rule 1     program -> body
-Rule 2     body -> lines SEMICOLON
-Rule 3     body -> lines SEMICOLON body
-Rule 4     function -> modifier data_type ID LPAREN declaration RPAREN block
-Rule 5     function -> modifier VOID ID LPAREN declaration RPAREN block
-Rule 6     using -> USING CLASSOBJECT SEMICOLON
-Rule 7     return -> RETURN ID
-Rule 8     return -> RETURN type
-Rule 9     type -> FLOAT_TYPE
-Rule 10    type -> DOUBLE_TYPE
-Rule 11    type -> DECIMAL_TYPE
-Rule 12    type -> INTEGER_TYPE
-Rule 13    block -> LBRACKET body RBRACKET
-Rule 14    if -> IF LPAREN logical_expression RPAREN block
-Rule 15    elseif -> if ELSE LBRACKET body RBRACKET
-Rule 16    while_loop -> WHILE LPAREN logical_expression RPAREN block
-Rule 17    logical_expression -> logical_expression logical_operator logical_factor
-Rule 18    logical_expression -> logical_factor
-Rule 19    logical_factor -> TRUE
-Rule 20    logical_factor -> FALSE
-Rule 21    logical_factor -> ID
-Rule 22    logical_factor -> logical_expression
-Rule 23    logical_operator -> OR
-Rule 24    logical_operator -> AND
-Rule 25    logical_operator -> NOT
-Rule 26    logical_operator -> GREATER_THAN
-Rule 27    logical_operator -> LESS_THAN
-Rule 28    logical_operator -> GREATER_EQUALS_THAN
-Rule 29    logical_operator -> LESS_EQUALS_THAN
-Rule 30    class -> modifier CLASS CLASSOBJECT block
-Rule 31    modifier -> PUBLIC
-Rule 32    modifier -> PRIVATE
-Rule 33    modifier -> PROTECTED
-Rule 34    modifier -> INTERNAL
-Rule 35    data_type -> INT
-Rule 36    data_type -> FLOAT
-Rule 37    data_type -> BOOL
-Rule 38    data_type -> BYTE
-Rule 39    data_type -> CHAR
-Rule 40    data_type -> SBYTE
-Rule 41    data_type -> DECIMAL
-Rule 42    data_type -> DOUBLE
-Rule 43    data_type -> LONG
-Rule 44    data_type -> SHORT
-Rule 45    data_type -> UINT
-Rule 46    lines -> assignment
-Rule 47    lines -> expression
-Rule 48    lines -> declaration
-Rule 49    assignment -> ID EQUALS expression
-Rule 50    assignment -> data_type ID EQUALS expression
-Rule 51    assignment -> ID EQUALS ID
-Rule 52    declaration -> data_type ID
-Rule 53    expression -> expression PLUS term
-Rule 54    expression -> expression MINUS term
-Rule 55    expression -> term
-Rule 56    term -> term TIMES factor
-Rule 57    term -> term DIVIDE factor
-Rule 58    term -> factor
-Rule 59    factor -> INTEGER_TYPE
-Rule 60    factor -> LPAREN expression RPAREN
+Rule 1     program -> usings class
+Rule 2     usings -> usings
+Rule 3     usings -> using
+Rule 4     using -> USING CLASSOBJECT SEMICOLON
+Rule 5     class -> modifier CLASS CLASSOBJECT block
+Rule 6     block -> LBRACKET body RBRACKET
+Rule 7     body -> lines SEMICOLON
+Rule 8     body -> lines SEMICOLON body
+Rule 9     body -> function
+Rule 10    lines -> assignment
+Rule 11    lines -> expression
+Rule 12    lines -> declaration
+Rule 13    lines -> if
+Rule 14    lines -> loop
+Rule 15    lines -> return
+Rule 16    function -> modifier data_type ID LPAREN declaration RPAREN block
+Rule 17    function -> modifier VOID ID LPAREN declaration RPAREN block
+Rule 18    return -> RETURN ID
+Rule 19    return -> RETURN type
+Rule 20    type -> FLOAT_TYPE
+Rule 21    type -> DOUBLE_TYPE
+Rule 22    type -> DECIMAL_TYPE
+Rule 23    type -> INTEGER_TYPE
+Rule 24    if -> IF LPAREN logical_expression RPAREN block
+Rule 25    if -> IF LPAREN logical_expression RPAREN block elseif
+Rule 26    if -> IF LPAREN logical_expression RPAREN block else
+Rule 27    elseif -> ELSE IF LPAREN logical_expression RPAREN block
+Rule 28    elseif -> ELSE IF LPAREN logical_expression RPAREN block elseif
+Rule 29    elseif -> ELSE IF LPAREN logical_expression RPAREN block else
+Rule 30    else -> ELSE block
+Rule 31    loop -> while_loop
+Rule 32    while_loop -> WHILE LPAREN logical_expression RPAREN block
+Rule 33    logical_expression -> logical_expression logical_operator logical_factor
+Rule 34    logical_expression -> logical_factor
+Rule 35    logical_factor -> TRUE
+Rule 36    logical_factor -> FALSE
+Rule 37    logical_factor -> ID
+Rule 38    logical_factor -> logical_expression
+Rule 39    assignment -> ID EQUALS expression
+Rule 40    assignment -> data_type ID EQUALS expression
+Rule 41    assignment -> ID EQUALS ID
+Rule 42    declaration -> data_type ID
+Rule 43    expression -> expression PLUS term
+Rule 44    expression -> expression MINUS term
+Rule 45    expression -> term
+Rule 46    term -> term TIMES factor
+Rule 47    term -> term DIVIDE factor
+Rule 48    term -> factor
+Rule 49    factor -> INTEGER_TYPE
+Rule 50    factor -> LPAREN expression RPAREN
+Rule 51    modifier -> PUBLIC
+Rule 52    modifier -> PRIVATE
+Rule 53    modifier -> PROTECTED
+Rule 54    modifier -> INTERNAL
+Rule 55    data_type -> INT
+Rule 56    data_type -> FLOAT
+Rule 57    data_type -> BOOL
+Rule 58    data_type -> BYTE
+Rule 59    data_type -> CHAR
+Rule 60    data_type -> SBYTE
+Rule 61    data_type -> DECIMAL
+Rule 62    data_type -> DOUBLE
+Rule 63    data_type -> LONG
+Rule 64    data_type -> SHORT
+Rule 65    data_type -> UINT
+Rule 66    logical_operator -> OR
+Rule 67    logical_operator -> AND
+Rule 68    logical_operator -> NOT
+Rule 69    logical_operator -> GREATER_THAN
+Rule 70    logical_operator -> LESS_THAN
+Rule 71    logical_operator -> GREATER_EQUALS_THAN
+Rule 72    logical_operator -> LESS_EQUALS_THAN
 
 Terminals, with rules where they appear
 
-AND                  : 24
-BOOL                 : 37
-BYTE                 : 38
-CHAR                 : 39
+AND                  : 67
+BOOL                 : 57
+BYTE                 : 58
+CHAR                 : 59
 CHARACTER            : 
-CLASS                : 30
-CLASSOBJECT          : 6 30
+CLASS                : 5
+CLASSOBJECT          : 4 5
 COMMA                : 
-DECIMAL              : 41
-DECIMAL_TYPE         : 11
-DIVIDE               : 57
+DECIMAL              : 61
+DECIMAL_TYPE         : 22
+DIVIDE               : 47
 DIVIDE_EQUAL         : 
 DO                   : 
 DOT                  : 
-DOUBLE               : 42
-DOUBLE_TYPE          : 10
-ELSE                 : 15
-EQUALS               : 49 50 51
-FALSE                : 20
+DOUBLE               : 62
+DOUBLE_TYPE          : 21
+ELSE                 : 27 28 29 30
+EQUALS               : 39 40 41
+FALSE                : 36
 FILE                 : 
-FLOAT                : 36
-FLOAT_TYPE           : 9
+FLOAT                : 56
+FLOAT_TYPE           : 20
 FOR                  : 
-GREATER_EQUALS_THAN  : 28
-GREATER_THAN         : 26
-ID                   : 4 5 7 21 49 50 51 51 52
-IF                   : 14
-INT                  : 35
-INTEGER_TYPE         : 12 59
-INTERNAL             : 34
-LBRACKET             : 13 15
-LESS_EQUALS_THAN     : 29
-LESS_THAN            : 27
-LONG                 : 43
-LPAREN               : 4 5 14 16 60
+GREATER_EQUALS_THAN  : 71
+GREATER_THAN         : 69
+ID                   : 16 17 18 37 39 40 41 41 42
+IF                   : 24 25 26 27 28 29
+INT                  : 55
+INTEGER_TYPE         : 23 49
+INTERNAL             : 54
+LBRACKET             : 6
+LESS_EQUALS_THAN     : 72
+LESS_THAN            : 70
+LONG                 : 63
+LPAREN               : 16 17 24 25 26 27 28 29 32 50
 LSQBRACKET           : 
-MINUS                : 54
+MINUS                : 44
 MINUS_EQUAL          : 
 MODULE               : 
 MODULE_EQUAL         : 
 NEW                  : 
 NINT                 : 
-NOT                  : 25
+NOT                  : 68
 NUINT                : 
-OR                   : 23
-PLUS                 : 53
+OR                   : 66
+PLUS                 : 43
 PLUS_EQUAL           : 
-PRIVATE              : 32
-PROTECTED            : 33
-PUBLIC               : 31
-RBRACKET             : 13 15
-RETURN               : 7 8
-RPAREN               : 4 5 14 16 60
+PRIVATE              : 52
+PROTECTED            : 53
+PUBLIC               : 51
+RBRACKET             : 6
+RETURN               : 18 19
+RPAREN               : 16 17 24 25 26 27 28 29 32 50
 RSQBRACKET           : 
-SBYTE                : 40
-SEMICOLON            : 2 3 6
-SHORT                : 44
+SBYTE                : 60
+SEMICOLON            : 4 7 8
+SHORT                : 64
 STRING               : 
 THEN                 : 
-TIMES                : 56
+TIMES                : 46
 TIMES_EQUAL          : 
-TRUE                 : 19
-UINT                 : 45
+TRUE                 : 35
+UINT                 : 65
 ULONG                : 
 USHORT               : 
-USING                : 6
+USING                : 4
 VAR                  : 
-VOID                 : 5
-WHILE                : 16
+VOID                 : 17
+WHILE                : 32
 error                : 
 
 Nonterminals, with rules where they appear
 
-assignment           : 46
-block                : 4 5 14 16 30
-body                 : 1 3 13 15
-class                : 
-data_type            : 4 50 52
-declaration          : 4 5 48
-elseif               : 
-expression           : 47 49 50 53 54 60
-factor               : 56 57 58
-function             : 
-if                   : 15
-lines                : 2 3
-logical_expression   : 14 16 17 22
-logical_factor       : 17 18
-logical_operator     : 17
-modifier             : 4 5 30
+assignment           : 10
+block                : 5 16 17 24 25 26 27 28 29 30 32
+body                 : 6 8
+class                : 1
+data_type            : 16 40 42
+declaration          : 12 16 17
+else                 : 26 29
+elseif               : 25 28
+expression           : 11 39 40 43 44 50
+factor               : 46 47 48
+function             : 9
+if                   : 13
+lines                : 7 8
+logical_expression   : 24 25 26 27 28 29 32 33 38
+logical_factor       : 33 34
+logical_operator     : 33
+loop                 : 14
+modifier             : 5 16 17
 program              : 0
-return               : 
-term                 : 53 54 55 56 57
-type                 : 8
-using                : 
-while_loop           : 
+return               : 15
+term                 : 43 44 45 46 47
+type                 : 19
+using                : 3
+usings               : 1 2
+while_loop           : 31
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . program
-    (1) program -> . body
-    (2) body -> . lines SEMICOLON
-    (3) body -> . lines SEMICOLON body
-    (46) lines -> . assignment
-    (47) lines -> . expression
-    (48) lines -> . declaration
-    (49) assignment -> . ID EQUALS expression
-    (50) assignment -> . data_type ID EQUALS expression
-    (51) assignment -> . ID EQUALS ID
-    (53) expression -> . expression PLUS term
-    (54) expression -> . expression MINUS term
-    (55) expression -> . term
-    (52) declaration -> . data_type ID
-    (35) data_type -> . INT
-    (36) data_type -> . FLOAT
-    (37) data_type -> . BOOL
-    (38) data_type -> . BYTE
-    (39) data_type -> . CHAR
-    (40) data_type -> . SBYTE
-    (41) data_type -> . DECIMAL
-    (42) data_type -> . DOUBLE
-    (43) data_type -> . LONG
-    (44) data_type -> . SHORT
-    (45) data_type -> . UINT
-    (56) term -> . term TIMES factor
-    (57) term -> . term DIVIDE factor
-    (58) term -> . factor
-    (59) factor -> . INTEGER_TYPE
-    (60) factor -> . LPAREN expression RPAREN
+    (1) program -> . usings class
+    (2) usings -> . usings
+    (3) usings -> . using
+    (4) using -> . USING CLASSOBJECT SEMICOLON
 
-    ID              shift and go to state 7
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    BOOL            shift and go to state 12
-    BYTE            shift and go to state 13
-    CHAR            shift and go to state 14
-    SBYTE           shift and go to state 15
-    DECIMAL         shift and go to state 16
-    DOUBLE          shift and go to state 17
-    LONG            shift and go to state 18
-    SHORT           shift and go to state 19
-    UINT            shift and go to state 20
-    INTEGER_TYPE    shift and go to state 22
-    LPAREN          shift and go to state 23
+    USING           shift and go to state 4
 
     program                        shift and go to state 1
-    body                           shift and go to state 2
-    lines                          shift and go to state 3
-    assignment                     shift and go to state 4
-    expression                     shift and go to state 5
-    declaration                    shift and go to state 6
-    data_type                      shift and go to state 8
-    term                           shift and go to state 9
-    factor                         shift and go to state 21
+    usings                         shift and go to state 2
+    using                          shift and go to state 3
 
 state 1
 
@@ -255,460 +226,1606 @@ state 1
 
 state 2
 
-    (1) program -> body .
+    (1) program -> usings . class
+    (2) usings -> usings .
+    (5) class -> . modifier CLASS CLASSOBJECT block
+    (51) modifier -> . PUBLIC
+    (52) modifier -> . PRIVATE
+    (53) modifier -> . PROTECTED
+    (54) modifier -> . INTERNAL
 
-    $end            reduce using rule 1 (program -> body .)
+  ! shift/reduce conflict for PUBLIC resolved as shift
+  ! shift/reduce conflict for PRIVATE resolved as shift
+  ! shift/reduce conflict for PROTECTED resolved as shift
+  ! shift/reduce conflict for INTERNAL resolved as shift
+    PUBLIC          shift and go to state 7
+    PRIVATE         shift and go to state 8
+    PROTECTED       shift and go to state 9
+    INTERNAL        shift and go to state 10
 
+  ! PUBLIC          [ reduce using rule 2 (usings -> usings .) ]
+  ! PRIVATE         [ reduce using rule 2 (usings -> usings .) ]
+  ! PROTECTED       [ reduce using rule 2 (usings -> usings .) ]
+  ! INTERNAL        [ reduce using rule 2 (usings -> usings .) ]
+
+    class                          shift and go to state 5
+    modifier                       shift and go to state 6
 
 state 3
 
-    (2) body -> lines . SEMICOLON
-    (3) body -> lines . SEMICOLON body
+    (3) usings -> using .
 
-    SEMICOLON       shift and go to state 24
+    PUBLIC          reduce using rule 3 (usings -> using .)
+    PRIVATE         reduce using rule 3 (usings -> using .)
+    PROTECTED       reduce using rule 3 (usings -> using .)
+    INTERNAL        reduce using rule 3 (usings -> using .)
 
 
 state 4
 
-    (46) lines -> assignment .
+    (4) using -> USING . CLASSOBJECT SEMICOLON
 
-    SEMICOLON       reduce using rule 46 (lines -> assignment .)
+    CLASSOBJECT     shift and go to state 11
 
 
 state 5
 
-    (47) lines -> expression .
-    (53) expression -> expression . PLUS term
-    (54) expression -> expression . MINUS term
+    (1) program -> usings class .
 
-    SEMICOLON       reduce using rule 47 (lines -> expression .)
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
+    $end            reduce using rule 1 (program -> usings class .)
 
 
 state 6
 
-    (48) lines -> declaration .
+    (5) class -> modifier . CLASS CLASSOBJECT block
 
-    SEMICOLON       reduce using rule 48 (lines -> declaration .)
+    CLASS           shift and go to state 12
 
 
 state 7
 
-    (49) assignment -> ID . EQUALS expression
-    (51) assignment -> ID . EQUALS ID
+    (51) modifier -> PUBLIC .
 
-    EQUALS          shift and go to state 27
+    CLASS           reduce using rule 51 (modifier -> PUBLIC .)
+    VOID            reduce using rule 51 (modifier -> PUBLIC .)
+    INT             reduce using rule 51 (modifier -> PUBLIC .)
+    FLOAT           reduce using rule 51 (modifier -> PUBLIC .)
+    BOOL            reduce using rule 51 (modifier -> PUBLIC .)
+    BYTE            reduce using rule 51 (modifier -> PUBLIC .)
+    CHAR            reduce using rule 51 (modifier -> PUBLIC .)
+    SBYTE           reduce using rule 51 (modifier -> PUBLIC .)
+    DECIMAL         reduce using rule 51 (modifier -> PUBLIC .)
+    DOUBLE          reduce using rule 51 (modifier -> PUBLIC .)
+    LONG            reduce using rule 51 (modifier -> PUBLIC .)
+    SHORT           reduce using rule 51 (modifier -> PUBLIC .)
+    UINT            reduce using rule 51 (modifier -> PUBLIC .)
 
 
 state 8
 
-    (50) assignment -> data_type . ID EQUALS expression
-    (52) declaration -> data_type . ID
+    (52) modifier -> PRIVATE .
 
-    ID              shift and go to state 28
+    CLASS           reduce using rule 52 (modifier -> PRIVATE .)
+    VOID            reduce using rule 52 (modifier -> PRIVATE .)
+    INT             reduce using rule 52 (modifier -> PRIVATE .)
+    FLOAT           reduce using rule 52 (modifier -> PRIVATE .)
+    BOOL            reduce using rule 52 (modifier -> PRIVATE .)
+    BYTE            reduce using rule 52 (modifier -> PRIVATE .)
+    CHAR            reduce using rule 52 (modifier -> PRIVATE .)
+    SBYTE           reduce using rule 52 (modifier -> PRIVATE .)
+    DECIMAL         reduce using rule 52 (modifier -> PRIVATE .)
+    DOUBLE          reduce using rule 52 (modifier -> PRIVATE .)
+    LONG            reduce using rule 52 (modifier -> PRIVATE .)
+    SHORT           reduce using rule 52 (modifier -> PRIVATE .)
+    UINT            reduce using rule 52 (modifier -> PRIVATE .)
 
 
 state 9
 
-    (55) expression -> term .
-    (56) term -> term . TIMES factor
-    (57) term -> term . DIVIDE factor
+    (53) modifier -> PROTECTED .
 
-    PLUS            reduce using rule 55 (expression -> term .)
-    MINUS           reduce using rule 55 (expression -> term .)
-    SEMICOLON       reduce using rule 55 (expression -> term .)
-    RPAREN          reduce using rule 55 (expression -> term .)
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    CLASS           reduce using rule 53 (modifier -> PROTECTED .)
+    VOID            reduce using rule 53 (modifier -> PROTECTED .)
+    INT             reduce using rule 53 (modifier -> PROTECTED .)
+    FLOAT           reduce using rule 53 (modifier -> PROTECTED .)
+    BOOL            reduce using rule 53 (modifier -> PROTECTED .)
+    BYTE            reduce using rule 53 (modifier -> PROTECTED .)
+    CHAR            reduce using rule 53 (modifier -> PROTECTED .)
+    SBYTE           reduce using rule 53 (modifier -> PROTECTED .)
+    DECIMAL         reduce using rule 53 (modifier -> PROTECTED .)
+    DOUBLE          reduce using rule 53 (modifier -> PROTECTED .)
+    LONG            reduce using rule 53 (modifier -> PROTECTED .)
+    SHORT           reduce using rule 53 (modifier -> PROTECTED .)
+    UINT            reduce using rule 53 (modifier -> PROTECTED .)
 
 
 state 10
 
-    (35) data_type -> INT .
+    (54) modifier -> INTERNAL .
 
-    ID              reduce using rule 35 (data_type -> INT .)
+    CLASS           reduce using rule 54 (modifier -> INTERNAL .)
+    VOID            reduce using rule 54 (modifier -> INTERNAL .)
+    INT             reduce using rule 54 (modifier -> INTERNAL .)
+    FLOAT           reduce using rule 54 (modifier -> INTERNAL .)
+    BOOL            reduce using rule 54 (modifier -> INTERNAL .)
+    BYTE            reduce using rule 54 (modifier -> INTERNAL .)
+    CHAR            reduce using rule 54 (modifier -> INTERNAL .)
+    SBYTE           reduce using rule 54 (modifier -> INTERNAL .)
+    DECIMAL         reduce using rule 54 (modifier -> INTERNAL .)
+    DOUBLE          reduce using rule 54 (modifier -> INTERNAL .)
+    LONG            reduce using rule 54 (modifier -> INTERNAL .)
+    SHORT           reduce using rule 54 (modifier -> INTERNAL .)
+    UINT            reduce using rule 54 (modifier -> INTERNAL .)
 
 
 state 11
 
-    (36) data_type -> FLOAT .
+    (4) using -> USING CLASSOBJECT . SEMICOLON
 
-    ID              reduce using rule 36 (data_type -> FLOAT .)
+    SEMICOLON       shift and go to state 13
 
 
 state 12
 
-    (37) data_type -> BOOL .
+    (5) class -> modifier CLASS . CLASSOBJECT block
 
-    ID              reduce using rule 37 (data_type -> BOOL .)
+    CLASSOBJECT     shift and go to state 14
 
 
 state 13
 
-    (38) data_type -> BYTE .
+    (4) using -> USING CLASSOBJECT SEMICOLON .
 
-    ID              reduce using rule 38 (data_type -> BYTE .)
+    PUBLIC          reduce using rule 4 (using -> USING CLASSOBJECT SEMICOLON .)
+    PRIVATE         reduce using rule 4 (using -> USING CLASSOBJECT SEMICOLON .)
+    PROTECTED       reduce using rule 4 (using -> USING CLASSOBJECT SEMICOLON .)
+    INTERNAL        reduce using rule 4 (using -> USING CLASSOBJECT SEMICOLON .)
 
 
 state 14
 
-    (39) data_type -> CHAR .
+    (5) class -> modifier CLASS CLASSOBJECT . block
+    (6) block -> . LBRACKET body RBRACKET
 
-    ID              reduce using rule 39 (data_type -> CHAR .)
+    LBRACKET        shift and go to state 16
 
+    block                          shift and go to state 15
 
 state 15
 
-    (40) data_type -> SBYTE .
+    (5) class -> modifier CLASS CLASSOBJECT block .
 
-    ID              reduce using rule 40 (data_type -> SBYTE .)
+    $end            reduce using rule 5 (class -> modifier CLASS CLASSOBJECT block .)
 
 
 state 16
 
-    (41) data_type -> DECIMAL .
+    (6) block -> LBRACKET . body RBRACKET
+    (7) body -> . lines SEMICOLON
+    (8) body -> . lines SEMICOLON body
+    (9) body -> . function
+    (10) lines -> . assignment
+    (11) lines -> . expression
+    (12) lines -> . declaration
+    (13) lines -> . if
+    (14) lines -> . loop
+    (15) lines -> . return
+    (16) function -> . modifier data_type ID LPAREN declaration RPAREN block
+    (17) function -> . modifier VOID ID LPAREN declaration RPAREN block
+    (39) assignment -> . ID EQUALS expression
+    (40) assignment -> . data_type ID EQUALS expression
+    (41) assignment -> . ID EQUALS ID
+    (43) expression -> . expression PLUS term
+    (44) expression -> . expression MINUS term
+    (45) expression -> . term
+    (42) declaration -> . data_type ID
+    (24) if -> . IF LPAREN logical_expression RPAREN block
+    (25) if -> . IF LPAREN logical_expression RPAREN block elseif
+    (26) if -> . IF LPAREN logical_expression RPAREN block else
+    (31) loop -> . while_loop
+    (18) return -> . RETURN ID
+    (19) return -> . RETURN type
+    (51) modifier -> . PUBLIC
+    (52) modifier -> . PRIVATE
+    (53) modifier -> . PROTECTED
+    (54) modifier -> . INTERNAL
+    (55) data_type -> . INT
+    (56) data_type -> . FLOAT
+    (57) data_type -> . BOOL
+    (58) data_type -> . BYTE
+    (59) data_type -> . CHAR
+    (60) data_type -> . SBYTE
+    (61) data_type -> . DECIMAL
+    (62) data_type -> . DOUBLE
+    (63) data_type -> . LONG
+    (64) data_type -> . SHORT
+    (65) data_type -> . UINT
+    (46) term -> . term TIMES factor
+    (47) term -> . term DIVIDE factor
+    (48) term -> . factor
+    (32) while_loop -> . WHILE LPAREN logical_expression RPAREN block
+    (49) factor -> . INTEGER_TYPE
+    (50) factor -> . LPAREN expression RPAREN
 
-    ID              reduce using rule 41 (data_type -> DECIMAL .)
+    ID              shift and go to state 28
+    IF              shift and go to state 31
+    RETURN          shift and go to state 33
+    PUBLIC          shift and go to state 7
+    PRIVATE         shift and go to state 8
+    PROTECTED       shift and go to state 9
+    INTERNAL        shift and go to state 10
+    INT             shift and go to state 34
+    FLOAT           shift and go to state 35
+    BOOL            shift and go to state 36
+    BYTE            shift and go to state 37
+    CHAR            shift and go to state 38
+    SBYTE           shift and go to state 39
+    DECIMAL         shift and go to state 40
+    DOUBLE          shift and go to state 41
+    LONG            shift and go to state 42
+    SHORT           shift and go to state 43
+    UINT            shift and go to state 44
+    WHILE           shift and go to state 46
+    INTEGER_TYPE    shift and go to state 47
+    LPAREN          shift and go to state 29
 
+    body                           shift and go to state 17
+    lines                          shift and go to state 18
+    function                       shift and go to state 19
+    assignment                     shift and go to state 20
+    expression                     shift and go to state 21
+    declaration                    shift and go to state 22
+    if                             shift and go to state 23
+    loop                           shift and go to state 24
+    return                         shift and go to state 25
+    modifier                       shift and go to state 26
+    data_type                      shift and go to state 27
+    term                           shift and go to state 30
+    while_loop                     shift and go to state 32
+    factor                         shift and go to state 45
 
 state 17
 
-    (42) data_type -> DOUBLE .
+    (6) block -> LBRACKET body . RBRACKET
 
-    ID              reduce using rule 42 (data_type -> DOUBLE .)
+    RBRACKET        shift and go to state 48
 
 
 state 18
 
-    (43) data_type -> LONG .
+    (7) body -> lines . SEMICOLON
+    (8) body -> lines . SEMICOLON body
 
-    ID              reduce using rule 43 (data_type -> LONG .)
+    SEMICOLON       shift and go to state 49
 
 
 state 19
 
-    (44) data_type -> SHORT .
+    (9) body -> function .
 
-    ID              reduce using rule 44 (data_type -> SHORT .)
+    RBRACKET        reduce using rule 9 (body -> function .)
 
 
 state 20
 
-    (45) data_type -> UINT .
+    (10) lines -> assignment .
 
-    ID              reduce using rule 45 (data_type -> UINT .)
+    SEMICOLON       reduce using rule 10 (lines -> assignment .)
 
 
 state 21
 
-    (58) term -> factor .
+    (11) lines -> expression .
+    (43) expression -> expression . PLUS term
+    (44) expression -> expression . MINUS term
 
-    TIMES           reduce using rule 58 (term -> factor .)
-    DIVIDE          reduce using rule 58 (term -> factor .)
-    PLUS            reduce using rule 58 (term -> factor .)
-    MINUS           reduce using rule 58 (term -> factor .)
-    SEMICOLON       reduce using rule 58 (term -> factor .)
-    RPAREN          reduce using rule 58 (term -> factor .)
+    SEMICOLON       reduce using rule 11 (lines -> expression .)
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
 
 
 state 22
 
-    (59) factor -> INTEGER_TYPE .
+    (12) lines -> declaration .
 
-    TIMES           reduce using rule 59 (factor -> INTEGER_TYPE .)
-    DIVIDE          reduce using rule 59 (factor -> INTEGER_TYPE .)
-    PLUS            reduce using rule 59 (factor -> INTEGER_TYPE .)
-    MINUS           reduce using rule 59 (factor -> INTEGER_TYPE .)
-    SEMICOLON       reduce using rule 59 (factor -> INTEGER_TYPE .)
-    RPAREN          reduce using rule 59 (factor -> INTEGER_TYPE .)
+    SEMICOLON       reduce using rule 12 (lines -> declaration .)
 
 
 state 23
 
-    (60) factor -> LPAREN . expression RPAREN
-    (53) expression -> . expression PLUS term
-    (54) expression -> . expression MINUS term
-    (55) expression -> . term
-    (56) term -> . term TIMES factor
-    (57) term -> . term DIVIDE factor
-    (58) term -> . factor
-    (59) factor -> . INTEGER_TYPE
-    (60) factor -> . LPAREN expression RPAREN
+    (13) lines -> if .
 
-    INTEGER_TYPE    shift and go to state 22
-    LPAREN          shift and go to state 23
+    SEMICOLON       reduce using rule 13 (lines -> if .)
 
-    expression                     shift and go to state 31
-    term                           shift and go to state 9
-    factor                         shift and go to state 21
 
 state 24
 
-    (2) body -> lines SEMICOLON .
-    (3) body -> lines SEMICOLON . body
-    (2) body -> . lines SEMICOLON
-    (3) body -> . lines SEMICOLON body
-    (46) lines -> . assignment
-    (47) lines -> . expression
-    (48) lines -> . declaration
-    (49) assignment -> . ID EQUALS expression
-    (50) assignment -> . data_type ID EQUALS expression
-    (51) assignment -> . ID EQUALS ID
-    (53) expression -> . expression PLUS term
-    (54) expression -> . expression MINUS term
-    (55) expression -> . term
-    (52) declaration -> . data_type ID
-    (35) data_type -> . INT
-    (36) data_type -> . FLOAT
-    (37) data_type -> . BOOL
-    (38) data_type -> . BYTE
-    (39) data_type -> . CHAR
-    (40) data_type -> . SBYTE
-    (41) data_type -> . DECIMAL
-    (42) data_type -> . DOUBLE
-    (43) data_type -> . LONG
-    (44) data_type -> . SHORT
-    (45) data_type -> . UINT
-    (56) term -> . term TIMES factor
-    (57) term -> . term DIVIDE factor
-    (58) term -> . factor
-    (59) factor -> . INTEGER_TYPE
-    (60) factor -> . LPAREN expression RPAREN
+    (14) lines -> loop .
 
-    $end            reduce using rule 2 (body -> lines SEMICOLON .)
-    ID              shift and go to state 7
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    BOOL            shift and go to state 12
-    BYTE            shift and go to state 13
-    CHAR            shift and go to state 14
-    SBYTE           shift and go to state 15
-    DECIMAL         shift and go to state 16
-    DOUBLE          shift and go to state 17
-    LONG            shift and go to state 18
-    SHORT           shift and go to state 19
-    UINT            shift and go to state 20
-    INTEGER_TYPE    shift and go to state 22
-    LPAREN          shift and go to state 23
+    SEMICOLON       reduce using rule 14 (lines -> loop .)
 
-    lines                          shift and go to state 3
-    body                           shift and go to state 32
-    assignment                     shift and go to state 4
-    expression                     shift and go to state 5
-    declaration                    shift and go to state 6
-    data_type                      shift and go to state 8
-    term                           shift and go to state 9
-    factor                         shift and go to state 21
 
 state 25
 
-    (53) expression -> expression PLUS . term
-    (56) term -> . term TIMES factor
-    (57) term -> . term DIVIDE factor
-    (58) term -> . factor
-    (59) factor -> . INTEGER_TYPE
-    (60) factor -> . LPAREN expression RPAREN
+    (15) lines -> return .
 
-    INTEGER_TYPE    shift and go to state 22
-    LPAREN          shift and go to state 23
+    SEMICOLON       reduce using rule 15 (lines -> return .)
 
-    term                           shift and go to state 33
-    factor                         shift and go to state 21
 
 state 26
 
-    (54) expression -> expression MINUS . term
-    (56) term -> . term TIMES factor
-    (57) term -> . term DIVIDE factor
-    (58) term -> . factor
-    (59) factor -> . INTEGER_TYPE
-    (60) factor -> . LPAREN expression RPAREN
+    (16) function -> modifier . data_type ID LPAREN declaration RPAREN block
+    (17) function -> modifier . VOID ID LPAREN declaration RPAREN block
+    (55) data_type -> . INT
+    (56) data_type -> . FLOAT
+    (57) data_type -> . BOOL
+    (58) data_type -> . BYTE
+    (59) data_type -> . CHAR
+    (60) data_type -> . SBYTE
+    (61) data_type -> . DECIMAL
+    (62) data_type -> . DOUBLE
+    (63) data_type -> . LONG
+    (64) data_type -> . SHORT
+    (65) data_type -> . UINT
 
-    INTEGER_TYPE    shift and go to state 22
-    LPAREN          shift and go to state 23
+    VOID            shift and go to state 53
+    INT             shift and go to state 34
+    FLOAT           shift and go to state 35
+    BOOL            shift and go to state 36
+    BYTE            shift and go to state 37
+    CHAR            shift and go to state 38
+    SBYTE           shift and go to state 39
+    DECIMAL         shift and go to state 40
+    DOUBLE          shift and go to state 41
+    LONG            shift and go to state 42
+    SHORT           shift and go to state 43
+    UINT            shift and go to state 44
 
-    term                           shift and go to state 34
-    factor                         shift and go to state 21
+    data_type                      shift and go to state 52
 
 state 27
 
-    (49) assignment -> ID EQUALS . expression
-    (51) assignment -> ID EQUALS . ID
-    (53) expression -> . expression PLUS term
-    (54) expression -> . expression MINUS term
-    (55) expression -> . term
-    (56) term -> . term TIMES factor
-    (57) term -> . term DIVIDE factor
-    (58) term -> . factor
-    (59) factor -> . INTEGER_TYPE
-    (60) factor -> . LPAREN expression RPAREN
+    (40) assignment -> data_type . ID EQUALS expression
+    (42) declaration -> data_type . ID
 
-    ID              shift and go to state 35
-    INTEGER_TYPE    shift and go to state 22
-    LPAREN          shift and go to state 23
+    ID              shift and go to state 54
 
-    expression                     shift and go to state 36
-    term                           shift and go to state 9
-    factor                         shift and go to state 21
 
 state 28
 
-    (50) assignment -> data_type ID . EQUALS expression
-    (52) declaration -> data_type ID .
+    (39) assignment -> ID . EQUALS expression
+    (41) assignment -> ID . EQUALS ID
 
-    EQUALS          shift and go to state 37
-    SEMICOLON       reduce using rule 52 (declaration -> data_type ID .)
+    EQUALS          shift and go to state 55
 
 
 state 29
 
-    (56) term -> term TIMES . factor
-    (59) factor -> . INTEGER_TYPE
-    (60) factor -> . LPAREN expression RPAREN
+    (50) factor -> LPAREN . expression RPAREN
+    (43) expression -> . expression PLUS term
+    (44) expression -> . expression MINUS term
+    (45) expression -> . term
+    (46) term -> . term TIMES factor
+    (47) term -> . term DIVIDE factor
+    (48) term -> . factor
+    (49) factor -> . INTEGER_TYPE
+    (50) factor -> . LPAREN expression RPAREN
 
-    INTEGER_TYPE    shift and go to state 22
-    LPAREN          shift and go to state 23
+    INTEGER_TYPE    shift and go to state 47
+    LPAREN          shift and go to state 29
 
-    factor                         shift and go to state 38
+    expression                     shift and go to state 56
+    term                           shift and go to state 30
+    factor                         shift and go to state 45
 
 state 30
 
-    (57) term -> term DIVIDE . factor
-    (59) factor -> . INTEGER_TYPE
-    (60) factor -> . LPAREN expression RPAREN
+    (45) expression -> term .
+    (46) term -> term . TIMES factor
+    (47) term -> term . DIVIDE factor
 
-    INTEGER_TYPE    shift and go to state 22
-    LPAREN          shift and go to state 23
+    PLUS            reduce using rule 45 (expression -> term .)
+    MINUS           reduce using rule 45 (expression -> term .)
+    SEMICOLON       reduce using rule 45 (expression -> term .)
+    RPAREN          reduce using rule 45 (expression -> term .)
+    TIMES           shift and go to state 57
+    DIVIDE          shift and go to state 58
 
-    factor                         shift and go to state 39
 
 state 31
 
-    (60) factor -> LPAREN expression . RPAREN
-    (53) expression -> expression . PLUS term
-    (54) expression -> expression . MINUS term
+    (24) if -> IF . LPAREN logical_expression RPAREN block
+    (25) if -> IF . LPAREN logical_expression RPAREN block elseif
+    (26) if -> IF . LPAREN logical_expression RPAREN block else
 
-    RPAREN          shift and go to state 40
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
+    LPAREN          shift and go to state 59
 
 
 state 32
 
-    (3) body -> lines SEMICOLON body .
+    (31) loop -> while_loop .
 
-    $end            reduce using rule 3 (body -> lines SEMICOLON body .)
+    SEMICOLON       reduce using rule 31 (loop -> while_loop .)
 
 
 state 33
 
-    (53) expression -> expression PLUS term .
-    (56) term -> term . TIMES factor
-    (57) term -> term . DIVIDE factor
+    (18) return -> RETURN . ID
+    (19) return -> RETURN . type
+    (20) type -> . FLOAT_TYPE
+    (21) type -> . DOUBLE_TYPE
+    (22) type -> . DECIMAL_TYPE
+    (23) type -> . INTEGER_TYPE
 
-    PLUS            reduce using rule 53 (expression -> expression PLUS term .)
-    MINUS           reduce using rule 53 (expression -> expression PLUS term .)
-    SEMICOLON       reduce using rule 53 (expression -> expression PLUS term .)
-    RPAREN          reduce using rule 53 (expression -> expression PLUS term .)
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ID              shift and go to state 60
+    FLOAT_TYPE      shift and go to state 62
+    DOUBLE_TYPE     shift and go to state 63
+    DECIMAL_TYPE    shift and go to state 64
+    INTEGER_TYPE    shift and go to state 65
 
+    type                           shift and go to state 61
 
 state 34
 
-    (54) expression -> expression MINUS term .
-    (56) term -> term . TIMES factor
-    (57) term -> term . DIVIDE factor
+    (55) data_type -> INT .
 
-    PLUS            reduce using rule 54 (expression -> expression MINUS term .)
-    MINUS           reduce using rule 54 (expression -> expression MINUS term .)
-    SEMICOLON       reduce using rule 54 (expression -> expression MINUS term .)
-    RPAREN          reduce using rule 54 (expression -> expression MINUS term .)
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ID              reduce using rule 55 (data_type -> INT .)
 
 
 state 35
 
-    (51) assignment -> ID EQUALS ID .
+    (56) data_type -> FLOAT .
 
-    SEMICOLON       reduce using rule 51 (assignment -> ID EQUALS ID .)
+    ID              reduce using rule 56 (data_type -> FLOAT .)
 
 
 state 36
 
-    (49) assignment -> ID EQUALS expression .
-    (53) expression -> expression . PLUS term
-    (54) expression -> expression . MINUS term
+    (57) data_type -> BOOL .
 
-    SEMICOLON       reduce using rule 49 (assignment -> ID EQUALS expression .)
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
+    ID              reduce using rule 57 (data_type -> BOOL .)
 
 
 state 37
 
-    (50) assignment -> data_type ID EQUALS . expression
-    (53) expression -> . expression PLUS term
-    (54) expression -> . expression MINUS term
-    (55) expression -> . term
-    (56) term -> . term TIMES factor
-    (57) term -> . term DIVIDE factor
-    (58) term -> . factor
-    (59) factor -> . INTEGER_TYPE
-    (60) factor -> . LPAREN expression RPAREN
+    (58) data_type -> BYTE .
 
-    INTEGER_TYPE    shift and go to state 22
-    LPAREN          shift and go to state 23
+    ID              reduce using rule 58 (data_type -> BYTE .)
 
-    expression                     shift and go to state 41
-    term                           shift and go to state 9
-    factor                         shift and go to state 21
 
 state 38
 
-    (56) term -> term TIMES factor .
+    (59) data_type -> CHAR .
 
-    TIMES           reduce using rule 56 (term -> term TIMES factor .)
-    DIVIDE          reduce using rule 56 (term -> term TIMES factor .)
-    PLUS            reduce using rule 56 (term -> term TIMES factor .)
-    MINUS           reduce using rule 56 (term -> term TIMES factor .)
-    SEMICOLON       reduce using rule 56 (term -> term TIMES factor .)
-    RPAREN          reduce using rule 56 (term -> term TIMES factor .)
+    ID              reduce using rule 59 (data_type -> CHAR .)
 
 
 state 39
 
-    (57) term -> term DIVIDE factor .
+    (60) data_type -> SBYTE .
 
-    TIMES           reduce using rule 57 (term -> term DIVIDE factor .)
-    DIVIDE          reduce using rule 57 (term -> term DIVIDE factor .)
-    PLUS            reduce using rule 57 (term -> term DIVIDE factor .)
-    MINUS           reduce using rule 57 (term -> term DIVIDE factor .)
-    SEMICOLON       reduce using rule 57 (term -> term DIVIDE factor .)
-    RPAREN          reduce using rule 57 (term -> term DIVIDE factor .)
+    ID              reduce using rule 60 (data_type -> SBYTE .)
 
 
 state 40
 
-    (60) factor -> LPAREN expression RPAREN .
+    (61) data_type -> DECIMAL .
 
-    TIMES           reduce using rule 60 (factor -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 60 (factor -> LPAREN expression RPAREN .)
-    PLUS            reduce using rule 60 (factor -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 60 (factor -> LPAREN expression RPAREN .)
-    SEMICOLON       reduce using rule 60 (factor -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 60 (factor -> LPAREN expression RPAREN .)
+    ID              reduce using rule 61 (data_type -> DECIMAL .)
 
 
 state 41
 
-    (50) assignment -> data_type ID EQUALS expression .
-    (53) expression -> expression . PLUS term
-    (54) expression -> expression . MINUS term
+    (62) data_type -> DOUBLE .
 
-    SEMICOLON       reduce using rule 50 (assignment -> data_type ID EQUALS expression .)
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
+    ID              reduce using rule 62 (data_type -> DOUBLE .)
 
+
+state 42
+
+    (63) data_type -> LONG .
+
+    ID              reduce using rule 63 (data_type -> LONG .)
+
+
+state 43
+
+    (64) data_type -> SHORT .
+
+    ID              reduce using rule 64 (data_type -> SHORT .)
+
+
+state 44
+
+    (65) data_type -> UINT .
+
+    ID              reduce using rule 65 (data_type -> UINT .)
+
+
+state 45
+
+    (48) term -> factor .
+
+    TIMES           reduce using rule 48 (term -> factor .)
+    DIVIDE          reduce using rule 48 (term -> factor .)
+    PLUS            reduce using rule 48 (term -> factor .)
+    MINUS           reduce using rule 48 (term -> factor .)
+    SEMICOLON       reduce using rule 48 (term -> factor .)
+    RPAREN          reduce using rule 48 (term -> factor .)
+
+
+state 46
+
+    (32) while_loop -> WHILE . LPAREN logical_expression RPAREN block
+
+    LPAREN          shift and go to state 66
+
+
+state 47
+
+    (49) factor -> INTEGER_TYPE .
+
+    TIMES           reduce using rule 49 (factor -> INTEGER_TYPE .)
+    DIVIDE          reduce using rule 49 (factor -> INTEGER_TYPE .)
+    PLUS            reduce using rule 49 (factor -> INTEGER_TYPE .)
+    MINUS           reduce using rule 49 (factor -> INTEGER_TYPE .)
+    SEMICOLON       reduce using rule 49 (factor -> INTEGER_TYPE .)
+    RPAREN          reduce using rule 49 (factor -> INTEGER_TYPE .)
+
+
+state 48
+
+    (6) block -> LBRACKET body RBRACKET .
+
+    $end            reduce using rule 6 (block -> LBRACKET body RBRACKET .)
+    ELSE            reduce using rule 6 (block -> LBRACKET body RBRACKET .)
+    SEMICOLON       reduce using rule 6 (block -> LBRACKET body RBRACKET .)
+    RBRACKET        reduce using rule 6 (block -> LBRACKET body RBRACKET .)
+
+
+state 49
+
+    (7) body -> lines SEMICOLON .
+    (8) body -> lines SEMICOLON . body
+    (7) body -> . lines SEMICOLON
+    (8) body -> . lines SEMICOLON body
+    (9) body -> . function
+    (10) lines -> . assignment
+    (11) lines -> . expression
+    (12) lines -> . declaration
+    (13) lines -> . if
+    (14) lines -> . loop
+    (15) lines -> . return
+    (16) function -> . modifier data_type ID LPAREN declaration RPAREN block
+    (17) function -> . modifier VOID ID LPAREN declaration RPAREN block
+    (39) assignment -> . ID EQUALS expression
+    (40) assignment -> . data_type ID EQUALS expression
+    (41) assignment -> . ID EQUALS ID
+    (43) expression -> . expression PLUS term
+    (44) expression -> . expression MINUS term
+    (45) expression -> . term
+    (42) declaration -> . data_type ID
+    (24) if -> . IF LPAREN logical_expression RPAREN block
+    (25) if -> . IF LPAREN logical_expression RPAREN block elseif
+    (26) if -> . IF LPAREN logical_expression RPAREN block else
+    (31) loop -> . while_loop
+    (18) return -> . RETURN ID
+    (19) return -> . RETURN type
+    (51) modifier -> . PUBLIC
+    (52) modifier -> . PRIVATE
+    (53) modifier -> . PROTECTED
+    (54) modifier -> . INTERNAL
+    (55) data_type -> . INT
+    (56) data_type -> . FLOAT
+    (57) data_type -> . BOOL
+    (58) data_type -> . BYTE
+    (59) data_type -> . CHAR
+    (60) data_type -> . SBYTE
+    (61) data_type -> . DECIMAL
+    (62) data_type -> . DOUBLE
+    (63) data_type -> . LONG
+    (64) data_type -> . SHORT
+    (65) data_type -> . UINT
+    (46) term -> . term TIMES factor
+    (47) term -> . term DIVIDE factor
+    (48) term -> . factor
+    (32) while_loop -> . WHILE LPAREN logical_expression RPAREN block
+    (49) factor -> . INTEGER_TYPE
+    (50) factor -> . LPAREN expression RPAREN
+
+    RBRACKET        reduce using rule 7 (body -> lines SEMICOLON .)
+    ID              shift and go to state 28
+    IF              shift and go to state 31
+    RETURN          shift and go to state 33
+    PUBLIC          shift and go to state 7
+    PRIVATE         shift and go to state 8
+    PROTECTED       shift and go to state 9
+    INTERNAL        shift and go to state 10
+    INT             shift and go to state 34
+    FLOAT           shift and go to state 35
+    BOOL            shift and go to state 36
+    BYTE            shift and go to state 37
+    CHAR            shift and go to state 38
+    SBYTE           shift and go to state 39
+    DECIMAL         shift and go to state 40
+    DOUBLE          shift and go to state 41
+    LONG            shift and go to state 42
+    SHORT           shift and go to state 43
+    UINT            shift and go to state 44
+    WHILE           shift and go to state 46
+    INTEGER_TYPE    shift and go to state 47
+    LPAREN          shift and go to state 29
+
+    lines                          shift and go to state 18
+    body                           shift and go to state 67
+    function                       shift and go to state 19
+    assignment                     shift and go to state 20
+    expression                     shift and go to state 21
+    declaration                    shift and go to state 22
+    if                             shift and go to state 23
+    loop                           shift and go to state 24
+    return                         shift and go to state 25
+    modifier                       shift and go to state 26
+    data_type                      shift and go to state 27
+    term                           shift and go to state 30
+    while_loop                     shift and go to state 32
+    factor                         shift and go to state 45
+
+state 50
+
+    (43) expression -> expression PLUS . term
+    (46) term -> . term TIMES factor
+    (47) term -> . term DIVIDE factor
+    (48) term -> . factor
+    (49) factor -> . INTEGER_TYPE
+    (50) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 47
+    LPAREN          shift and go to state 29
+
+    term                           shift and go to state 68
+    factor                         shift and go to state 45
+
+state 51
+
+    (44) expression -> expression MINUS . term
+    (46) term -> . term TIMES factor
+    (47) term -> . term DIVIDE factor
+    (48) term -> . factor
+    (49) factor -> . INTEGER_TYPE
+    (50) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 47
+    LPAREN          shift and go to state 29
+
+    term                           shift and go to state 69
+    factor                         shift and go to state 45
+
+state 52
+
+    (16) function -> modifier data_type . ID LPAREN declaration RPAREN block
+
+    ID              shift and go to state 70
+
+
+state 53
+
+    (17) function -> modifier VOID . ID LPAREN declaration RPAREN block
+
+    ID              shift and go to state 71
+
+
+state 54
+
+    (40) assignment -> data_type ID . EQUALS expression
+    (42) declaration -> data_type ID .
+
+    EQUALS          shift and go to state 72
+    SEMICOLON       reduce using rule 42 (declaration -> data_type ID .)
+
+
+state 55
+
+    (39) assignment -> ID EQUALS . expression
+    (41) assignment -> ID EQUALS . ID
+    (43) expression -> . expression PLUS term
+    (44) expression -> . expression MINUS term
+    (45) expression -> . term
+    (46) term -> . term TIMES factor
+    (47) term -> . term DIVIDE factor
+    (48) term -> . factor
+    (49) factor -> . INTEGER_TYPE
+    (50) factor -> . LPAREN expression RPAREN
+
+    ID              shift and go to state 73
+    INTEGER_TYPE    shift and go to state 47
+    LPAREN          shift and go to state 29
+
+    expression                     shift and go to state 74
+    term                           shift and go to state 30
+    factor                         shift and go to state 45
+
+state 56
+
+    (50) factor -> LPAREN expression . RPAREN
+    (43) expression -> expression . PLUS term
+    (44) expression -> expression . MINUS term
+
+    RPAREN          shift and go to state 75
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+
+
+state 57
+
+    (46) term -> term TIMES . factor
+    (49) factor -> . INTEGER_TYPE
+    (50) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 47
+    LPAREN          shift and go to state 29
+
+    factor                         shift and go to state 76
+
+state 58
+
+    (47) term -> term DIVIDE . factor
+    (49) factor -> . INTEGER_TYPE
+    (50) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 47
+    LPAREN          shift and go to state 29
+
+    factor                         shift and go to state 77
+
+state 59
+
+    (24) if -> IF LPAREN . logical_expression RPAREN block
+    (25) if -> IF LPAREN . logical_expression RPAREN block elseif
+    (26) if -> IF LPAREN . logical_expression RPAREN block else
+    (33) logical_expression -> . logical_expression logical_operator logical_factor
+    (34) logical_expression -> . logical_factor
+    (35) logical_factor -> . TRUE
+    (36) logical_factor -> . FALSE
+    (37) logical_factor -> . ID
+    (38) logical_factor -> . logical_expression
+
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    ID              shift and go to state 82
+
+    logical_expression             shift and go to state 78
+    logical_factor                 shift and go to state 79
+
+state 60
+
+    (18) return -> RETURN ID .
+
+    SEMICOLON       reduce using rule 18 (return -> RETURN ID .)
+
+
+state 61
+
+    (19) return -> RETURN type .
+
+    SEMICOLON       reduce using rule 19 (return -> RETURN type .)
+
+
+state 62
+
+    (20) type -> FLOAT_TYPE .
+
+    SEMICOLON       reduce using rule 20 (type -> FLOAT_TYPE .)
+
+
+state 63
+
+    (21) type -> DOUBLE_TYPE .
+
+    SEMICOLON       reduce using rule 21 (type -> DOUBLE_TYPE .)
+
+
+state 64
+
+    (22) type -> DECIMAL_TYPE .
+
+    SEMICOLON       reduce using rule 22 (type -> DECIMAL_TYPE .)
+
+
+state 65
+
+    (23) type -> INTEGER_TYPE .
+
+    SEMICOLON       reduce using rule 23 (type -> INTEGER_TYPE .)
+
+
+state 66
+
+    (32) while_loop -> WHILE LPAREN . logical_expression RPAREN block
+    (33) logical_expression -> . logical_expression logical_operator logical_factor
+    (34) logical_expression -> . logical_factor
+    (35) logical_factor -> . TRUE
+    (36) logical_factor -> . FALSE
+    (37) logical_factor -> . ID
+    (38) logical_factor -> . logical_expression
+
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    ID              shift and go to state 82
+
+    logical_expression             shift and go to state 83
+    logical_factor                 shift and go to state 79
+
+state 67
+
+    (8) body -> lines SEMICOLON body .
+
+    RBRACKET        reduce using rule 8 (body -> lines SEMICOLON body .)
+
+
+state 68
+
+    (43) expression -> expression PLUS term .
+    (46) term -> term . TIMES factor
+    (47) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 43 (expression -> expression PLUS term .)
+    MINUS           reduce using rule 43 (expression -> expression PLUS term .)
+    SEMICOLON       reduce using rule 43 (expression -> expression PLUS term .)
+    RPAREN          reduce using rule 43 (expression -> expression PLUS term .)
+    TIMES           shift and go to state 57
+    DIVIDE          shift and go to state 58
+
+
+state 69
+
+    (44) expression -> expression MINUS term .
+    (46) term -> term . TIMES factor
+    (47) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 44 (expression -> expression MINUS term .)
+    MINUS           reduce using rule 44 (expression -> expression MINUS term .)
+    SEMICOLON       reduce using rule 44 (expression -> expression MINUS term .)
+    RPAREN          reduce using rule 44 (expression -> expression MINUS term .)
+    TIMES           shift and go to state 57
+    DIVIDE          shift and go to state 58
+
+
+state 70
+
+    (16) function -> modifier data_type ID . LPAREN declaration RPAREN block
+
+    LPAREN          shift and go to state 84
+
+
+state 71
+
+    (17) function -> modifier VOID ID . LPAREN declaration RPAREN block
+
+    LPAREN          shift and go to state 85
+
+
+state 72
+
+    (40) assignment -> data_type ID EQUALS . expression
+    (43) expression -> . expression PLUS term
+    (44) expression -> . expression MINUS term
+    (45) expression -> . term
+    (46) term -> . term TIMES factor
+    (47) term -> . term DIVIDE factor
+    (48) term -> . factor
+    (49) factor -> . INTEGER_TYPE
+    (50) factor -> . LPAREN expression RPAREN
+
+    INTEGER_TYPE    shift and go to state 47
+    LPAREN          shift and go to state 29
+
+    expression                     shift and go to state 86
+    term                           shift and go to state 30
+    factor                         shift and go to state 45
+
+state 73
+
+    (41) assignment -> ID EQUALS ID .
+
+    SEMICOLON       reduce using rule 41 (assignment -> ID EQUALS ID .)
+
+
+state 74
+
+    (39) assignment -> ID EQUALS expression .
+    (43) expression -> expression . PLUS term
+    (44) expression -> expression . MINUS term
+
+    SEMICOLON       reduce using rule 39 (assignment -> ID EQUALS expression .)
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+
+
+state 75
+
+    (50) factor -> LPAREN expression RPAREN .
+
+    TIMES           reduce using rule 50 (factor -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 50 (factor -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 50 (factor -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 50 (factor -> LPAREN expression RPAREN .)
+    SEMICOLON       reduce using rule 50 (factor -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 50 (factor -> LPAREN expression RPAREN .)
+
+
+state 76
+
+    (46) term -> term TIMES factor .
+
+    TIMES           reduce using rule 46 (term -> term TIMES factor .)
+    DIVIDE          reduce using rule 46 (term -> term TIMES factor .)
+    PLUS            reduce using rule 46 (term -> term TIMES factor .)
+    MINUS           reduce using rule 46 (term -> term TIMES factor .)
+    SEMICOLON       reduce using rule 46 (term -> term TIMES factor .)
+    RPAREN          reduce using rule 46 (term -> term TIMES factor .)
+
+
+state 77
+
+    (47) term -> term DIVIDE factor .
+
+    TIMES           reduce using rule 47 (term -> term DIVIDE factor .)
+    DIVIDE          reduce using rule 47 (term -> term DIVIDE factor .)
+    PLUS            reduce using rule 47 (term -> term DIVIDE factor .)
+    MINUS           reduce using rule 47 (term -> term DIVIDE factor .)
+    SEMICOLON       reduce using rule 47 (term -> term DIVIDE factor .)
+    RPAREN          reduce using rule 47 (term -> term DIVIDE factor .)
+
+
+state 78
+
+    (24) if -> IF LPAREN logical_expression . RPAREN block
+    (25) if -> IF LPAREN logical_expression . RPAREN block elseif
+    (26) if -> IF LPAREN logical_expression . RPAREN block else
+    (33) logical_expression -> logical_expression . logical_operator logical_factor
+    (38) logical_factor -> logical_expression .
+    (66) logical_operator -> . OR
+    (67) logical_operator -> . AND
+    (68) logical_operator -> . NOT
+    (69) logical_operator -> . GREATER_THAN
+    (70) logical_operator -> . LESS_THAN
+    (71) logical_operator -> . GREATER_EQUALS_THAN
+    (72) logical_operator -> . LESS_EQUALS_THAN
+
+  ! shift/reduce conflict for RPAREN resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for NOT resolved as shift
+  ! shift/reduce conflict for GREATER_THAN resolved as shift
+  ! shift/reduce conflict for LESS_THAN resolved as shift
+  ! shift/reduce conflict for GREATER_EQUALS_THAN resolved as shift
+  ! shift/reduce conflict for LESS_EQUALS_THAN resolved as shift
+    RPAREN          shift and go to state 87
+    OR              shift and go to state 89
+    AND             shift and go to state 90
+    NOT             shift and go to state 91
+    GREATER_THAN    shift and go to state 92
+    LESS_THAN       shift and go to state 93
+    GREATER_EQUALS_THAN shift and go to state 94
+    LESS_EQUALS_THAN shift and go to state 95
+
+  ! RPAREN          [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! OR              [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! AND             [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! NOT             [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! GREATER_THAN    [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! LESS_THAN       [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! GREATER_EQUALS_THAN [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! LESS_EQUALS_THAN [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+
+    logical_operator               shift and go to state 88
+
+state 79
+
+    (34) logical_expression -> logical_factor .
+
+    RPAREN          reduce using rule 34 (logical_expression -> logical_factor .)
+    OR              reduce using rule 34 (logical_expression -> logical_factor .)
+    AND             reduce using rule 34 (logical_expression -> logical_factor .)
+    NOT             reduce using rule 34 (logical_expression -> logical_factor .)
+    GREATER_THAN    reduce using rule 34 (logical_expression -> logical_factor .)
+    LESS_THAN       reduce using rule 34 (logical_expression -> logical_factor .)
+    GREATER_EQUALS_THAN reduce using rule 34 (logical_expression -> logical_factor .)
+    LESS_EQUALS_THAN reduce using rule 34 (logical_expression -> logical_factor .)
+
+
+state 80
+
+    (35) logical_factor -> TRUE .
+
+    RPAREN          reduce using rule 35 (logical_factor -> TRUE .)
+    OR              reduce using rule 35 (logical_factor -> TRUE .)
+    AND             reduce using rule 35 (logical_factor -> TRUE .)
+    NOT             reduce using rule 35 (logical_factor -> TRUE .)
+    GREATER_THAN    reduce using rule 35 (logical_factor -> TRUE .)
+    LESS_THAN       reduce using rule 35 (logical_factor -> TRUE .)
+    GREATER_EQUALS_THAN reduce using rule 35 (logical_factor -> TRUE .)
+    LESS_EQUALS_THAN reduce using rule 35 (logical_factor -> TRUE .)
+
+
+state 81
+
+    (36) logical_factor -> FALSE .
+
+    RPAREN          reduce using rule 36 (logical_factor -> FALSE .)
+    OR              reduce using rule 36 (logical_factor -> FALSE .)
+    AND             reduce using rule 36 (logical_factor -> FALSE .)
+    NOT             reduce using rule 36 (logical_factor -> FALSE .)
+    GREATER_THAN    reduce using rule 36 (logical_factor -> FALSE .)
+    LESS_THAN       reduce using rule 36 (logical_factor -> FALSE .)
+    GREATER_EQUALS_THAN reduce using rule 36 (logical_factor -> FALSE .)
+    LESS_EQUALS_THAN reduce using rule 36 (logical_factor -> FALSE .)
+
+
+state 82
+
+    (37) logical_factor -> ID .
+
+    RPAREN          reduce using rule 37 (logical_factor -> ID .)
+    OR              reduce using rule 37 (logical_factor -> ID .)
+    AND             reduce using rule 37 (logical_factor -> ID .)
+    NOT             reduce using rule 37 (logical_factor -> ID .)
+    GREATER_THAN    reduce using rule 37 (logical_factor -> ID .)
+    LESS_THAN       reduce using rule 37 (logical_factor -> ID .)
+    GREATER_EQUALS_THAN reduce using rule 37 (logical_factor -> ID .)
+    LESS_EQUALS_THAN reduce using rule 37 (logical_factor -> ID .)
+
+
+state 83
+
+    (32) while_loop -> WHILE LPAREN logical_expression . RPAREN block
+    (33) logical_expression -> logical_expression . logical_operator logical_factor
+    (38) logical_factor -> logical_expression .
+    (66) logical_operator -> . OR
+    (67) logical_operator -> . AND
+    (68) logical_operator -> . NOT
+    (69) logical_operator -> . GREATER_THAN
+    (70) logical_operator -> . LESS_THAN
+    (71) logical_operator -> . GREATER_EQUALS_THAN
+    (72) logical_operator -> . LESS_EQUALS_THAN
+
+  ! shift/reduce conflict for RPAREN resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for NOT resolved as shift
+  ! shift/reduce conflict for GREATER_THAN resolved as shift
+  ! shift/reduce conflict for LESS_THAN resolved as shift
+  ! shift/reduce conflict for GREATER_EQUALS_THAN resolved as shift
+  ! shift/reduce conflict for LESS_EQUALS_THAN resolved as shift
+    RPAREN          shift and go to state 96
+    OR              shift and go to state 89
+    AND             shift and go to state 90
+    NOT             shift and go to state 91
+    GREATER_THAN    shift and go to state 92
+    LESS_THAN       shift and go to state 93
+    GREATER_EQUALS_THAN shift and go to state 94
+    LESS_EQUALS_THAN shift and go to state 95
+
+  ! RPAREN          [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! OR              [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! AND             [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! NOT             [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! GREATER_THAN    [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! LESS_THAN       [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! GREATER_EQUALS_THAN [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! LESS_EQUALS_THAN [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+
+    logical_operator               shift and go to state 88
+
+state 84
+
+    (16) function -> modifier data_type ID LPAREN . declaration RPAREN block
+    (42) declaration -> . data_type ID
+    (55) data_type -> . INT
+    (56) data_type -> . FLOAT
+    (57) data_type -> . BOOL
+    (58) data_type -> . BYTE
+    (59) data_type -> . CHAR
+    (60) data_type -> . SBYTE
+    (61) data_type -> . DECIMAL
+    (62) data_type -> . DOUBLE
+    (63) data_type -> . LONG
+    (64) data_type -> . SHORT
+    (65) data_type -> . UINT
+
+    INT             shift and go to state 34
+    FLOAT           shift and go to state 35
+    BOOL            shift and go to state 36
+    BYTE            shift and go to state 37
+    CHAR            shift and go to state 38
+    SBYTE           shift and go to state 39
+    DECIMAL         shift and go to state 40
+    DOUBLE          shift and go to state 41
+    LONG            shift and go to state 42
+    SHORT           shift and go to state 43
+    UINT            shift and go to state 44
+
+    data_type                      shift and go to state 97
+    declaration                    shift and go to state 98
+
+state 85
+
+    (17) function -> modifier VOID ID LPAREN . declaration RPAREN block
+    (42) declaration -> . data_type ID
+    (55) data_type -> . INT
+    (56) data_type -> . FLOAT
+    (57) data_type -> . BOOL
+    (58) data_type -> . BYTE
+    (59) data_type -> . CHAR
+    (60) data_type -> . SBYTE
+    (61) data_type -> . DECIMAL
+    (62) data_type -> . DOUBLE
+    (63) data_type -> . LONG
+    (64) data_type -> . SHORT
+    (65) data_type -> . UINT
+
+    INT             shift and go to state 34
+    FLOAT           shift and go to state 35
+    BOOL            shift and go to state 36
+    BYTE            shift and go to state 37
+    CHAR            shift and go to state 38
+    SBYTE           shift and go to state 39
+    DECIMAL         shift and go to state 40
+    DOUBLE          shift and go to state 41
+    LONG            shift and go to state 42
+    SHORT           shift and go to state 43
+    UINT            shift and go to state 44
+
+    declaration                    shift and go to state 99
+    data_type                      shift and go to state 97
+
+state 86
+
+    (40) assignment -> data_type ID EQUALS expression .
+    (43) expression -> expression . PLUS term
+    (44) expression -> expression . MINUS term
+
+    SEMICOLON       reduce using rule 40 (assignment -> data_type ID EQUALS expression .)
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+
+
+state 87
+
+    (24) if -> IF LPAREN logical_expression RPAREN . block
+    (25) if -> IF LPAREN logical_expression RPAREN . block elseif
+    (26) if -> IF LPAREN logical_expression RPAREN . block else
+    (6) block -> . LBRACKET body RBRACKET
+
+    LBRACKET        shift and go to state 16
+
+    block                          shift and go to state 100
+
+state 88
+
+    (33) logical_expression -> logical_expression logical_operator . logical_factor
+    (35) logical_factor -> . TRUE
+    (36) logical_factor -> . FALSE
+    (37) logical_factor -> . ID
+    (38) logical_factor -> . logical_expression
+    (33) logical_expression -> . logical_expression logical_operator logical_factor
+    (34) logical_expression -> . logical_factor
+
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    ID              shift and go to state 82
+
+    logical_expression             shift and go to state 101
+    logical_factor                 shift and go to state 102
+
+state 89
+
+    (66) logical_operator -> OR .
+
+    TRUE            reduce using rule 66 (logical_operator -> OR .)
+    FALSE           reduce using rule 66 (logical_operator -> OR .)
+    ID              reduce using rule 66 (logical_operator -> OR .)
+
+
+state 90
+
+    (67) logical_operator -> AND .
+
+    TRUE            reduce using rule 67 (logical_operator -> AND .)
+    FALSE           reduce using rule 67 (logical_operator -> AND .)
+    ID              reduce using rule 67 (logical_operator -> AND .)
+
+
+state 91
+
+    (68) logical_operator -> NOT .
+
+    TRUE            reduce using rule 68 (logical_operator -> NOT .)
+    FALSE           reduce using rule 68 (logical_operator -> NOT .)
+    ID              reduce using rule 68 (logical_operator -> NOT .)
+
+
+state 92
+
+    (69) logical_operator -> GREATER_THAN .
+
+    TRUE            reduce using rule 69 (logical_operator -> GREATER_THAN .)
+    FALSE           reduce using rule 69 (logical_operator -> GREATER_THAN .)
+    ID              reduce using rule 69 (logical_operator -> GREATER_THAN .)
+
+
+state 93
+
+    (70) logical_operator -> LESS_THAN .
+
+    TRUE            reduce using rule 70 (logical_operator -> LESS_THAN .)
+    FALSE           reduce using rule 70 (logical_operator -> LESS_THAN .)
+    ID              reduce using rule 70 (logical_operator -> LESS_THAN .)
+
+
+state 94
+
+    (71) logical_operator -> GREATER_EQUALS_THAN .
+
+    TRUE            reduce using rule 71 (logical_operator -> GREATER_EQUALS_THAN .)
+    FALSE           reduce using rule 71 (logical_operator -> GREATER_EQUALS_THAN .)
+    ID              reduce using rule 71 (logical_operator -> GREATER_EQUALS_THAN .)
+
+
+state 95
+
+    (72) logical_operator -> LESS_EQUALS_THAN .
+
+    TRUE            reduce using rule 72 (logical_operator -> LESS_EQUALS_THAN .)
+    FALSE           reduce using rule 72 (logical_operator -> LESS_EQUALS_THAN .)
+    ID              reduce using rule 72 (logical_operator -> LESS_EQUALS_THAN .)
+
+
+state 96
+
+    (32) while_loop -> WHILE LPAREN logical_expression RPAREN . block
+    (6) block -> . LBRACKET body RBRACKET
+
+    LBRACKET        shift and go to state 16
+
+    block                          shift and go to state 103
+
+state 97
+
+    (42) declaration -> data_type . ID
+
+    ID              shift and go to state 104
+
+
+state 98
+
+    (16) function -> modifier data_type ID LPAREN declaration . RPAREN block
+
+    RPAREN          shift and go to state 105
+
+
+state 99
+
+    (17) function -> modifier VOID ID LPAREN declaration . RPAREN block
+
+    RPAREN          shift and go to state 106
+
+
+state 100
+
+    (24) if -> IF LPAREN logical_expression RPAREN block .
+    (25) if -> IF LPAREN logical_expression RPAREN block . elseif
+    (26) if -> IF LPAREN logical_expression RPAREN block . else
+    (27) elseif -> . ELSE IF LPAREN logical_expression RPAREN block
+    (28) elseif -> . ELSE IF LPAREN logical_expression RPAREN block elseif
+    (29) elseif -> . ELSE IF LPAREN logical_expression RPAREN block else
+    (30) else -> . ELSE block
+
+    SEMICOLON       reduce using rule 24 (if -> IF LPAREN logical_expression RPAREN block .)
+    ELSE            shift and go to state 109
+
+    elseif                         shift and go to state 107
+    else                           shift and go to state 108
+
+state 101
+
+    (38) logical_factor -> logical_expression .
+    (33) logical_expression -> logical_expression . logical_operator logical_factor
+    (66) logical_operator -> . OR
+    (67) logical_operator -> . AND
+    (68) logical_operator -> . NOT
+    (69) logical_operator -> . GREATER_THAN
+    (70) logical_operator -> . LESS_THAN
+    (71) logical_operator -> . GREATER_EQUALS_THAN
+    (72) logical_operator -> . LESS_EQUALS_THAN
+
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for NOT resolved as shift
+  ! shift/reduce conflict for GREATER_THAN resolved as shift
+  ! shift/reduce conflict for LESS_THAN resolved as shift
+  ! shift/reduce conflict for GREATER_EQUALS_THAN resolved as shift
+  ! shift/reduce conflict for LESS_EQUALS_THAN resolved as shift
+    RPAREN          reduce using rule 38 (logical_factor -> logical_expression .)
+    OR              shift and go to state 89
+    AND             shift and go to state 90
+    NOT             shift and go to state 91
+    GREATER_THAN    shift and go to state 92
+    LESS_THAN       shift and go to state 93
+    GREATER_EQUALS_THAN shift and go to state 94
+    LESS_EQUALS_THAN shift and go to state 95
+
+  ! OR              [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! AND             [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! NOT             [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! GREATER_THAN    [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! LESS_THAN       [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! GREATER_EQUALS_THAN [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! LESS_EQUALS_THAN [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+
+    logical_operator               shift and go to state 88
+
+state 102
+
+    (33) logical_expression -> logical_expression logical_operator logical_factor .
+    (34) logical_expression -> logical_factor .
+
+  ! reduce/reduce conflict for RPAREN resolved using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+  ! reduce/reduce conflict for OR resolved using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+  ! reduce/reduce conflict for AND resolved using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+  ! reduce/reduce conflict for NOT resolved using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+  ! reduce/reduce conflict for GREATER_THAN resolved using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+  ! reduce/reduce conflict for LESS_THAN resolved using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+  ! reduce/reduce conflict for GREATER_EQUALS_THAN resolved using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+  ! reduce/reduce conflict for LESS_EQUALS_THAN resolved using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+    RPAREN          reduce using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+    OR              reduce using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+    AND             reduce using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+    NOT             reduce using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+    GREATER_THAN    reduce using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+    LESS_THAN       reduce using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+    GREATER_EQUALS_THAN reduce using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+    LESS_EQUALS_THAN reduce using rule 33 (logical_expression -> logical_expression logical_operator logical_factor .)
+
+  ! RPAREN          [ reduce using rule 34 (logical_expression -> logical_factor .) ]
+  ! OR              [ reduce using rule 34 (logical_expression -> logical_factor .) ]
+  ! AND             [ reduce using rule 34 (logical_expression -> logical_factor .) ]
+  ! NOT             [ reduce using rule 34 (logical_expression -> logical_factor .) ]
+  ! GREATER_THAN    [ reduce using rule 34 (logical_expression -> logical_factor .) ]
+  ! LESS_THAN       [ reduce using rule 34 (logical_expression -> logical_factor .) ]
+  ! GREATER_EQUALS_THAN [ reduce using rule 34 (logical_expression -> logical_factor .) ]
+  ! LESS_EQUALS_THAN [ reduce using rule 34 (logical_expression -> logical_factor .) ]
+
+
+state 103
+
+    (32) while_loop -> WHILE LPAREN logical_expression RPAREN block .
+
+    SEMICOLON       reduce using rule 32 (while_loop -> WHILE LPAREN logical_expression RPAREN block .)
+
+
+state 104
+
+    (42) declaration -> data_type ID .
+
+    RPAREN          reduce using rule 42 (declaration -> data_type ID .)
+
+
+state 105
+
+    (16) function -> modifier data_type ID LPAREN declaration RPAREN . block
+    (6) block -> . LBRACKET body RBRACKET
+
+    LBRACKET        shift and go to state 16
+
+    block                          shift and go to state 110
+
+state 106
+
+    (17) function -> modifier VOID ID LPAREN declaration RPAREN . block
+    (6) block -> . LBRACKET body RBRACKET
+
+    LBRACKET        shift and go to state 16
+
+    block                          shift and go to state 111
+
+state 107
+
+    (25) if -> IF LPAREN logical_expression RPAREN block elseif .
+
+    SEMICOLON       reduce using rule 25 (if -> IF LPAREN logical_expression RPAREN block elseif .)
+
+
+state 108
+
+    (26) if -> IF LPAREN logical_expression RPAREN block else .
+
+    SEMICOLON       reduce using rule 26 (if -> IF LPAREN logical_expression RPAREN block else .)
+
+
+state 109
+
+    (27) elseif -> ELSE . IF LPAREN logical_expression RPAREN block
+    (28) elseif -> ELSE . IF LPAREN logical_expression RPAREN block elseif
+    (29) elseif -> ELSE . IF LPAREN logical_expression RPAREN block else
+    (30) else -> ELSE . block
+    (6) block -> . LBRACKET body RBRACKET
+
+    IF              shift and go to state 112
+    LBRACKET        shift and go to state 16
+
+    block                          shift and go to state 113
+
+state 110
+
+    (16) function -> modifier data_type ID LPAREN declaration RPAREN block .
+
+    RBRACKET        reduce using rule 16 (function -> modifier data_type ID LPAREN declaration RPAREN block .)
+
+
+state 111
+
+    (17) function -> modifier VOID ID LPAREN declaration RPAREN block .
+
+    RBRACKET        reduce using rule 17 (function -> modifier VOID ID LPAREN declaration RPAREN block .)
+
+
+state 112
+
+    (27) elseif -> ELSE IF . LPAREN logical_expression RPAREN block
+    (28) elseif -> ELSE IF . LPAREN logical_expression RPAREN block elseif
+    (29) elseif -> ELSE IF . LPAREN logical_expression RPAREN block else
+
+    LPAREN          shift and go to state 114
+
+
+state 113
+
+    (30) else -> ELSE block .
+
+    SEMICOLON       reduce using rule 30 (else -> ELSE block .)
+
+
+state 114
+
+    (27) elseif -> ELSE IF LPAREN . logical_expression RPAREN block
+    (28) elseif -> ELSE IF LPAREN . logical_expression RPAREN block elseif
+    (29) elseif -> ELSE IF LPAREN . logical_expression RPAREN block else
+    (33) logical_expression -> . logical_expression logical_operator logical_factor
+    (34) logical_expression -> . logical_factor
+    (35) logical_factor -> . TRUE
+    (36) logical_factor -> . FALSE
+    (37) logical_factor -> . ID
+    (38) logical_factor -> . logical_expression
+
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    ID              shift and go to state 82
+
+    logical_expression             shift and go to state 115
+    logical_factor                 shift and go to state 79
+
+state 115
+
+    (27) elseif -> ELSE IF LPAREN logical_expression . RPAREN block
+    (28) elseif -> ELSE IF LPAREN logical_expression . RPAREN block elseif
+    (29) elseif -> ELSE IF LPAREN logical_expression . RPAREN block else
+    (33) logical_expression -> logical_expression . logical_operator logical_factor
+    (38) logical_factor -> logical_expression .
+    (66) logical_operator -> . OR
+    (67) logical_operator -> . AND
+    (68) logical_operator -> . NOT
+    (69) logical_operator -> . GREATER_THAN
+    (70) logical_operator -> . LESS_THAN
+    (71) logical_operator -> . GREATER_EQUALS_THAN
+    (72) logical_operator -> . LESS_EQUALS_THAN
+
+  ! shift/reduce conflict for RPAREN resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for NOT resolved as shift
+  ! shift/reduce conflict for GREATER_THAN resolved as shift
+  ! shift/reduce conflict for LESS_THAN resolved as shift
+  ! shift/reduce conflict for GREATER_EQUALS_THAN resolved as shift
+  ! shift/reduce conflict for LESS_EQUALS_THAN resolved as shift
+    RPAREN          shift and go to state 116
+    OR              shift and go to state 89
+    AND             shift and go to state 90
+    NOT             shift and go to state 91
+    GREATER_THAN    shift and go to state 92
+    LESS_THAN       shift and go to state 93
+    GREATER_EQUALS_THAN shift and go to state 94
+    LESS_EQUALS_THAN shift and go to state 95
+
+  ! RPAREN          [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! OR              [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! AND             [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! NOT             [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! GREATER_THAN    [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! LESS_THAN       [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! GREATER_EQUALS_THAN [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+  ! LESS_EQUALS_THAN [ reduce using rule 38 (logical_factor -> logical_expression .) ]
+
+    logical_operator               shift and go to state 88
+
+state 116
+
+    (27) elseif -> ELSE IF LPAREN logical_expression RPAREN . block
+    (28) elseif -> ELSE IF LPAREN logical_expression RPAREN . block elseif
+    (29) elseif -> ELSE IF LPAREN logical_expression RPAREN . block else
+    (6) block -> . LBRACKET body RBRACKET
+
+    LBRACKET        shift and go to state 16
+
+    block                          shift and go to state 117
+
+state 117
+
+    (27) elseif -> ELSE IF LPAREN logical_expression RPAREN block .
+    (28) elseif -> ELSE IF LPAREN logical_expression RPAREN block . elseif
+    (29) elseif -> ELSE IF LPAREN logical_expression RPAREN block . else
+    (27) elseif -> . ELSE IF LPAREN logical_expression RPAREN block
+    (28) elseif -> . ELSE IF LPAREN logical_expression RPAREN block elseif
+    (29) elseif -> . ELSE IF LPAREN logical_expression RPAREN block else
+    (30) else -> . ELSE block
+
+    SEMICOLON       reduce using rule 27 (elseif -> ELSE IF LPAREN logical_expression RPAREN block .)
+    ELSE            shift and go to state 109
+
+    elseif                         shift and go to state 118
+    else                           shift and go to state 119
+
+state 118
+
+    (28) elseif -> ELSE IF LPAREN logical_expression RPAREN block elseif .
+
+    SEMICOLON       reduce using rule 28 (elseif -> ELSE IF LPAREN logical_expression RPAREN block elseif .)
+
+
+state 119
+
+    (29) elseif -> ELSE IF LPAREN logical_expression RPAREN block else .
+
+    SEMICOLON       reduce using rule 29 (elseif -> ELSE IF LPAREN logical_expression RPAREN block else .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PUBLIC in state 2 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE in state 2 resolved as shift
+WARNING: shift/reduce conflict for PROTECTED in state 2 resolved as shift
+WARNING: shift/reduce conflict for INTERNAL in state 2 resolved as shift
+WARNING: shift/reduce conflict for RPAREN in state 78 resolved as shift
+WARNING: shift/reduce conflict for OR in state 78 resolved as shift
+WARNING: shift/reduce conflict for AND in state 78 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 78 resolved as shift
+WARNING: shift/reduce conflict for GREATER_THAN in state 78 resolved as shift
+WARNING: shift/reduce conflict for LESS_THAN in state 78 resolved as shift
+WARNING: shift/reduce conflict for GREATER_EQUALS_THAN in state 78 resolved as shift
+WARNING: shift/reduce conflict for LESS_EQUALS_THAN in state 78 resolved as shift
+WARNING: shift/reduce conflict for RPAREN in state 83 resolved as shift
+WARNING: shift/reduce conflict for OR in state 83 resolved as shift
+WARNING: shift/reduce conflict for AND in state 83 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 83 resolved as shift
+WARNING: shift/reduce conflict for GREATER_THAN in state 83 resolved as shift
+WARNING: shift/reduce conflict for LESS_THAN in state 83 resolved as shift
+WARNING: shift/reduce conflict for GREATER_EQUALS_THAN in state 83 resolved as shift
+WARNING: shift/reduce conflict for LESS_EQUALS_THAN in state 83 resolved as shift
+WARNING: shift/reduce conflict for OR in state 101 resolved as shift
+WARNING: shift/reduce conflict for AND in state 101 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 101 resolved as shift
+WARNING: shift/reduce conflict for GREATER_THAN in state 101 resolved as shift
+WARNING: shift/reduce conflict for LESS_THAN in state 101 resolved as shift
+WARNING: shift/reduce conflict for GREATER_EQUALS_THAN in state 101 resolved as shift
+WARNING: shift/reduce conflict for LESS_EQUALS_THAN in state 101 resolved as shift
+WARNING: shift/reduce conflict for RPAREN in state 115 resolved as shift
+WARNING: shift/reduce conflict for OR in state 115 resolved as shift
+WARNING: shift/reduce conflict for AND in state 115 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 115 resolved as shift
+WARNING: shift/reduce conflict for GREATER_THAN in state 115 resolved as shift
+WARNING: shift/reduce conflict for LESS_THAN in state 115 resolved as shift
+WARNING: shift/reduce conflict for GREATER_EQUALS_THAN in state 115 resolved as shift
+WARNING: shift/reduce conflict for LESS_EQUALS_THAN in state 115 resolved as shift
+WARNING: reduce/reduce conflict in state 102 resolved using rule (logical_expression -> logical_expression logical_operator logical_factor)
+WARNING: rejected rule (logical_expression -> logical_factor) in state 102
