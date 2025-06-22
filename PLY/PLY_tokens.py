@@ -19,6 +19,7 @@ reserved = {
    "static" : "STATIC",
    "in" : "IN",
    "list" : "LIST",
+   "namespace" : "NAMESPACE",
    
    #Modificadores de acceso
    "public" : "PUBLIC",
