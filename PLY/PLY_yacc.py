@@ -10,7 +10,7 @@ from datetime import datetime
 usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
 nombreArchivo = f"sintactico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivo = f"./Logs/{nombreArchivo}"
+rutaArchivo = f"../Logs/{nombreArchivo}"
 arch = open(rutaArchivo, "w", encoding="UTF-8")
 #End_Levin Moran
 
@@ -136,7 +136,21 @@ def p_logical_factor(p):
     '''logical_factor : TRUE
     | FALSE
     | ID
-    | logical_expression'''
+    | indexing
+    | type
+    | object_access
+    | LPAREN logical_expression RPAREN'''
+
+def p_logical_operator(p):
+    '''logical_operator : OR
+    | AND
+    | NOT
+    | GREATER_THAN
+    | LESS_THAN
+    | GREATER_EQUALS_THAN
+    | LESS_EQUALS_THAN
+    | EQUALITY'''
+
 
 #Start_Levin Moran
 def p_data_structure(p):
@@ -154,8 +168,7 @@ def p_data_structure_array(p):
 def p_assignment(p):
     '''assignment : ID EQUALS expression
                   | data_type ID EQUALS expression
-                  | CLASSOBJECT ID
-                  | ID EQUALS ID'''
+                  | CLASSOBJECT ID'''
 
 def p_declarations(p):
     '''declarations : declaration
@@ -187,7 +200,7 @@ def p_factor(p):
     | LPAREN expression RPAREN
     | object_access
     | ID
-    | index'''
+    | indexing'''
     if (len(p) == 4):
         p[0] = [2]
     else :
@@ -218,18 +231,10 @@ def p_primitive(p):
 
 
 
-def p_index(p):
-    '''index : ID LSQBRACKET INTEGER_TYPE RSQBRACKET
+def p_indexing(p):
+    '''indexing : ID LSQBRACKET INTEGER_TYPE RSQBRACKET
     | ID LSQBRACKET ID RSQBRACKET'''
 
-def p_logical_operator(p):
-    '''logical_operator : OR
-    | AND
-    | NOT
-    | GREATER_THAN
-    | LESS_THAN
-    | GREATER_EQUALS_THAN
-    | LESS_EQUALS_THAN'''
 
 
 #Start_Levin Moran
@@ -250,7 +255,7 @@ parser = yacc.yacc()
 
 
 buffer = ''''''
-archivo = open("./Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
+archivo = open("../Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")
