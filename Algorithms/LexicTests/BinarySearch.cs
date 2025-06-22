@@ -1,4 +1,3 @@
-using System;
 public class BinarySearch
 {
     public static int Search(int[] array, int target)
@@ -18,13 +17,13 @@ public class BinarySearch
         }
         return -1;  // Elemento no encontrado
     }
-    
+
     public static void Main()
     {
         int[] arr = { 1, 3, 5, 7, 9, 11 };
         int target = 7;
         int result = Search(arr, target);
-        
+
         if (result != -1)
             Console.WriteLine("Elemento encontrado en el índice " + result);
         else

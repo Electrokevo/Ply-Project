@@ -22,6 +22,7 @@ arch = open(rutaArchivo, "w", encoding="UTF-8")
 #     '''test : body'''
 #     p[0] = p[1]
 
+# Start Kevin Mejia
 def p_program(p):
     '''program : usings namespace class
     | namespace class'''
@@ -78,7 +79,7 @@ def p_funtion(p: yacc.YaccProduction):
 def p_return(p):
     '''return : RETURN ID
                | RETURN type'''
-
+# End Kevin Mejia
 #Start_Levin Moran
 def p_lambda_function(p):
     '''lambda_function : LPAREN ID RPAREN ARROW expression
@@ -97,6 +98,7 @@ def p_console_readline(p):
 
 #END_Levin Moran
 
+# Start Kevin Mejia
 def p_type(p):
     '''type : FLOAT_TYPE
     | DOUBLE_TYPE
@@ -120,11 +122,13 @@ def p_loop(p):
     '''loop : while_loop
             | loop_for'''
 
+# End Kevin Mejia
 #Start_Levin Moran
 def p_loop_for(p):
     '''loop_for : FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block'''
 #End_Levin Moran
 
+# Start Kevin Mejia
 def p_while_loop(p):
     '''while_loop : WHILE LPAREN logical_expression RPAREN block'''
 
@@ -150,7 +154,7 @@ def p_logical_operator(p):
     | GREATER_EQUALS_THAN
     | LESS_EQUALS_THAN
     | EQUALITY'''
-
+# End Kevin Mejia
 
 #Start_Levin Moran
 def p_data_structure(p):
@@ -161,6 +165,7 @@ def p_data_structure_list(p):
     '''data_structure_list : LIST LESS_THAN data_type GREATER_THAN ID LSQBRACKET type RSQBRACKET'''
 #End_Levin Moran
 
+# Start Kevin Mejia
 def p_data_structure_array(p):
     '''data_structure_array : primitive LSQBRACKET RSQBRACKET
     | CLASSOBJECT LSQBRACKET RSQBRACKET'''
@@ -230,11 +235,10 @@ def p_primitive(p):
     | UINT'''
 
 
-
 def p_indexing(p):
     '''indexing : ID LSQBRACKET INTEGER_TYPE RSQBRACKET
     | ID LSQBRACKET ID RSQBRACKET'''
-
+# End Kevin Mejia
 
 
 #Start_Levin Moran
