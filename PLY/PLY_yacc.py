@@ -83,6 +83,18 @@ def p_return(p):
 def p_lambda_function(p):
     '''lambda_function : LPAREN ID RPAREN ARROW expression
                        | LPAREN ID RPAREN ARROW block'''
+    
+def p_console_writeline(p):
+    '''expression : object_access LPAREN expression RPAREN'''
+    if len(p) == 8:
+        p[0] = f"{p[1]}.{p[3]}({p[5]})"
+    else:
+        p[0] = f"{p[1]}.{p[3]}()"
+
+def p_console_readline(p):
+    '''expression : object_access LPAREN RPAREN'''
+    p[0] = f"{p[1]}.{p[3]}()"
+
 #END_Levin Moran
 
 def p_type(p):
@@ -134,6 +146,10 @@ def p_data_structure(p):
 def p_data_structure_list(p):   
     '''data_structure_list : LIST LESS_THAN data_type GREATER_THAN ID LSQBRACKET type RSQBRACKET'''
 #End_Levin Moran
+
+def p_data_structure_array(p):
+    '''data_structure_array : primitive LSQBRACKET RSQBRACKET
+    | CLASSOBJECT LSQBRACKET RSQBRACKET'''
 
 def p_assignment(p):
     '''assignment : ID EQUALS expression
@@ -200,12 +216,7 @@ def p_primitive(p):
     | SHORT 
     | UINT'''
 
-def p_data_structure(p):
-    '''data_structure : array'''
 
-def p_array(p):
-    '''array : primitive LSQBRACKET RSQBRACKET
-    | CLASSOBJECT LSQBRACKET RSQBRACKET'''
 
 def p_index(p):
     '''index : ID LSQBRACKET INTEGER_TYPE RSQBRACKET
