@@ -17,6 +17,8 @@ reserved = {
    "true" : "TRUE",
    "false" : "FALSE",
    "static" : "STATIC",
+   "in" : "IN",
+   "list" : "LIST",
    
    #Modificadores de acceso
    "public" : "PUBLIC",
@@ -81,6 +83,7 @@ tokens = (
     "TIMES_EQUAL",
     "DIVIDE_EQUAL",
     "MODULE_EQUAL",
+    "ARROW",
 ) + tuple(reserved.values())
 
 # Ignorar comentarios de línea
@@ -121,6 +124,7 @@ t_MINUS_EQUAL = r'-='
 t_TIMES_EQUAL = r'\*='
 t_DIVIDE_EQUAL = r'/='
 t_MODULE_EQUAL = r'%='
+t_ARROW = r'=>'
 #End_Kevin Mejia
 
 

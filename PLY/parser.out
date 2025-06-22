@@ -9,6 +9,7 @@ Unused terminals:
     DOT
     FILE
     FOR
+    IN
     LSQBRACKET
     MINUS_EQUAL
     MODULE
@@ -18,6 +19,7 @@ Unused terminals:
     NUINT
     PLUS_EQUAL
     RSQBRACKET
+    STATIC
     STRING
     THEN
     TIMES_EQUAL
@@ -130,6 +132,7 @@ GREATER_EQUALS_THAN  : 71
 GREATER_THAN         : 69
 ID                   : 16 17 18 37 39 40 41 41 42
 IF                   : 24 25 26 27 28 29
+IN                   : 
 INT                  : 55
 INTEGER_TYPE         : 23 49
 INTERNAL             : 54
@@ -160,6 +163,7 @@ RSQBRACKET           :
 SBYTE                : 60
 SEMICOLON            : 4 7 8
 SHORT                : 64
+STATIC               : 
 STRING               : 
 THEN                 : 
 TIMES                : 46
