@@ -151,24 +151,24 @@ def p_declaration(p):
 
 def p_expression(p):
     '''expression : expression PLUS term
-    | expression MINUS term'''
+    | expression MINUS term
+    | term'''
 
 def p_term(p):
     '''term : term TIMES factor
     | term DIVIDE factor
     | factor'''
-    if (len(p) == 4):
-        if (p[2] == '*'):
-            p[0] = p[1] * p[3]
-        elif (p[2] == '/'):
-            p[0] = p[1] / p[3]
-    else:
-        p[0] = p[1]
+    # if (len(p) == 4):
+    #     if (p[2] == '*'):
+    #         p[0] = p[1] * p[3]
+    #     elif (p[2] == '/'):
+    #         p[0] = p[1] / p[3]
+    # else:
+    #     p[0] = p[1]
 
 def p_factor(p):
     '''factor : type
     | LPAREN expression RPAREN
-    | term
     | object_access
     | ID
     | index'''
@@ -251,6 +251,8 @@ asignaciones = parser.parse(buffer)
 for asignacion in asignaciones:
     arch.write(f"Asignación correcta: {asignacion}\n")
 arch.close()
+
+
 #End_Levin Moran
 
 # while True:
