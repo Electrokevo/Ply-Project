@@ -79,6 +79,12 @@ def p_return(p):
     '''return : RETURN ID
                | RETURN type'''
 
+#Start_Levin Moran
+def p_lambda_function(p):
+    '''lambda_function : LPAREN ID RPAREN ARROW expression
+                       | LPAREN ID RPAREN ARROW block'''
+#END_Levin Moran
+
 def p_type(p):
     '''type : FLOAT_TYPE
     | DOUBLE_TYPE
@@ -99,7 +105,13 @@ def p_else(p):
     '''else : ELSE block'''
 
 def p_loop(p):
-    '''loop : while_loop'''
+    '''loop : while_loop
+            | loop_for'''
+
+#Start_Levin Moran
+def p_loop_for(p):
+    '''loop_for : FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block'''
+#End_Levin Moran
 
 def p_while_loop(p):
     '''while_loop : WHILE LPAREN logical_expression RPAREN block'''
@@ -127,6 +139,15 @@ def p_logical_operator(p):
     | LESS_EQUALS_THAN
     | EQUALITY'''
 
+
+#Start_Levin Moran
+def p_data_structure(p):
+    '''data_structure : data_structure_list
+                      | data_structure_array'''
+
+def p_data_structure_list(p):   
+    '''data_structure_list : LIST LESS_THAN data_type GREATER_THAN ID LSQBRACKET type RSQBRACKET'''
+#End_Levin Moran
 
 def p_assignment(p):
     '''assignment : ID EQUALS expression

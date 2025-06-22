@@ -16,8 +16,10 @@ reserved = {
    "var" : "VAR",
    "true" : "TRUE",
    "false" : "FALSE",
-   "namespace" : "NAMESPACE",
    "static" : "STATIC",
+   "in" : "IN",
+   "list" : "LIST",
+   "namespace" : "NAMESPACE",
    
    #Modificadores de acceso
    "public" : "PUBLIC",
@@ -83,7 +85,16 @@ tokens = (
     "TIMES_EQUAL",
     "DIVIDE_EQUAL",
     "MODULE_EQUAL",
+    "ARROW",
 ) + tuple(reserved.values())
+
+# Ignorar comentarios de línea
+t_ignore_COMMENTLINE = r'//.*'
+
+# Ignorar comentarios de bloque
+def t_COMMENTBLOCK(t):
+    r'/\*[\s\S]*?\*/'
+    pass
 
 # Regular expression rules for simple tokens
 t_PLUS    = r'\+'
@@ -116,6 +127,7 @@ t_MINUS_EQUAL = r'-='
 t_TIMES_EQUAL = r'\*='
 t_DIVIDE_EQUAL = r'/='
 t_MODULE_EQUAL = r'%='
+t_ARROW = r'=>'
 #End_Kevin Mejia
 
 
