@@ -130,11 +130,7 @@ def p_declaration(p):
 
 def p_expression(p):
     '''expression : expression PLUS term
-    | expression MINUS term
-    | term
-    | object_access
-    | ID
-    | index'''
+    | expression MINUS term'''
 
 def p_term(p):
     '''term : term TIMES factor
@@ -143,11 +139,22 @@ def p_term(p):
     if (len(p) == 4):
         if (p[2] == '*'):
             p[0] = p[1] * p[3]
+        elif (p[2] == '/'):
+            p[0] = p[1] / p[3]
+    else:
+        p[0] = p[1]
 
 def p_factor(p):
     '''factor : type
-    | LPAREN expression RPAREN'''
-    p[0] = [1]
+    | LPAREN expression RPAREN
+    | term
+    | object_access
+    | ID
+    | index'''
+    if (len(p) == 4):
+        p[0] = [2]
+    else :
+        p[0] = [1]
 
 def p_modifier(p):
     '''modifier : PUBLIC 
