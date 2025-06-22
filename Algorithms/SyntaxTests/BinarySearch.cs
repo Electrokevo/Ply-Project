@@ -13,7 +13,6 @@ public class BinarySearch
             {
                 return mid;
             }
-
             if (array[mid] < target)
             {
                 left = mid + 1;

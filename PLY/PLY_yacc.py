@@ -112,13 +112,26 @@ def p_logical_factor(p):
     '''logical_factor : TRUE
     | FALSE
     | ID
-    | logical_expression'''
+    | indexing
+    | type
+    | object_access
+    | LPAREN logical_expression RPAREN'''
+
+def p_logical_operator(p):
+    '''logical_operator : OR
+    | AND
+    | NOT
+    | GREATER_THAN
+    | LESS_THAN
+    | GREATER_EQUALS_THAN
+    | LESS_EQUALS_THAN
+    | EQUALITY'''
+
 
 def p_assignment(p):
     '''assignment : ID EQUALS expression
                   | data_type ID EQUALS expression
-                  | CLASSOBJECT ID
-                  | ID EQUALS ID'''
+                  | CLASSOBJECT ID'''
 
 def p_declarations(p):
     '''declarations : declaration
@@ -150,7 +163,7 @@ def p_factor(p):
     | LPAREN expression RPAREN
     | object_access
     | ID
-    | index'''
+    | indexing'''
     if (len(p) == 4):
         p[0] = [2]
     else :
@@ -186,18 +199,10 @@ def p_array(p):
     '''array : primitive LSQBRACKET RSQBRACKET
     | CLASSOBJECT LSQBRACKET RSQBRACKET'''
 
-def p_index(p):
-    '''index : ID LSQBRACKET INTEGER_TYPE RSQBRACKET
+def p_indexing(p):
+    '''indexing : ID LSQBRACKET INTEGER_TYPE RSQBRACKET
     | ID LSQBRACKET ID RSQBRACKET'''
 
-def p_logical_operator(p):
-    '''logical_operator : OR
-    | AND
-    | NOT
-    | GREATER_THAN
-    | LESS_THAN
-    | GREATER_EQUALS_THAN
-    | LESS_EQUALS_THAN'''
 
 
 #Start_Levin Moran

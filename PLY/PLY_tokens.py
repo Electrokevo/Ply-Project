@@ -56,6 +56,7 @@ tokens = (
     'TIMES',
     'DIVIDE',
     'MODULE',
+    'EQUALITY',
     'LPAREN',
     'RPAREN',
     'EQUALS',
@@ -92,6 +93,7 @@ t_DIVIDE  = r'/'
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
 t_MODULE = r'%'
+t_EQUALITY = r'=='
 t_EQUALS = r'='
 t_SEMICOLON = r';'
 t_LBRACKET = r"{"
