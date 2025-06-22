@@ -42,7 +42,7 @@ Rule 11    type -> DECIMAL_TYPE
 Rule 12    type -> INTEGER_TYPE
 Rule 13    block -> LBRACKET body RBRACKET
 Rule 14    if -> IF LPAREN logical_expression RPAREN block
-Rule 15    elseif -> if ELSE LBRACKET body RBRACKET
+Rule 15    elseif -> if ELSE if LBRACKET body RBRACKET
 Rule 16    while_loop -> WHILE LPAREN logical_expression RPAREN block
 Rule 17    logical_expression -> logical_expression logical_operator logical_factor
 Rule 18    logical_expression -> logical_factor
@@ -174,7 +174,7 @@ elseif               :
 expression           : 47 49 50 53 54 60
 factor               : 56 57 58
 function             : 
-if                   : 15
+if                   : 15 15
 lines                : 2 3
 logical_expression   : 14 16 17 22
 logical_factor       : 17 18

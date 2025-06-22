@@ -10,7 +10,7 @@ from datetime import datetime
 usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
 nombreArchivo = f"sintactico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivo = f"../Logs/{nombreArchivo}"
+rutaArchivo = f"./Logs/{nombreArchivo}"
 arch = open(rutaArchivo, "w", encoding="UTF-8")
 #End_Levin Moran
 
@@ -141,7 +141,7 @@ parser = yacc.yacc()
 
 
 buffer = ''''''
-archivo = open("../Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
+archivo = open("./Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")
@@ -149,7 +149,7 @@ for line in archivo:
 archivo.close()
 
 
-asignaciones:str = parser.parse(buffer)
+asignaciones = parser.parse(buffer)
 for asignacion in asignaciones:
     arch.write(f"Asignación correcta: {asignacion}\n")
 arch.close()

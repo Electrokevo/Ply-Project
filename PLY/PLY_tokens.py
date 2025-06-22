@@ -16,6 +16,7 @@ reserved = {
    "var" : "VAR",
    "true" : "TRUE",
    "false" : "FALSE",
+   "static" : "STATIC",
    
    #Modificadores de acceso
    "public" : "PUBLIC",
@@ -81,6 +82,14 @@ tokens = (
     "DIVIDE_EQUAL",
     "MODULE_EQUAL",
 ) + tuple(reserved.values())
+
+# Ignorar comentarios de línea
+t_ignore_COMMENTLINE = r'//.*'
+
+# Ignorar comentarios de bloque
+def t_COMMENTBLOCK(t):
+    r'/\*[\s\S]*?\*/'
+    pass
 
 # Regular expression rules for simple tokens
 t_PLUS    = r'\+'
