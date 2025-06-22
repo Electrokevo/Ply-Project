@@ -17,12 +17,18 @@ arch = open(rutaArchivo, "w", encoding="UTF-8")
 #reglas en minúscula y tokens en mayúscula
 
 # TODO: Ver que hacer aca
+
+# def p_test(p):
+#     '''test : body'''
+#     p[0] = p[1]
+
 def p_program(p):
-    'program : usings class'
+    '''program : usings namespace class
+    | namespace class'''
     p[0] = p[1]
 
 def p_usings(p):
-    '''usings : usings
+    '''usings : using usings
     | using'''
     p[0] = p[1]
 
@@ -30,9 +36,19 @@ def p_using(p):
     '''using : USING CLASSOBJECT SEMICOLON'''
     p[0] = p[1]
 
+def p_namespace(p):
+    '''namespace : NAMESPACE CLASSOBJECT SEMICOLON'''
+
 def p_class(p):
-    '''class : modifier CLASS CLASSOBJECT block'''
+    '''class : modifier CLASS CLASSOBJECT block
+    | modifier STATIC CLASS CLASSOBJECT block'''
     p[0] = p[1]
+
+def p_object_access(p):
+    '''object_access : ID DOT ID
+    | CLASSOBJECT DOT CLASSOBJECT
+    | ID DOT CLASSOBJECT
+    | CLASSOBJECT DOT ID'''
 
 def p_block(p):
     '''block : LBRACKET body RBRACKET'''
@@ -42,6 +58,7 @@ def p_body(p):
     '''body : lines SEMICOLON
             | lines SEMICOLON body
             | function'''
+    p[0] = p[1]
 
 def p_lines(p):
     '''lines : assignment 
@@ -50,10 +67,13 @@ def p_lines(p):
     | if
     | loop
     | return'''
+    p[0] = p[1]
 
-def p_funtion(p):
-    '''function : modifier data_type ID LPAREN declaration RPAREN block
-                | modifier VOID ID LPAREN declaration RPAREN block'''
+def p_funtion(p: yacc.YaccProduction):
+    '''function : modifier data_type ID LPAREN declarations RPAREN block
+                | modifier VOID ID LPAREN declarations RPAREN block
+                | modifier STATIC data_type ID LPAREN declarations RPAREN block
+                | modifier STATIC VOID ID LPAREN declarations RPAREN block'''
 
 def p_return(p):
     '''return : RETURN ID
@@ -86,7 +106,7 @@ def p_while_loop(p):
 
 def p_logical_expression(p):
     '''logical_expression : logical_expression logical_operator logical_factor
-        | logical_factor'''
+    | logical_factor'''
 
 def p_logical_factor(p):
     '''logical_factor : TRUE
@@ -97,7 +117,13 @@ def p_logical_factor(p):
 def p_assignment(p):
     '''assignment : ID EQUALS expression
                   | data_type ID EQUALS expression
+                  | CLASSOBJECT ID
                   | ID EQUALS ID'''
+
+def p_declarations(p):
+    '''declarations : declaration
+    | declaration COMMA
+    | declaration COMMA declarations'''
 
 def p_declaration(p):
     '''declaration : data_type ID'''
@@ -105,16 +131,23 @@ def p_declaration(p):
 def p_expression(p):
     '''expression : expression PLUS term
     | expression MINUS term
-    | term'''
+    | term
+    | object_access
+    | ID
+    | index'''
 
 def p_term(p):
     '''term : term TIMES factor
     | term DIVIDE factor
     | factor'''
+    if (len(p) == 4):
+        if (p[2] == '*'):
+            p[0] = p[1] * p[3]
 
-def p_factor_num(p):
-    '''factor : INTEGER_TYPE
+def p_factor(p):
+    '''factor : type
     | LPAREN expression RPAREN'''
+    p[0] = [1]
 
 def p_modifier(p):
     '''modifier : PUBLIC 
@@ -123,7 +156,11 @@ def p_modifier(p):
     | INTERNAL'''
 
 def p_data_type(p):
-    '''data_type : INT 
+    ''' data_type : primitive
+    | data_structure'''
+
+def p_primitive(p):
+    '''primitive : INT 
     | FLOAT 
     | BOOL 
     | BYTE 
@@ -135,6 +172,17 @@ def p_data_type(p):
     | SHORT 
     | UINT'''
 
+def p_data_structure(p):
+    '''data_structure : array'''
+
+def p_array(p):
+    '''array : primitive LSQBRACKET RSQBRACKET
+    | CLASSOBJECT LSQBRACKET RSQBRACKET'''
+
+def p_index(p):
+    '''index : ID LSQBRACKET INTEGER_TYPE RSQBRACKET
+    | ID LSQBRACKET ID RSQBRACKET'''
+
 def p_logical_operator(p):
     '''logical_operator : OR
     | AND
@@ -143,6 +191,8 @@ def p_logical_operator(p):
     | LESS_THAN
     | GREATER_EQUALS_THAN
     | LESS_EQUALS_THAN'''
+
+
 #Start_Levin Moran
 
 # Error rule for syntax errors
@@ -156,7 +206,7 @@ def p_error(p):
 # Build the lexer
 lexer = lex.lex()
 
-# Build the parser
+# # Build the parser
 parser = yacc.yacc()
 
 
@@ -174,3 +224,12 @@ for asignacion in asignaciones:
     arch.write(f"Asignación correcta: {asignacion}\n")
 arch.close()
 #End_Levin Moran
+
+# while True:
+#    try:
+#        s = input('csharp > ')
+#    except EOFError:
+#        break
+#    if not s: continue
+#    result = parser.parse(s)
+#    print(result)

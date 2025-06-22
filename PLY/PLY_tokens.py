@@ -16,6 +16,8 @@ reserved = {
    "var" : "VAR",
    "true" : "TRUE",
    "false" : "FALSE",
+   "namespace" : "NAMESPACE",
+   "static" : "STATIC",
    
    #Modificadores de acceso
    "public" : "PUBLIC",
