@@ -1,0 +1,3 @@
+Syntax error at token RETURN, value 'return'
+Syntax error at token MINUS, value '-'
+Syntax error at token INTEGER_TYPE, value '1'

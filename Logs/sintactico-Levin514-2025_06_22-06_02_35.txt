@@ -1,0 +1,6 @@
+Syntax error at token RBRACKET, value '}'
+Syntax error at token RETURN, value 'return'
+Syntax error at token MINUS, value '-'
+Syntax error at token INTEGER_TYPE, value '1'
+Syntax error at token RBRACKET, value '}'
+Syntax error at EOF

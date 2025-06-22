@@ -58,6 +58,8 @@ def p_block(p):
 def p_body(p):
     '''body : lines SEMICOLON
             | lines SEMICOLON body
+            | if
+            | loop
             | function'''
     p[0] = p[1]
 
@@ -65,8 +67,6 @@ def p_lines(p):
     '''lines : assignment 
     | expression 
     | declaration
-    | if
-    | loop
     | return'''
     p[0] = p[1]
 
@@ -103,10 +103,15 @@ def p_type(p):
     '''type : FLOAT_TYPE
     | DOUBLE_TYPE
     | DECIMAL_TYPE
-    | INTEGER_TYPE'''
+    | INTEGER_TYPE
+    | MINUS FLOAT_TYPE
+    | MINUS DOUBLE_TYPE
+    | MINUS DECIMAL_TYPE
+    | MINUS INTEGER_TYPE'''
 
 def p_if(p):
     '''if : IF LPAREN logical_expression RPAREN block
+    | IF LPAREN logical_expression RPAREN block body
     | IF LPAREN logical_expression RPAREN block elseif
     | IF LPAREN logical_expression RPAREN block else'''
 
@@ -116,7 +121,8 @@ def p_elseif(p):
     | ELSE IF LPAREN logical_expression RPAREN block else'''
 
 def p_else(p):
-    '''else : ELSE block'''
+    '''else : ELSE block
+    | ELSE block body'''
 
 def p_loop(p):
     '''loop : while_loop
@@ -125,12 +131,14 @@ def p_loop(p):
 # End Kevin Mejia
 #Start_Levin Moran
 def p_loop_for(p):
-    '''loop_for : FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block'''
+    '''loop_for : FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
+    | FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body'''
 #End_Levin Moran
 
 # Start Kevin Mejia
 def p_while_loop(p):
-    '''while_loop : WHILE LPAREN logical_expression RPAREN block'''
+    '''while_loop : WHILE LPAREN logical_expression RPAREN block
+    | WHILE LPAREN logical_expression RPAREN block body'''
 
 def p_logical_expression(p):
     '''logical_expression : logical_expression logical_operator logical_factor
@@ -274,12 +282,3 @@ arch.close()
 
 
 #End_Levin Moran
-
-# while True:
-#    try:
-#        s = input('csharp > ')
-#    except EOFError:
-#        break
-#    if not s: continue
-#    result = parser.parse(s)
-#    print(result)
