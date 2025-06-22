@@ -55,6 +55,7 @@ def p_block(p):
     '''block : LBRACKET body RBRACKET'''
     p[0] = p[1]
 
+# Modified by Levin Moran
 def p_body(p):
     '''body : lines SEMICOLON
             | lines SEMICOLON body
@@ -99,6 +100,7 @@ def p_console_readline(p):
 #END_Levin Moran
 
 # Start Kevin Mejia
+# Modified by Levin Moran
 def p_type(p):
     '''type : FLOAT_TYPE
     | DOUBLE_TYPE
@@ -109,6 +111,7 @@ def p_type(p):
     | MINUS DECIMAL_TYPE
     | MINUS INTEGER_TYPE'''
 
+# Modified by Levin Moran
 def p_if(p):
     '''if : IF LPAREN logical_expression RPAREN block
     | IF LPAREN logical_expression RPAREN block body
@@ -120,10 +123,12 @@ def p_elseif(p):
     | ELSE IF LPAREN logical_expression RPAREN block elseif
     | ELSE IF LPAREN logical_expression RPAREN block else'''
 
+# Modified by Levin Moran
 def p_else(p):
     '''else : ELSE block
     | ELSE block body'''
 
+# Modified by Levin Moran
 def p_loop(p):
     '''loop : while_loop
             | loop_for'''
