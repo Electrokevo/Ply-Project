@@ -1,3 +1,6 @@
+parser.out
+parsetab.py
+
 #visual studio crap
 .vs/
 bin/
@@ -197,3 +200,4 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+/PLY/parser.out
