@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'AND BOOL BYTE CHAR CHARACTER CLASS CLASSOBJECT COMMA DECIMAL DECIMAL_TYPE DIVIDE DIVIDE_EQUAL DO DOT DOUBLE DOUBLE_TYPE ELSE EQUALS FILE FLOAT FLOAT_TYPE FOR GREATER_EQUALS_THAN GREATER_THAN ID IF INT INTEGER_TYPE INTERNAL LBRACKET LESS_EQUALS_THAN LESS_THAN LONG LPAREN LSQBRACKET MINUS MINUS_EQUAL MODULE MODULE_EQUAL NEW NINT NOT NUINT OR PLUS PLUS_EQUAL PRIVATE PROTECTED PUBLIC RBRACKET RETURN RPAREN RSQBRACKET SBYTE SEMICOLON SHORT STRING THEN TIMES TIMES_EQUAL UINT ULONG USHORT USING VAR VOID WHILEprogram : assignmentsassignments : assignments assignmentassignments : assignmentassignment : ID EQUALS expression SEMICOLONexpression : expression PLUS termexpression : expression MINUS termexpression : termterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : INTEGER_TYPE\n               | FLOAT_TYPE\n               | DOUBLE_TYPE\n               | DECIMAL_TYPEfactor : LPAREN expression RPAREN'
+_lr_signature = 'AND BOOL BYTE CHAR CHARACTER CLASS CLASSOBJECT COMMA DECIMAL DECIMAL_TYPE DIVIDE DIVIDE_EQUAL DO DOT DOUBLE DOUBLE_TYPE ELSE EQUALS FALSE FILE FLOAT FLOAT_TYPE FOR GREATER_EQUALS_THAN GREATER_THAN ID IF INT INTEGER_TYPE INTERNAL LBRACKET LESS_EQUALS_THAN LESS_THAN LONG LPAREN LSQBRACKET MINUS MINUS_EQUAL MODULE MODULE_EQUAL NEW NINT NOT NUINT OR PLUS PLUS_EQUAL PRIVATE PROTECTED PUBLIC RBRACKET RETURN RPAREN RSQBRACKET SBYTE SEMICOLON SHORT STRING THEN TIMES TIMES_EQUAL TRUE UINT ULONG USHORT USING VAR VOID WHILEprogram : bodybody : lines SEMICOLON\n            | lines SEMICOLON bodyfunction : modifier data_type ID LPAREN declaration RPAREN block\n                | modifier VOID ID LPAREN declaration RPAREN blockusing : USING CLASSOBJECT SEMICOLON return : RETURN ID\n               | RETURN typetype : FLOAT_TYPE\n    | DOUBLE_TYPE\n    | DECIMAL_TYPE\n    | INTEGER_TYPEblock : LBRACKET body RBRACKETif : IF LPAREN logical_expression RPAREN blockelseif : if ELSE LBRACKET body RBRACKETwhile_loop : WHILE LPAREN logical_expression RPAREN blocklogical_expression : logical_expression logical_operator logical_factor\n        | logical_factorlogical_factor : TRUE\n    | FALSE\n    | ID\n    | logical_expressionlogical_operator : OR\n    | AND\n    | NOT\n    | GREATER_THAN\n    | LESS_THAN\n    | GREATER_EQUALS_THAN\n    | LESS_EQUALS_THANclass : modifier CLASS CLASSOBJECT blockmodifier : PUBLIC \n    | PRIVATE \n    | PROTECTED \n    | INTERNALdata_type : INT \n    | FLOAT \n    | BOOL \n    | BYTE \n    | CHAR \n    | SBYTE \n    | DECIMAL \n    | DOUBLE \n    | LONG \n    | SHORT \n    | UINTlines : assignment \n    | expression \n    | declarationassignment : ID EQUALS expression\n                  | data_type ID EQUALS expression\n                  | ID EQUALS IDdeclaration : data_type IDexpression : expression PLUS term\n    | expression MINUS term\n    | termterm : term TIMES factor\n    | term DIVIDE factor\n    | factorfactor : INTEGER_TYPE\n    | LPAREN expression RPAREN'
     
-_lr_action_items = {'ID':([0,2,3,5,15,],[4,4,-3,-2,-4,]),'$end':([1,2,3,5,15,],[0,-1,-3,-2,-4,]),'EQUALS':([4,],[6,]),'INTEGER_TYPE':([6,14,16,17,18,19,],[10,10,10,10,10,10,]),'FLOAT_TYPE':([6,14,16,17,18,19,],[11,11,11,11,11,11,]),'DOUBLE_TYPE':([6,14,16,17,18,19,],[12,12,12,12,12,12,]),'DECIMAL_TYPE':([6,14,16,17,18,19,],[13,13,13,13,13,13,]),'LPAREN':([6,14,16,17,18,19,],[14,14,14,14,14,14,]),'SEMICOLON':([7,8,9,10,11,12,13,21,22,23,24,25,],[15,-7,-10,-11,-12,-13,-14,-5,-6,-8,-9,-15,]),'PLUS':([7,8,9,10,11,12,13,20,21,22,23,24,25,],[16,-7,-10,-11,-12,-13,-14,16,-5,-6,-8,-9,-15,]),'MINUS':([7,8,9,10,11,12,13,20,21,22,23,24,25,],[17,-7,-10,-11,-12,-13,-14,17,-5,-6,-8,-9,-15,]),'RPAREN':([8,9,10,11,12,13,20,21,22,23,24,25,],[-7,-10,-11,-12,-13,-14,25,-5,-6,-8,-9,-15,]),'TIMES':([8,9,10,11,12,13,21,22,23,24,25,],[18,-10,-11,-12,-13,-14,18,18,-8,-9,-15,]),'DIVIDE':([8,9,10,11,12,13,21,22,23,24,25,],[19,-10,-11,-12,-13,-14,19,19,-8,-9,-15,]),}
+_lr_action_items = {'ID':([0,8,10,11,12,13,14,15,16,17,18,19,20,24,27,],[7,28,-35,-36,-37,-38,-39,-40,-41,-42,-43,-44,-45,7,35,]),'INT':([0,24,],[10,10,]),'FLOAT':([0,24,],[11,11,]),'BOOL':([0,24,],[12,12,]),'BYTE':([0,24,],[13,13,]),'CHAR':([0,24,],[14,14,]),'SBYTE':([0,24,],[15,15,]),'DECIMAL':([0,24,],[16,16,]),'DOUBLE':([0,24,],[17,17,]),'LONG':([0,24,],[18,18,]),'SHORT':([0,24,],[19,19,]),'UINT':([0,24,],[20,20,]),'INTEGER_TYPE':([0,23,24,25,26,27,29,30,37,],[22,22,22,22,22,22,22,22,22,]),'LPAREN':([0,23,24,25,26,27,29,30,37,],[23,23,23,23,23,23,23,23,23,]),'$end':([1,2,24,32,],[0,-1,-2,-3,]),'SEMICOLON':([3,4,5,6,9,21,22,28,33,34,35,36,38,39,40,41,],[24,-46,-47,-48,-55,-58,-59,-52,-53,-54,-51,-49,-56,-57,-60,-50,]),'PLUS':([5,9,21,22,31,33,34,36,38,39,40,41,],[25,-55,-58,-59,25,-53,-54,25,-56,-57,-60,25,]),'MINUS':([5,9,21,22,31,33,34,36,38,39,40,41,],[26,-55,-58,-59,26,-53,-54,26,-56,-57,-60,26,]),'EQUALS':([7,28,],[27,37,]),'RPAREN':([9,21,22,31,33,34,38,39,40,],[-55,-58,-59,40,-53,-54,-56,-57,-60,]),'TIMES':([9,21,22,33,34,38,39,40,],[29,-58,-59,29,29,-56,-57,-60,]),'DIVIDE':([9,21,22,33,34,38,39,40,],[30,-58,-59,30,30,-56,-57,-60,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'assignments':([0,],[2,]),'assignment':([0,2,],[3,5,]),'expression':([6,14,],[7,20,]),'term':([6,14,16,17,],[8,8,21,22,]),'factor':([6,14,16,17,18,19,],[9,9,9,9,23,24,]),}
+_lr_goto_items = {'program':([0,],[1,]),'body':([0,24,],[2,32,]),'lines':([0,24,],[3,3,]),'assignment':([0,24,],[4,4,]),'expression':([0,23,24,27,37,],[5,31,5,36,41,]),'declaration':([0,24,],[6,6,]),'data_type':([0,24,],[8,8,]),'term':([0,23,24,25,26,27,37,],[9,9,9,33,34,9,9,]),'factor':([0,23,24,25,26,27,29,30,37,],[21,21,21,21,21,21,38,39,21,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,19 +27,64 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> assignments','program',1,'p_program','PLY_yacc.py',19),
-  ('assignments -> assignments assignment','assignments',2,'p_assignments_multiple','PLY_yacc.py',23),
-  ('assignments -> assignment','assignments',1,'p_assignments_single','PLY_yacc.py',27),
-  ('assignment -> ID EQUALS expression SEMICOLON','assignment',4,'p_assignment','PLY_yacc.py',31),
-  ('expression -> expression PLUS term','expression',3,'p_expression_plus','PLY_yacc.py',35),
-  ('expression -> expression MINUS term','expression',3,'p_expression_minus','PLY_yacc.py',39),
-  ('expression -> term','expression',1,'p_expression_term','PLY_yacc.py',43),
-  ('term -> term TIMES factor','term',3,'p_term_times','PLY_yacc.py',47),
-  ('term -> term DIVIDE factor','term',3,'p_term_div','PLY_yacc.py',51),
-  ('term -> factor','term',1,'p_term_factor','PLY_yacc.py',55),
-  ('factor -> INTEGER_TYPE','factor',1,'p_factor_num','PLY_yacc.py',59),
-  ('factor -> FLOAT_TYPE','factor',1,'p_factor_num','PLY_yacc.py',60),
-  ('factor -> DOUBLE_TYPE','factor',1,'p_factor_num','PLY_yacc.py',61),
-  ('factor -> DECIMAL_TYPE','factor',1,'p_factor_num','PLY_yacc.py',62),
-  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','PLY_yacc.py',66),
+  ('program -> body','program',1,'p_program','PLY_yacc.py',19),
+  ('body -> lines SEMICOLON','body',2,'p_body','PLY_yacc.py',23),
+  ('body -> lines SEMICOLON body','body',3,'p_body','PLY_yacc.py',24),
+  ('function -> modifier data_type ID LPAREN declaration RPAREN block','function',7,'p_funtion','PLY_yacc.py',27),
+  ('function -> modifier VOID ID LPAREN declaration RPAREN block','function',7,'p_funtion','PLY_yacc.py',28),
+  ('using -> USING CLASSOBJECT SEMICOLON','using',3,'p_using','PLY_yacc.py',31),
+  ('return -> RETURN ID','return',2,'p_return','PLY_yacc.py',34),
+  ('return -> RETURN type','return',2,'p_return','PLY_yacc.py',35),
+  ('type -> FLOAT_TYPE','type',1,'p_type','PLY_yacc.py',38),
+  ('type -> DOUBLE_TYPE','type',1,'p_type','PLY_yacc.py',39),
+  ('type -> DECIMAL_TYPE','type',1,'p_type','PLY_yacc.py',40),
+  ('type -> INTEGER_TYPE','type',1,'p_type','PLY_yacc.py',41),
+  ('block -> LBRACKET body RBRACKET','block',3,'p_block','PLY_yacc.py',44),
+  ('if -> IF LPAREN logical_expression RPAREN block','if',5,'p_if','PLY_yacc.py',47),
+  ('elseif -> if ELSE LBRACKET body RBRACKET','elseif',5,'p_elseif','PLY_yacc.py',50),
+  ('while_loop -> WHILE LPAREN logical_expression RPAREN block','while_loop',5,'p_while_loop','PLY_yacc.py',53),
+  ('logical_expression -> logical_expression logical_operator logical_factor','logical_expression',3,'p_logical_expression','PLY_yacc.py',56),
+  ('logical_expression -> logical_factor','logical_expression',1,'p_logical_expression','PLY_yacc.py',57),
+  ('logical_factor -> TRUE','logical_factor',1,'p_logical_factor','PLY_yacc.py',60),
+  ('logical_factor -> FALSE','logical_factor',1,'p_logical_factor','PLY_yacc.py',61),
+  ('logical_factor -> ID','logical_factor',1,'p_logical_factor','PLY_yacc.py',62),
+  ('logical_factor -> logical_expression','logical_factor',1,'p_logical_factor','PLY_yacc.py',63),
+  ('logical_operator -> OR','logical_operator',1,'p_logical_operator','PLY_yacc.py',66),
+  ('logical_operator -> AND','logical_operator',1,'p_logical_operator','PLY_yacc.py',67),
+  ('logical_operator -> NOT','logical_operator',1,'p_logical_operator','PLY_yacc.py',68),
+  ('logical_operator -> GREATER_THAN','logical_operator',1,'p_logical_operator','PLY_yacc.py',69),
+  ('logical_operator -> LESS_THAN','logical_operator',1,'p_logical_operator','PLY_yacc.py',70),
+  ('logical_operator -> GREATER_EQUALS_THAN','logical_operator',1,'p_logical_operator','PLY_yacc.py',71),
+  ('logical_operator -> LESS_EQUALS_THAN','logical_operator',1,'p_logical_operator','PLY_yacc.py',72),
+  ('class -> modifier CLASS CLASSOBJECT block','class',4,'p_class','PLY_yacc.py',75),
+  ('modifier -> PUBLIC','modifier',1,'p_modifier','PLY_yacc.py',78),
+  ('modifier -> PRIVATE','modifier',1,'p_modifier','PLY_yacc.py',79),
+  ('modifier -> PROTECTED','modifier',1,'p_modifier','PLY_yacc.py',80),
+  ('modifier -> INTERNAL','modifier',1,'p_modifier','PLY_yacc.py',81),
+  ('data_type -> INT','data_type',1,'p_data_type','PLY_yacc.py',84),
+  ('data_type -> FLOAT','data_type',1,'p_data_type','PLY_yacc.py',85),
+  ('data_type -> BOOL','data_type',1,'p_data_type','PLY_yacc.py',86),
+  ('data_type -> BYTE','data_type',1,'p_data_type','PLY_yacc.py',87),
+  ('data_type -> CHAR','data_type',1,'p_data_type','PLY_yacc.py',88),
+  ('data_type -> SBYTE','data_type',1,'p_data_type','PLY_yacc.py',89),
+  ('data_type -> DECIMAL','data_type',1,'p_data_type','PLY_yacc.py',90),
+  ('data_type -> DOUBLE','data_type',1,'p_data_type','PLY_yacc.py',91),
+  ('data_type -> LONG','data_type',1,'p_data_type','PLY_yacc.py',92),
+  ('data_type -> SHORT','data_type',1,'p_data_type','PLY_yacc.py',93),
+  ('data_type -> UINT','data_type',1,'p_data_type','PLY_yacc.py',94),
+  ('lines -> assignment','lines',1,'p_lines','PLY_yacc.py',98),
+  ('lines -> expression','lines',1,'p_lines','PLY_yacc.py',99),
+  ('lines -> declaration','lines',1,'p_lines','PLY_yacc.py',100),
+  ('assignment -> ID EQUALS expression','assignment',3,'p_assignment','PLY_yacc.py',104),
+  ('assignment -> data_type ID EQUALS expression','assignment',4,'p_assignment','PLY_yacc.py',105),
+  ('assignment -> ID EQUALS ID','assignment',3,'p_assignment','PLY_yacc.py',106),
+  ('declaration -> data_type ID','declaration',2,'p_declaration','PLY_yacc.py',109),
+  ('expression -> expression PLUS term','expression',3,'p_expression','PLY_yacc.py',112),
+  ('expression -> expression MINUS term','expression',3,'p_expression','PLY_yacc.py',113),
+  ('expression -> term','expression',1,'p_expression','PLY_yacc.py',114),
+  ('term -> term TIMES factor','term',3,'p_term','PLY_yacc.py',117),
+  ('term -> term DIVIDE factor','term',3,'p_term','PLY_yacc.py',118),
+  ('term -> factor','term',1,'p_term','PLY_yacc.py',119),
+  ('factor -> INTEGER_TYPE','factor',1,'p_factor_num','PLY_yacc.py',122),
+  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_num','PLY_yacc.py',123),
 ]

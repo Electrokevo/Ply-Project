@@ -14,6 +14,8 @@ reserved = {
    "new" : "NEW",
    "using" : "USING",
    "var" : "VAR",
+   "true" : "TRUE",
+   "false" : "FALSE",
    
    #Modificadores de acceso
    "public" : "PUBLIC",
