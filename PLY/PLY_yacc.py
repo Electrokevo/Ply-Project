@@ -237,8 +237,6 @@ def p_assignment(p):
         tabla_simbolos["variables"][nombre] = data
     else:
         archSemantico.write(f"Error de tipo: variable '{nombre}' declarada como '{tipado}' pero se asigna un valor de tipo '{data}'\n")
-    
-    print(tabla_simbolos)
 
 def p_assignment_untyped(p):
     '''assignment : ID EQUALS expression'''
