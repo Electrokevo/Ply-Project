@@ -105,12 +105,18 @@ def p_lines(p):
     | declaration
     | return'''
     p[0] = p[1]
+    
+def p_names(p):
+    '''names : ID
+            | CLASSOBJECT'''
+    p[0] = p[1]
 
 def p_funtion(p: yacc.YaccProduction):
-    '''function : modifier data_type ID LPAREN declarations RPAREN block
-                | modifier VOID ID LPAREN declarations RPAREN block
-                | modifier STATIC data_type ID LPAREN declarations RPAREN block
-                | modifier STATIC VOID ID LPAREN declarations RPAREN block'''
+    '''function : modifier data_type names LPAREN declarations RPAREN block
+                | modifier VOID names LPAREN declarations RPAREN block
+                | modifier STATIC data_type names LPAREN declarations RPAREN block
+                | modifier STATIC VOID names LPAREN declarations RPAREN block
+                | function body'''
     
     # Levin Moran
     if len(p) == 8:
@@ -121,7 +127,7 @@ def p_funtion(p: yacc.YaccProduction):
             p[0] = tipo_retorno
         else:   
             archSemantico.write(f"Error semántico: La función '{nombre}' ya está declarada \n")
-    else:
+    elif len(p) == 9:
         nombre = p[4]
         tipo_retorno = p[3]
         if nombre not in tabla_simbolos["variables"]:
@@ -129,11 +135,25 @@ def p_funtion(p: yacc.YaccProduction):
             p[0] = tipo_retorno
         else:   
             archSemantico.write(f"Error semántico: La función '{nombre}' ya está declarada \n")
-
+    else:
+        p[0] = p[1]
 
 def p_return(p):
     '''return : RETURN ID
-               | RETURN type'''
+               | RETURN type
+               | RETURN expression'''
+
+def p_function_call(p):
+    '''function_call : names LPAREN RPAREN
+                     | names LPAREN arguments RPAREN'''
+    
+def p_arguments(p):
+    '''arguments : expression
+                 | expression COMMA arguments
+                 | names
+                 | names COMMA arguments'''
+
+
 # End Kevin Mejia
 #Start_Levin Moran
 def p_lambda_function(p):
@@ -241,10 +261,45 @@ def p_assignment(p):
         archSemantico.write(f"Error de tipo: variable '{nombre}' declarada como '{tipado}' pero se asigna un valor de tipo '{data}'\n")
 
 def p_assignment_untyped(p):
-    '''assignment : ID EQUALS expression'''
+    '''assignment : ID EQUALS expression
+                | indexing EQUALS expression'''
+
+    nombre = p[1]
+    data = p[3]
+
+    if nombre not in tabla_simbolos["variables"]:
+        archSemantico.write(f"Error semántico: Variable '{nombre}' no declarada \n")
+    else:
+        tipado = tabla_simbolos["variables"][nombre]
+        if tipado == data:
+            tabla_simbolos["variables"][nombre] = data
+        else:
+            archSemantico.write(f"Error de tipo: variable '{nombre}' declarada como '{tipado}' pero se asigna un valor de tipo '{data}'\n")
+
+
+def p_assignment_plus_one(p):
+    '''assignment : ID PLUSONE'''
+    nombre = p[1]
+
+    if nombre not in tabla_simbolos["variables"]:
+        archSemantico.write(f"Error semántico: Variable '{nombre}' no declarada \n")
+    else:
+        tipado = tabla_simbolos["variables"][nombre]
+        numbers = ["int", "float", "double", "decimal"]
+        if tipado in numbers:
+            tabla_simbolos["variables"][nombre] = tipado
+        else:
+            archSemantico.write(f"Error de tipo: variable '{nombre}' de tipo '{tipado}' no puede ser incrementada \n")
 
 def p_assignment_class(p):
     '''assignment_class : CLASSOBJECT ID'''
+    nombre = p[2]
+    clase = p[1]
+
+    if nombre not in tabla_simbolos["variables"]:
+        tabla_simbolos["variables"][nombre] = clase
+    else:
+        archSemantico.write(f"Error semántico: La clase '{nombre}' ya está declarada \n")
 
 def p_expression(p):
     '''expression : expression PLUS term
@@ -286,7 +341,8 @@ def p_factor(p):
     | LPAREN expression RPAREN
     | object_access
     | ID
-    | indexing'''
+    | indexing
+    | function_call'''
     
     # Levin Moran
     if len(p) == 2:
@@ -333,7 +389,7 @@ def p_declarations(p):
     if len(p) == 2:
         p[0] = [p[1]]
     elif len(p) == 3:
-        p[0] = [p[1]] + "void"
+        p[0] = [p[1]] + ["void"]
     elif len(p) == 4:
         p[0] = [p[1]] + p[3]
 
@@ -381,7 +437,8 @@ def p_primitive(p):
 
 def p_indexing(p):
     '''indexing : ID LSQBRACKET INTEGER_TYPE RSQBRACKET
-    | ID LSQBRACKET ID RSQBRACKET'''
+    | ID LSQBRACKET ID RSQBRACKET
+    | ID LSQBRACKET expression RSQBRACKET'''
 # End Kevin Mejia
 
 
@@ -403,7 +460,7 @@ parser = yacc.yacc()
 
 
 buffer = ''''''
-archivo = open("./Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
+archivo = open("./Algorithms/SyntaxTests/QuickSort.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")

@@ -86,6 +86,7 @@ tokens = (
     "DIVIDE_EQUAL",
     "MODULE_EQUAL",
     "ARROW",
+    "PLUSONE",
 ) + tuple(reserved.values())
 
 # Ignorar comentarios de línea
@@ -128,6 +129,7 @@ t_TIMES_EQUAL = r'\*='
 t_DIVIDE_EQUAL = r'/='
 t_MODULE_EQUAL = r'%='
 t_ARROW = r'=>'
+t_PLUSONE = r'\+\+'
 #End_Kevin Mejia
 
 
