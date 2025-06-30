@@ -1,0 +1,2 @@
+Syntax error at token PLUS, value '+'
+Syntax error at token INTEGER_TYPE, value '1'

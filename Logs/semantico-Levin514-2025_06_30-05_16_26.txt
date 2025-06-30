@@ -1,0 +1,8 @@
+Error de tipo: variable 'pivot' declarada como 'int' pero se asigna un valor de tipo 'None'
+Error semántico: Variable 'low' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error de tipo: variable 'i' declarada como 'int' pero se asigna un valor de tipo 'None'
+Error semántico: Variable 'low' no declarada 
+Error de tipo: variable 'j' declarada como 'int' pero se asigna un valor de tipo 'None'
+Error semántico: Variable 'j' no declarada 
+pi, int  
