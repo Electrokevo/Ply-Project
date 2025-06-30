@@ -11,7 +11,12 @@ usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
 nombreArchivo = f"sintactico-{usuarioGit}-{fechaHora}.txt"
 rutaArchivo = f"./Logs/{nombreArchivo}"
+
+nombreArchivoSemantico = f"semantico-{usuarioGit}-{fechaHora}.txt"
+rutaArchivoSemantico = f"./Logs/{nombreArchivoSemantico}"
+
 arch = open(rutaArchivo, "w", encoding="UTF-8")
+archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")
 #End_Levin Moran
 
 #reglas en minúscula y tokens en mayúscula
@@ -28,7 +33,8 @@ arch = open(rutaArchivo, "w", encoding="UTF-8")
 tabla_simbolos = {
     "variables" : {},
     "tipos": {
-        "string-func": ["ToUpper", "ToLower", "Length"]
+        "string-func": ["ToUpper", "ToLower"],
+        "array-func": ["Length"]
     }
 }
 
@@ -60,6 +66,25 @@ def p_object_access(p):
     | ID DOT CLASSOBJECT
     | CLASSOBJECT DOT ID'''
 
+    nombre = p[1]
+    metodo = p[3]
+
+    if nombre not in tabla_simbolos["variables"]:
+        archSemantico.write(f"Error semántico: El objeto '{nombre}' no está declarado \n")
+    elif metodo in tabla_simbolos["tipos"]["string-func"]:
+        p[0] = "str"
+    elif metodo in tabla_simbolos["tipos"]["array-func"]:
+        p[0] = "int"
+    elif metodo in tabla_simbolos["variables"]:
+        p[0] = tabla_simbolos["variables"][metodo]
+    elif metodo not in tabla_simbolos["variables"]:
+        archSemantico.write(f"Error semántico: El método '{metodo}' no está declarado \n")
+    else:
+        archSemantico.write(f"Error semántico: El método '{metodo}' no es parte de las funciones permitidas \n")
+
+
+    
+        
 def p_block(p):
     '''block : LBRACKET body RBRACKET'''
     p[0] = p[1]
@@ -85,6 +110,24 @@ def p_funtion(p: yacc.YaccProduction):
                 | modifier VOID ID LPAREN declarations RPAREN block
                 | modifier STATIC data_type ID LPAREN declarations RPAREN block
                 | modifier STATIC VOID ID LPAREN declarations RPAREN block'''
+    
+    if len(p) == 8:
+        nombre = p[3]
+        tipo_retorno = p[2]
+        if nombre not in tabla_simbolos["variables"]:
+            tabla_simbolos["variables"][nombre] = tipo_retorno
+            p[0] = tipo_retorno
+        else:   
+            archSemantico.write(f"Error semántico: La función '{nombre}' ya está declarada \n")
+    else:
+        nombre = p[4]
+        tipo_retorno = p[3]
+        if nombre not in tabla_simbolos["variables"]:
+            tabla_simbolos["variables"][nombre] = tipo_retorno
+            p[0] = tipo_retorno
+        else:   
+            archSemantico.write(f"Error semántico: La función '{nombre}' ya está declarada \n")
+
 
 def p_return(p):
     '''return : RETURN ID
@@ -189,7 +232,12 @@ def p_assignment(p):
     nombre = p[2]
     tipado = p[1]
     data = p[4]
-    tabla_simbolos["variables"][nombre] = data
+
+    if tipado == data:
+        tabla_simbolos["variables"][nombre] = data
+    else:
+        archSemantico.write(f"Error de tipo: variable '{nombre}' declarada como '{tipado}' pero se asigna un valor de tipo '{data}'\n")
+    
     print(tabla_simbolos)
 
 def p_assignment_untyped(p):
@@ -203,16 +251,35 @@ def p_expression(p):
     | expression MINUS term
     | term'''
 
+
+    # Levin Moran
+    numbers = ["int", "float", "double", "decimal"]
     if len(p) == 2:
-        p[0] = p[1] 
+        p[0] = p[1]
+    else:
+        if p[1] in numbers and p[3] in numbers:
+            if p[1] == p[3]:
+                p[0] = p[3]
+        else:
+            archSemantico.write(f"Error de tipo: operación entre '{p[1]}' y '{p[3]}' no permitida \n")
+
 
 def p_term(p):
     '''term : term TIMES factor
     | term DIVIDE factor
     | factor'''
-    
+
+    # Levin Moran
+    numbers = ["int", "float", "double", "decimal"]
     if len(p) == 2:
         p[0] = p[1]
+    else:
+        if p[1] in numbers and p[3] in numbers:
+            if p[1] == p[3]:
+                p[0] = p[3]
+        else:
+            archSemantico.write(f"Error de tipo: operación entre '{p[1]}' y '{p[3]}' no permitida \n")
+    
 
 def p_factor(p):
     '''factor : type
@@ -221,8 +288,15 @@ def p_factor(p):
     | ID
     | indexing'''
     
+    # Levin Moran
     if len(p) == 2:
-        p[0] = p[1]
+        if p.slice[1].type == "ID":
+            if p[1] in tabla_simbolos["variables"]:
+                p[0] = tabla_simbolos["variables"][p[1]]
+            else:
+                archSemantico.write(f"Error semántico: Variable '{p[1]}' no declarada \n")
+        else:
+            p[0] = p[1]
     else:
         p[0] = p[2]
 
@@ -235,6 +309,8 @@ def p_type(p):
     | INTEGER_TYPE
     | MINUS type'''
 
+    # Levin Moran
+    
     if isinstance(p[1], int):
         p[0] = "int"
     elif isinstance(p[1], float) and p.slice[1].type == "DOUBLE_TYPE":
@@ -253,8 +329,25 @@ def p_declarations(p):
     | declaration COMMA
     | declaration COMMA declarations'''
 
+    # Levin Moran
+    if len(p) == 2:
+        p[0] = [p[1]]
+    elif len(p) == 3:
+        p[0] = [p[1]] + "void"
+    elif len(p) == 4:
+        p[0] = [p[1]] + p[3]
+
 def p_declaration(p):
     '''declaration : data_type ID'''
+
+    nombre = p[2]
+    tipado = p[1]
+
+    if nombre not in tabla_simbolos["variables"]:
+        tabla_simbolos["variables"][nombre] = tipado
+        p[0] = tipado
+    else:
+        archSemantico.write(f"Error semántico: La variable '{nombre}' ya está declarada \n")
 
 def p_modifier(p):
     '''modifier : PUBLIC 
@@ -265,6 +358,9 @@ def p_modifier(p):
 def p_data_type(p):
     ''' data_type : primitive
     | data_structure'''
+
+    #Levin Moran
+    p[0] = p[1]
 
 def p_primitive(p):
     '''primitive : INT 
@@ -278,6 +374,9 @@ def p_primitive(p):
     | LONG 
     | SHORT 
     | UINT'''
+
+    #Levin Moran
+    p[0] = p[1]
 
 
 def p_indexing(p):
@@ -313,9 +412,14 @@ archivo.close()
 
 
 asignaciones = parser.parse(buffer)
-for asignacion in asignaciones:
-    arch.write(f"Asignación correcta: {asignacion}\n")
-arch.close()
 
+'''for asignacion in asignaciones:
+    arch.write(f"Asignación correcta: {asignacion} \n")'''
+
+for var, tipo in tabla_simbolos["variables"].items():
+    archSemantico.write(f"{var}, {tipo}  \n")
+
+arch.close()
+archSemantico.close()
 
 #End_Levin Moran
