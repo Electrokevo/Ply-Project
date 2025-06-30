@@ -10,7 +10,7 @@ from datetime import datetime
 usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
 nombreArchivo = f"sintactico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivo = f"../Logs/{nombreArchivo}"
+rutaArchivo = f"./Logs/{nombreArchivo}"
 arch = open(rutaArchivo, "w", encoding="UTF-8")
 #End_Levin Moran
 
@@ -108,17 +108,7 @@ def p_console_readline(p):
 
 #END_Levin Moran
 
-# Start Kevin Mejia
-# Modified by Levin Moran
-def p_type(p):
-    '''type : FLOAT_TYPE
-    | DOUBLE_TYPE
-    | DECIMAL_TYPE
-    | INTEGER_TYPE
-    | MINUS FLOAT_TYPE
-    | MINUS DOUBLE_TYPE
-    | MINUS DECIMAL_TYPE
-    | MINUS INTEGER_TYPE'''
+# Start Kevin Mejia   
 
 # Modified by Levin Moran
 def p_if(p):
@@ -193,9 +183,70 @@ def p_data_structure_array(p):
     | CLASSOBJECT LSQBRACKET RSQBRACKET'''
 
 def p_assignment(p):
-    '''assignment : ID EQUALS expression
-                  | data_type ID EQUALS expression
-                  | CLASSOBJECT ID'''
+    '''assignment : data_type ID EQUALS expression'''
+    
+    #Levin Moran
+    nombre = p[2]
+    tipado = p[1]
+    data = p[4]
+    tabla_simbolos["variables"][nombre] = data
+    print(tabla_simbolos)
+
+def p_assignment_untyped(p):
+    '''assignment : ID EQUALS expression'''
+
+def p_assignment_class(p):
+    '''assignment_class : CLASSOBJECT ID'''
+
+def p_expression(p):
+    '''expression : expression PLUS term
+    | expression MINUS term
+    | term'''
+
+    if len(p) == 2:
+        p[0] = p[1] 
+
+def p_term(p):
+    '''term : term TIMES factor
+    | term DIVIDE factor
+    | factor'''
+    
+    if len(p) == 2:
+        p[0] = p[1]
+
+def p_factor(p):
+    '''factor : type
+    | LPAREN expression RPAREN
+    | object_access
+    | ID
+    | indexing'''
+    
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = p[2]
+
+# Start Kevin Mejia   
+# Modified by Levin Moran
+def p_type(p):
+    '''type : FLOAT_TYPE
+    | DOUBLE_TYPE
+    | DECIMAL_TYPE
+    | INTEGER_TYPE
+    | MINUS type'''
+
+    if isinstance(p[1], int):
+        p[0] = "int"
+    elif isinstance(p[1], float) and p.slice[1].type == "DOUBLE_TYPE":
+        p[0] = "double"
+    elif isinstance(p[1], float) and p.slice[1].type == "DECIMAL_TYPE":
+        p[0] = "decimal"
+    elif isinstance(p[1], float):
+        p[0] = "float"
+    elif p.slice[1].type == "MINUS":
+        p[0] = p[2]
+        
+# End Kevin Mejia
 
 def p_declarations(p):
     '''declarations : declaration
@@ -204,34 +255,6 @@ def p_declarations(p):
 
 def p_declaration(p):
     '''declaration : data_type ID'''
-
-def p_expression(p):
-    '''expression : expression PLUS term
-    | expression MINUS term
-    | term'''
-
-def p_term(p):
-    '''term : term TIMES factor
-    | term DIVIDE factor
-    | factor'''
-    # if (len(p) == 4):
-    #     if (p[2] == '*'):
-    #         p[0] = p[1] * p[3]
-    #     elif (p[2] == '/'):
-    #         p[0] = p[1] / p[3]
-    # else:
-    #     p[0] = p[1]
-
-def p_factor(p):
-    '''factor : type
-    | LPAREN expression RPAREN
-    | object_access
-    | ID
-    | indexing'''
-    if (len(p) == 4):
-        p[0] = [2]
-    else :
-        p[0] = [1]
 
 def p_modifier(p):
     '''modifier : PUBLIC 
@@ -281,7 +304,7 @@ parser = yacc.yacc()
 
 
 buffer = ''''''
-archivo = open("../Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
+archivo = open("./Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")
