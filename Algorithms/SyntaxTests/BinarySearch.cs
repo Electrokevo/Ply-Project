@@ -1,4 +1,6 @@
-﻿namespace Algorithms;
+﻿using System;
+
+namespace Algorithms;
 
 public class BinarySearch
 {

@@ -1,0 +1,6 @@
+Semantic error: The expression between parenthesis result in Nonearray, int  
+target, int  
+left, int  
+right, int  
+mid, int  
+search, int  

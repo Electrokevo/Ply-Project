@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>028a2cc2-a085-4e45-8da1-bd8b4a67f588</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>PLY.py</StartupFile>
+    <StartupFile>PLY_yacc.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

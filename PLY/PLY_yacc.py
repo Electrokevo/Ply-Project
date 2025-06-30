@@ -11,10 +11,10 @@ from datetime import datetime
 usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
 nombreArchivo = f"sintactico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivo = f"./Logs/{nombreArchivo}"
+rutaArchivo = f"../Logs/{nombreArchivo}"
 
 nombreArchivoSemantico = f"semantico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivoSemantico = f"./Logs/{nombreArchivoSemantico}"
+rutaArchivoSemantico = f"../Logs/{nombreArchivoSemantico}"
 
 arch = open(rutaArchivo, "w", encoding="UTF-8")
 archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")
@@ -106,11 +106,16 @@ def p_lines(p):
     | return'''
     p[0] = p[1]
 
+def p_names(p):
+    '''names : ID
+    | CLASSOBJECT'''
+    p[0] = p[1]
+
 def p_funtion(p: yacc.YaccProduction):
-    '''function : modifier data_type ID LPAREN declarations RPAREN block
-                | modifier VOID ID LPAREN declarations RPAREN block
-                | modifier STATIC data_type ID LPAREN declarations RPAREN block
-                | modifier STATIC VOID ID LPAREN declarations RPAREN block'''
+    '''function : modifier data_type names LPAREN declarations RPAREN block
+                | modifier VOID names LPAREN declarations RPAREN block
+                | modifier STATIC data_type names LPAREN declarations RPAREN block
+                | modifier STATIC VOID names LPAREN declarations RPAREN block'''
     
     if len(p) == 8:
         nombre = p[3]
@@ -193,46 +198,60 @@ def p_loop_for(p):
 #End_Levin Moran
 
 # Start Kevin Mejia
-def p_while_loop(p):
+def p_while_loop(p: yacc.Production):
     '''while_loop : WHILE LPAREN logical_expression RPAREN block
     | WHILE LPAREN logical_expression RPAREN block body'''
     #start kevin mejia
     if p[3] == "bool":
-        p[0] = True
+        p[0] = p[3]
     else:
-        print(f"Semantic error: The expression between parenthesis doesn't result in a boolean'")
+        archSemantico.write(f"Semantic error: The expression between parenthesis result in {p[3]}")
     #end kevin mejia
 
 def p_logical_expression(p):
-    '''logical_expression : logical_expression logical_operator logical_factor
+    '''logical_expression : logical_factor logical_operator logical_expression
+    | logical_expression logical_operator logical_expression
     | logical_factor'''
     #start kevin mejia
-    if len(p == 1):
+    if len(p) == 2:
         p[0] = p[1]
     else:
-        operator = p[3]
+        operator = p[2]
         if operator == "||" or operator == "&&":
             type1 = p[1]
-            type2 = p[4]
+            type2 = p[3]
             if type1 != "bool":
-                print(f"Semantic error: Type {type1} is not allow with operator {operator}")
+                archSemantico.write(f"Semantic error: Type {type1} is not allow with operator {operator}\n")
             elif type2 != "bool":
-                print(f"Semantic error: Type {type2} is not allow with operator {operator}")
+                archSemantico.write(f"Semantic error: Type {type2} is not allow with operator {operator}\n")
             else:
                 p[0] == "bool"
         elif operator == ">" or operator == ">=" or operator == "<" or operator == "<=":
             allowed_types = ["int", "float", "double", "decimal", "short", "long", "byte"]
             type1 = p[1]
-            type2 = p[4]
+            type2 = p[3]
             if type1 not in allowed_types:
-                print(f"Semantic error: Type {type1} is not allow with operator {operator}")
+                archSemantico.write(f"Semantic error: Type {type1} is not allow with operator {operator}\n")
             elif type2 not in allowed_types:
-                print(f"Semantic error: Type {type2} is not allow with operator {operator}")
+                archSemantico.write(f"Semantic error: Type {type2} is not allow with operator {operator}\n")
             else:
                 p[0] == "bool"
+        elif operator == "==":
+            allowed_types = ["int", "float", "double", "decimal", "short", "long", "byte"]
+            type1 = p[1]
+            type2 = p[3]
+            if type1 in allowed_types and type2 in allowed_types:
+                p[0] = "bool"
+            elif type1 == "string" and type2 == "string":
+                p[0] = "bool"
+            elif type1 == "bool" and type2 == "bool":
+                p[0] = "bool"
+            else:
+                archSemantico.write(f"Semantic error: Type {type1} and type {type2} cannot use operator {operator}\n")
         else:
-            print(f"Semantic error: Operator {operator} isn't recognize'")
+            archSemantico.write(f"Semantic error: Operator {operator} isn't recognize\n")
     #end kevin mejia
+
 def p_logical_factor(p):
     '''logical_factor : TRUE
     | FALSE
@@ -243,22 +262,23 @@ def p_logical_factor(p):
     | LPAREN logical_expression RPAREN'''
     #start kevin mejia
     if len(p) == 4:
-        p[0] = p[3]
+        p[0] = p[2]
     else:
         type = p[1]
-        if isinstance(type, bool):
-            p[0] = "bool"
-        elif isinstance(type, int):
-            p[0] = "int"
-        elif isinstance(type, float):
-            p[0] = "float"
-        elif isinstance(type, str):
-            p[0] = "str"
-        elif p[1] in tabla_simbolos:
+        if type in tabla_simbolos["variables"]:
             p[0] = tabla_simbolos["variables"][p[1]]
+        elif isinstance(type, bool) or type == "bool":
+            p[0] = "bool"
+        elif isinstance(type, int) or type == "int":
+            p[0] = "int"
+        elif isinstance(type, float) or type == "float":
+            p[0] = "float"
+        elif isinstance(type, str) or type == "string":
+            p[0] = "string"
         else:
-            print(f"Semantic error: no se cual pero error")
+            print(f"Semantic error: type {type} not recognized\n")
     #end kevin mejia
+
 def p_logical_operator(p):
     '''logical_operator : OR
     | AND
@@ -268,21 +288,25 @@ def p_logical_operator(p):
     | GREATER_EQUALS_THAN
     | LESS_EQUALS_THAN
     | EQUALITY'''
+    p[0] = p[1]
 # End Kevin Mejia
 
 #Start_Levin Moran
 def p_data_structure(p):
     '''data_structure : data_structure_list
                       | data_structure_array'''
+    p[0] = p[1]
 
 def p_data_structure_list(p):   
     '''data_structure_list : LIST LESS_THAN data_type GREATER_THAN ID LSQBRACKET type RSQBRACKET'''
+    p[0] = p[3]
 #End_Levin Moran
 
 # Start Kevin Mejia
 def p_data_structure_array(p):
     '''data_structure_array : primitive LSQBRACKET RSQBRACKET
     | CLASSOBJECT LSQBRACKET RSQBRACKET'''
+    p[0] = p[1]
 
 def p_assignment(p):
     '''assignment : data_type ID EQUALS expression'''
@@ -411,11 +435,11 @@ def p_modifier(p):
     | PRIVATE 
     | PROTECTED 
     | INTERNAL'''
+    p[0] = p[1]
 
 def p_data_type(p):
     ''' data_type : primitive
     | data_structure'''
-
     #Levin Moran
     p[0] = p[1]
 
@@ -446,12 +470,12 @@ def p_indexing(p):
     elif p[3] in tabla_simbolos["variables"]:
         tipo = tabla_simbolos["variables"][p[3]]
         if tipo != "int":
-            print(f"Semantic error: {p[3]} isn't an integer type.'")
+            archSemantico.write(f"Semantic error: {p[3]} isn't an integer type.\n")
         else:
             #Lo mismo de arriba pero ahora con variable
-            p[0] = tabla_simbolos["variables"][p[0]]
+            p[0] = tabla_simbolos["variables"][p[1]]
     else:
-         print(f"Semantic error: {p[3]} isn't an integer type.'")
+         archSemantico.write(f"Semantic error: {p[3]} isn't an integer type.\n")
     #end kevin mejia
 # End Kevin Mejia
 
@@ -474,7 +498,7 @@ parser = yacc.yacc()
 
 
 buffer = ''''''
-archivo = open("./Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
+archivo = open("../Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")
