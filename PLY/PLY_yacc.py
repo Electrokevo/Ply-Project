@@ -66,6 +66,7 @@ def p_object_access(p):
     | ID DOT CLASSOBJECT
     | CLASSOBJECT DOT ID'''
 
+    # Levin Moran
     nombre = p[1]
     metodo = p[3]
 
@@ -111,6 +112,7 @@ def p_funtion(p: yacc.YaccProduction):
                 | modifier STATIC data_type ID LPAREN declarations RPAREN block
                 | modifier STATIC VOID ID LPAREN declarations RPAREN block'''
     
+    # Levin Moran
     if len(p) == 8:
         nombre = p[3]
         tipo_retorno = p[2]
