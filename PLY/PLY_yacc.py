@@ -1,3 +1,4 @@
+import operator
 import ply.lex as lex
 import ply.yacc as yacc
 from PLY_tokens import *
@@ -126,11 +127,20 @@ def p_if(p):
     | IF LPAREN logical_expression RPAREN block body
     | IF LPAREN logical_expression RPAREN block elseif
     | IF LPAREN logical_expression RPAREN block else'''
+    if p[3] == "bool":
+        p[0] = p[3]
+    else:
+        print(f"Semantic error: The expression between parenthesis doesn't result in a boolean'")
+
 
 def p_elseif(p):
     '''elseif : ELSE IF LPAREN logical_expression RPAREN block
     | ELSE IF LPAREN logical_expression RPAREN block elseif
     | ELSE IF LPAREN logical_expression RPAREN block else'''
+    if p[4] == "bool":
+        p[0] = p[3]
+    else:
+        print(f"Semantic error: The expression between parenthesis doesn't result in a boolean'")
 
 # Modified by Levin Moran
 def p_else(p):
@@ -153,11 +163,43 @@ def p_loop_for(p):
 def p_while_loop(p):
     '''while_loop : WHILE LPAREN logical_expression RPAREN block
     | WHILE LPAREN logical_expression RPAREN block body'''
+    #start kevin mejia
+    if p[3] == "bool":
+        p[0] = True
+    else:
+        print(f"Semantic error: The expression between parenthesis doesn't result in a boolean'")
+    #end kevin mejia
 
 def p_logical_expression(p):
     '''logical_expression : logical_expression logical_operator logical_factor
     | logical_factor'''
-
+    #start kevin mejia
+    if len(p == 1):
+        p[0] = p[1]
+    else:
+        operator = p[3]
+        if operator == "||" or operator == "&&":
+            type1 = p[1]
+            type2 = p[4]
+            if type1 != "bool":
+                print(f"Semantic error: Type {type1} is not allow with operator {operator}")
+            elif type2 != "bool":
+                print(f"Semantic error: Type {type2} is not allow with operator {operator}")
+            else:
+                p[0] == "bool"
+        elif operator == ">" or operator == ">=" or operator == "<" or operator == "<=":
+            allowed_types = ["int", "float", "double", "decimal", "short", "long", "byte"]
+            type1 = p[1]
+            type2 = p[4]
+            if type1 not in allowed_types:
+                print(f"Semantic error: Type {type1} is not allow with operator {operator}")
+            elif type2 not in allowed_types:
+                print(f"Semantic error: Type {type2} is not allow with operator {operator}")
+            else:
+                p[0] == "bool"
+        else:
+            print(f"Semantic error: Operator {operator} isn't recognize'")
+    #end kevin mejia
 def p_logical_factor(p):
     '''logical_factor : TRUE
     | FALSE
@@ -166,7 +208,24 @@ def p_logical_factor(p):
     | type
     | object_access
     | LPAREN logical_expression RPAREN'''
-
+    #start kevin mejia
+    if len(p) == 4:
+        p[0] = p[3]
+    else:
+        type = p[1]
+        if isinstance(type, bool):
+            p[0] = "bool"
+        elif isinstance(type, int):
+            p[0] = "int"
+        elif isinstance(type, float):
+            p[0] = "float"
+        elif isinstance(type, str):
+            p[0] = "str"
+        elif p[1] in tabla_simbolos:
+            p[0] = tabla_simbolos["variables"][p[1]]
+        else:
+            print(f"Semantic error: no se cual pero error")
+    #end kevin mejia
 def p_logical_operator(p):
     '''logical_operator : OR
     | AND
@@ -260,6 +319,20 @@ def p_primitive(p):
 def p_indexing(p):
     '''indexing : ID LSQBRACKET INTEGER_TYPE RSQBRACKET
     | ID LSQBRACKET ID RSQBRACKET'''
+    #start kevin mejia
+    if isinstance(p[3], int):
+        #Se devuelve p[0] porque nos interesa el tipo de dato de la lista, dado que p[3] ya sabemos que es int
+         p[0] = tabla_simbolos["variables"][p[1]]
+    elif p[3] in tabla_simbolos["variables"]:
+        tipo = tabla_simbolos["variables"][p[3]]
+        if tipo != "int":
+            print(f"Semantic error: {p[3]} isn't an integer type.'")
+        else:
+            #Lo mismo de arriba pero ahora con variable
+            p[0] = tabla_simbolos["variables"][p[0]]
+    else:
+         print(f"Semantic error: {p[3]} isn't an integer type.'")
+    #end kevin mejia
 # End Kevin Mejia
 
 
