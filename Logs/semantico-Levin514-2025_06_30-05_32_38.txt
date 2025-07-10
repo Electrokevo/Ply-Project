@@ -1,0 +1,6 @@
+array, None  
+target, int  
+left, int  
+right, int  
+mid, int  
+search, int  

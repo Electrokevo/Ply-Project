@@ -1,0 +1,16 @@
+Error de tipo: variable 'pi' declarada como 'int' pero se asigna un valor de tipo 'None'
+Error semántico: Variable 'pi' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error semántico: Variable 'pi' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error semántico: La variable 'arr' ya está declarada 
+Error semántico: La variable 'low' ya está declarada 
+Error semántico: La variable 'high' ya está declarada 
+Error de tipo: variable 'pivot' declarada como 'int' pero se asigna un valor de tipo 'None'
+Error de tipo: variable 'j' declarada como 'int' pero se asigna un valor de tipo 'None'
+arr, None  
+low, int  
+high, int  
+Sort, void  
+i, int  
+j, int  
