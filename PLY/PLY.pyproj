@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>028a2cc2-a085-4e45-8da1-bd8b4a67f588</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>PLY_yacc.py</StartupFile>
+    <StartupFile>frontend.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,10 +21,17 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="frontend.py" />
     <Compile Include="PLY.py" />
     <Compile Include="PLY_functions.py" />
     <Compile Include="PLY_tokens.py" />
     <Compile Include="PLY_yacc.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
