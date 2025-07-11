@@ -87,6 +87,7 @@ tokens = (
     "MODULE_EQUAL",
     "ARROW",
     "PLUSONE",
+    "DIFFERENT",
 ) + tuple(reserved.values())
 
 # Ignorar comentarios de línea
@@ -130,6 +131,7 @@ t_DIVIDE_EQUAL = r'/='
 t_MODULE_EQUAL = r'%='
 t_ARROW = r'=>'
 t_PLUSONE = r'\+\+'
+t_DIFFERENT = r'!='
 #End_Kevin Mejia
 
 

@@ -9,7 +9,7 @@ from datetime import datetime
 usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
 nombreArchivo = f"lexic-{usuarioGit}-{fechaHora}.txt"
-rutaArchivo = f"../Logs/{nombreArchivo}"
+rutaArchivo = f"./Logs/{nombreArchivo}"
 #End_Levin Moran
 
 # Build the lexer
@@ -18,7 +18,7 @@ lexer = lex.lex()
 #Lectura del archivo a tokenizar
 #Start_Levin Moran
 buffer = ''''''
-archivo = open("../Algorithms/LexicTests/BinarySearch.cs", "r", encoding="UTF-8")
+archivo = open("./Algorithms/LexicTests/BinarySearch.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")

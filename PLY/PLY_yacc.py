@@ -11,10 +11,10 @@ from datetime import datetime
 usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
 nombreArchivo = f"sintactico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivo = f"../Logs/{nombreArchivo}"
+rutaArchivo = f"./Logs/{nombreArchivo}"
 
 nombreArchivoSemantico = f"semantico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivoSemantico = f"../Logs/{nombreArchivoSemantico}"
+rutaArchivoSemantico = f"./Logs/{nombreArchivoSemantico}"
 
 arch = open(rutaArchivo, "w", encoding="UTF-8")
 archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")
@@ -224,6 +224,7 @@ def p_while_loop(p: yacc.Production):
     '''while_loop : WHILE LPAREN logical_expression RPAREN block
     | WHILE LPAREN logical_expression RPAREN block body'''
     #start kevin mejia
+    boolean = p[3]
     if p[3] == "bool":
         p[0] = p[3]
     else:
@@ -309,7 +310,8 @@ def p_logical_operator(p):
     | LESS_THAN
     | GREATER_EQUALS_THAN
     | LESS_EQUALS_THAN
-    | EQUALITY'''
+    | EQUALITY
+    | DIFFERENT'''
     p[0] = p[1]
 # End Kevin Mejia
 
@@ -557,7 +559,7 @@ parser = yacc.yacc()
 
 
 buffer = ''''''
-archivo = open("../Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
+archivo = open("./Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")
