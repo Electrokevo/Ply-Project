@@ -1,6 +1,35 @@
 ﻿import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+from tkinter import filedialog as fd
+
+def open_cs_file():
+    # file type
+    filetypes = (
+        ('text files', '*.cs'),
+    )
+    f = fd.askopenfile(filetypes=filetypes)
+    code_text.delete('1.0', tk.END)
+    code_text.insert('1.0', f.read())
+
+
+def validar_todo():
+    validar_lexico()
+    validar_sintaxis()
+    validar_semantica()
+
+#pasar codigo al ply y conectar la salida de los logs con 'console_text'
+def validar_lexico():
+    code = code_text.get('1.0', tk.END)
+    pass
+
+def validar_sintaxis():
+    code = code_text.get('1.0', tk.END)
+    pass
+
+def validar_semantica():
+    code = code_text.get('1.0', tk.END)
+    pass
 
 # ---------- Setup ----------
 root = tk.Tk()
@@ -32,9 +61,20 @@ logo_label.image = logo_photo
 logo_label.pack(pady=20)
 
 # Sidebar buttons
-for text in ["Validar todo", "Lexico", "Sintaxis", "Semantica", "Subir archivo"]:
-    btn = ttk.Button(sidebar, text=text, style="TButton")
-    btn.pack(fill=tk.X, padx=10, pady=5)
+btn = ttk.Button(sidebar, text="Todo", command=validar_todo, style="TButton")
+btn.pack(fill=tk.X, padx=10, pady=5)
+
+btn = ttk.Button(sidebar, text="Lexico", command=validar_lexico, style="TButton")
+btn.pack(fill=tk.X, padx=10, pady=5)
+
+btn = ttk.Button(sidebar, text="Sintaxis", command=validar_sintaxis, style="TButton")
+btn.pack(fill=tk.X, padx=10, pady=5)
+
+btn = ttk.Button(sidebar, text="Semantica", command=validar_semantica, style="TButton")
+btn.pack(fill=tk.X, padx=10, pady=5)
+
+btn = ttk.Button(sidebar, text="Subir archivo", command=open_cs_file, style="TButton")
+btn.pack(fill=tk.X, padx=10, pady=5)
 
 # ---------- Main Frame ----------
 main_frame = ttk.Frame(root)
@@ -52,7 +92,7 @@ code_text = tk.Text(code_frame, wrap="none", bg="#1e1e1e", fg="#eeeeee", insertb
 code_text.pack(fill=tk.BOTH, expand=True)
 
 #TODO: LEER ARCHIVO CS Y REEMPLAZAR TEXTO CON EL DEL ARCHIVO
-sample_code = '''using System;
+code = '''using System;
 Console.WriteLine("Hello World");
 int i = 2 + 2;
 if (i >= 20 || i < 5)
@@ -65,7 +105,7 @@ else
     string jeje = "";
 }
 '''
-code_text.insert("1.0", sample_code)
+code_text.insert("1.0", code)
 
 # ---------- Console ----------
 console_frame = ttk.Frame(main_frame)
