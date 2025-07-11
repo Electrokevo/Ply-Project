@@ -248,7 +248,7 @@ def p_logical_expression(p):
             elif type2 != "bool":
                 archSemantico.write(f"Semantic error: Type {type2} is not allow with operator {operator}\n")
             else:
-                p[0] == "bool"
+                p[0] = "bool"
         elif operator == ">" or operator == ">=" or operator == "<" or operator == "<=":
             allowed_types = ["int", "float", "double", "decimal", "short", "long", "byte"]
             type1 = p[1]
@@ -258,8 +258,8 @@ def p_logical_expression(p):
             elif type2 not in allowed_types:
                 archSemantico.write(f"Semantic error: Type {type2} is not allow with operator {operator}\n")
             else:
-                p[0] == "bool"
-        elif operator == "==":
+                p[0] = "bool"
+        elif operator == "==" or operator == "!=":
             allowed_types = ["int", "float", "double", "decimal", "short", "long", "byte"]
             type1 = p[1]
             type2 = p[3]
