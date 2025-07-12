@@ -34,7 +34,7 @@ def validar_lexico():
 def validar_sintaxis():
     console_text.delete('1.0', tk.END)
     code = code_text.get('1.0', tk.END)
-    parser.parse(code)
+    write_sintactic_logs(code)
     arch = open(rutaArchivo, "r", encoding="UTF-8")
     logs = arch.read()
     console_text.insert('1.0', logs)
@@ -43,7 +43,7 @@ def validar_sintaxis():
 def validar_semantica():
     console_text.delete('1.0', tk.END)
     code = code_text.get('1.0', tk.END)
-    parser.parse(code)
+    write_semantic_logs(code)
     archSemantico = open(rutaArchivoSemantico, "r", encoding="UTF-8")
     logs = archSemantico.read()
     console_text.insert('1.0', logs)

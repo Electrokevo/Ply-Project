@@ -37,16 +37,21 @@ def write_lexic_logs(code):
     archivo.close()
 
 def write_sintactic_logs(code):
+    global arch
     arch = open(rutaArchivo, "w", encoding="UTF-8")
     parser.parse(code)
     arch.close()
 
 def write_semantic_logs(code):
+    global archSemantico
     archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")
+    global arch
+    arch = open(rutaArchivo, "w", encoding="UTF-8")
     parser.parse(code)
     for var, tipo in tabla_simbolos["variables"].items():
         archSemantico.write(f"{var}, {tipo}  \n")
     archSemantico.close()
+    arch.close()
 
 
 
