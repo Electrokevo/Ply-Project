@@ -15,12 +15,6 @@ def open_cs_file():
     code_text.delete('1.0', tk.END)
     code_text.insert('1.0', f.read())
 
-
-def validar_todo():
-    validar_lexico()
-    validar_sintaxis()
-    validar_semantica()
-
 #pasar codigo al ply y conectar la salida de los logs con 'console_text'
 def validar_lexico():
     console_text.delete('1.0', tk.END)
@@ -81,9 +75,6 @@ logo_label.image = logo_photo
 logo_label.pack(pady=20)
 
 # Sidebar buttons
-btn = ttk.Button(sidebar, text="Todo", command=validar_todo, style="TButton")
-btn.pack(fill=tk.X, padx=10, pady=5)
-
 btn = ttk.Button(sidebar, text="Lexico", command=validar_lexico, style="TButton")
 btn.pack(fill=tk.X, padx=10, pady=5)
 
