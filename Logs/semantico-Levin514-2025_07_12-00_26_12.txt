@@ -1,0 +1,8 @@
+Error de tipo: variable 'test' declarada como 'int' pero se asigna un valor de tipo 'List<Object>'
+Error de tipo: variable 'lista' declarada como 'List<int>' pero se asigna un valor de tipo 'List<Object>'
+array, int  
+target, int  
+left, int  
+right, int  
+mid, int  
+search, int  

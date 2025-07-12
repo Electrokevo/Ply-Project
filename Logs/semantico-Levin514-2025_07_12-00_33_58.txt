@@ -1,0 +1,8 @@
+array, int  
+target, int  
+test, int  
+lista, int  
+left, int  
+right, int  
+mid, int  
+search, int  

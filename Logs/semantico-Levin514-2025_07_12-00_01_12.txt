@@ -1,0 +1,22 @@
+Error de tipo: variable 'left' declarada como 'List' pero se asigna un valor de tipo 'int'
+Semantic error: Type string is not allow with operator <=
+Error semántico: Variable 'left' no declarada 
+Error semántico: Variable 'left' no declarada 
+Error de tipo: operación entre 'int' y 'None' no permitida 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error de tipo: operación entre 'None' y 'None' no permitida 
+Error de tipo: variable 'mid' declarada como 'int' pero se asigna un valor de tipo 'None'
+Semantic error: mid isn't an integer type.
+Semantic error: Type None and type int cannot use operator ==
+Semantic error: mid isn't an integer type.
+Semantic error: Type None is not allow with operator <
+Error semántico: Variable 'mid' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error semántico: Variable 'left' no declarada 
+Error semántico: Variable 'mid' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error de tipo: variable 'right' declarada como 'int' pero se asigna un valor de tipo 'None'
+Semantic error: The expression between parenthesis result in Nonearray, int  
+target, int  
+right, int  
+search, int  

@@ -18,7 +18,7 @@ reserved = {
    "false" : "FALSE",
    "static" : "STATIC",
    "in" : "IN",
-   "list" : "LIST",
+   "List" : "LIST",
    "namespace" : "NAMESPACE",
    
    #Modificadores de acceso
@@ -114,7 +114,6 @@ t_RBRACKET = r"}"
 t_COMMA = r","
 t_LSQBRACKET = r"\["
 t_RSQBRACKET = r"\]"
-t_CLASSOBJECT = r"[A-Z][a-zA-Z_]*"
 t_DOT = r"\."
 #Start_Kevin Mejia
 t_OR = r'\|\|'

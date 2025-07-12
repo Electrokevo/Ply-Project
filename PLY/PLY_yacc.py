@@ -158,6 +158,16 @@ def p_arguments(p):
                  | expression COMMA arguments
                  | names
                  | names COMMA arguments'''
+    name = [p[1]]
+    if len(p) == 2:
+        p[0] = name
+    else:
+        dato = p[3]
+        p[0] = name + dato
+        
+
+    
+
 
 
 # End Kevin Mejia
@@ -322,7 +332,9 @@ def p_data_structure(p):
     p[0] = p[1]
 
 def p_data_structure_list(p):   
-    '''data_structure_list : LIST LESS_THAN data_type GREATER_THAN ID LSQBRACKET type RSQBRACKET'''
+    '''data_structure_list : LIST LESS_THAN data_type GREATER_THAN'''
+    
+    #Levin Moran
     p[0] = p[3]
 #End_Levin Moran
 
@@ -424,10 +436,12 @@ def p_term(p):
 def p_factor(p):
     '''factor : type
     | LPAREN expression RPAREN
+    | LSQBRACKET arguments RSQBRACKET
     | object_access
     | ID
     | indexing
-    | function_call'''
+    | function_call
+    | STRING'''
     
     # Levin Moran
     if len(p) == 2:
@@ -439,7 +453,16 @@ def p_factor(p):
         else:
             p[0] = p[1]
     else:
-        p[0] = p[2]
+        data = p[2]
+        if not isinstance(data, list):
+            p[0] = p[2]
+        else:
+            type_list = data[0]
+            if len(data) != 1:
+                for item in data:
+                    if item != type_list:
+                        type_list = "Object"
+            p[0] = type_list
 
 # Start Kevin Mejia   
 # Modified by Levin Moran

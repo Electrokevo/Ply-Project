@@ -1,0 +1,7 @@
+Error de tipo: variable 'test' declarada como 'int' pero se asigna un valor de tipo '['int', 'int', 'int', 'int', 'int']'
+array, int  
+target, int  
+left, int  
+right, int  
+mid, int  
+search, int  

@@ -1,0 +1,14 @@
+Error semántico: El objeto 'left' no está declarado 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error de tipo: variable 'test' declarada como 'int' pero se asigna un valor de tipo 'Object'
+Semantic error: mid isn't an integer type.
+Semantic error: Type None is not allow with operator <
+Error semántico: Variable 'mid' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error semántico: Variable 'left' no declarada 
+Error semántico: Variable 'mid' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error semántico: Variable 'right' no declarada 
+array, int  
+target, int  
+search, int  

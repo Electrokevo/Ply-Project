@@ -1,0 +1,18 @@
+Error de tipo: operación entre 'Object' y 'int' no permitida 
+Error de tipo: operación entre 'int' y 'None' no permitida 
+Error de tipo: variable 'mid' declarada como 'int' pero se asigna un valor de tipo 'None'
+Semantic error: mid isn't an integer type.
+Semantic error: Type None and type int cannot use operator ==
+Semantic error: mid isn't an integer type.
+Semantic error: Type None is not allow with operator <
+Error semántico: Variable 'mid' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error de tipo: variable 'left' declarada como 'int' pero se asigna un valor de tipo 'None'
+Error semántico: Variable 'mid' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error de tipo: variable 'right' declarada como 'int' pero se asigna un valor de tipo 'None'
+array, int  
+target, int  
+left, int  
+right, int  
+search, int  

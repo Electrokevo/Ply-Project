@@ -39,6 +39,11 @@ def t_ID(t):
     t.type = reserved.get(t.value,'ID')    # Check for reserved words
     return t
 
+def t_CLASSOBJECT(t):
+    r'[A-Z][a-zA-Z_]*'
+    t.type = reserved.get(t.value, 'CLASSOBJECT')
+    return t
+
 # Define a rule so we can track line numbers
 def t_newline(t):
     r'\n+'

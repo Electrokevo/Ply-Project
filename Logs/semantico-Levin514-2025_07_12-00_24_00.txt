@@ -1,0 +1,8 @@
+Error de tipo: variable 'lista' declarada como 'List<int>' pero se asigna un valor de tipo 'int'
+array, int  
+target, int  
+test, int  
+left, int  
+right, int  
+mid, int  
+search, int  
