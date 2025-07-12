@@ -12,13 +12,13 @@ usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
 
 nombreArchivoLexic = f"lexic-{usuarioGit}-{fechaHora}.txt"
-rutaArchivoLexic = f"../logs_ui/{nombreArchivoLexic}"
+rutaArchivoLexic = f"../Ply-Project/logs_ui/{nombreArchivoLexic}"
 
 nombreArchivo = f"sintactico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivo = f"../logs_ui/{nombreArchivo}"
+rutaArchivo = f"../Ply-Project/logs_ui/{nombreArchivo}"
 
 nombreArchivoSemantico = f"semantico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivoSemantico = f"../logs_ui/{nombreArchivoSemantico}"
+rutaArchivoSemantico = f"../Ply-Project/logs_ui/{nombreArchivoSemantico}"
 
 arch = open(rutaArchivo, "w", encoding="UTF-8")
 archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")

@@ -1,0 +1,10 @@
+Error semántico: La variable 'array' ya está declarada 
+Error semántico: La variable 'target' ya está declarada 
+Error semántico: La función 'search' ya está declarada 
+array, int  
+target, int  
+left, int  
+right, int  
+mid, int  
+search, int  
+i, int  

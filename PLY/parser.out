@@ -4146,7 +4146,6 @@ state 162
 
 
 state 163
-state 163
 
     (86) assignment -> CLASSOBJECT . ID
     (81) data_structure_array -> CLASSOBJECT . LSQBRACKET RSQBRACKET
@@ -4469,7 +4468,6 @@ state 176
     CLASSOBJECT     reduce using rule 72 (logical_operator -> LESS_THAN .)
 
 
-state 177
 state 177
 
     (73) logical_operator -> GREATER_EQUALS_THAN .
@@ -4800,21 +4798,9 @@ state 193
     PLUS            reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
     MINUS           reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
     SEMICOLON       reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    RPAREN          reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    COMMA           reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    RSQBRACKET      reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    OR              reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    AND             reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    NOT             reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    GREATER_THAN    reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    LESS_THAN       reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    GREATER_EQUALS_THAN reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    LESS_EQUALS_THAN reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    EQUALITY        reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    DIFFERENT       reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
 
 
-state 191
+state 194
 
     (41) expression -> object_access LPAREN expression RPAREN .
 
@@ -4986,7 +4972,7 @@ state 202
     SEMICOLON       reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
 
 
-state 199
+state 203
 
     (43) if -> IF LPAREN logical_expression RPAREN block .
     (44) if -> IF LPAREN logical_expression RPAREN block . body
