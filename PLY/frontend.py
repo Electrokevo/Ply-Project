@@ -9,7 +9,7 @@ from PLY_yacc import *
 def open_cs_file():
     # file type
     filetypes = (
-        ('text files', '*.cs'),
+        ('cs files', '*.cs'),
     )
     f = fd.askopenfile(filetypes=filetypes)
     code_text.delete('1.0', tk.END)
@@ -42,8 +42,6 @@ def validar_semantica():
     logs = archSemantico.read()
     console_text.insert('1.0', logs)
     archSemantico.close()
-
-    pass
 
 # ---------- Setup ----------
 root = tk.Tk()
