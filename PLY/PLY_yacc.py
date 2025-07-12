@@ -41,6 +41,15 @@ def write_sintactic_logs(code):
     arch = open(rutaArchivo, "w", encoding="UTF-8")
     parser.parse(code)
     arch.close()
+    global tabla_simbolos
+    tabla_simbolos = {
+    "variables" : {},
+    "tipos": {
+        "string-func": ["ToUpper", "ToLower"],
+        "array-func": ["Length"]
+    }
+    }
+
 
 def write_semantic_logs(code):
     global archSemantico
@@ -50,6 +59,14 @@ def write_semantic_logs(code):
     parser.parse(code)
     archSemantico.close()
     arch.close()
+    global tabla_simbolos
+    tabla_simbolos = {
+    "variables" : {},
+    "tipos": {
+        "string-func": ["ToUpper", "ToLower"],
+        "array-func": ["Length"]
+    }
+}
 
 
 

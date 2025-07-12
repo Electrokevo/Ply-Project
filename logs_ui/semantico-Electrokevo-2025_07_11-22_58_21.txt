@@ -1,0 +1,3 @@
+Error semántico: La variable 'array' ya está declarada 
+Error semántico: La variable 'target' ya está declarada 
+Error semántico: La función 'search' ya está declarada 
