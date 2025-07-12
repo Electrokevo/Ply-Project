@@ -12,13 +12,13 @@ usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
 
 nombreArchivoLexic = f"lexic-{usuarioGit}-{fechaHora}.txt"
-rutaArchivoLexic = f"../Logs/{nombreArchivoLexic}"
+rutaArchivoLexic = f"../logs_ui/{nombreArchivoLexic}"
 
 nombreArchivo = f"sintactico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivo = f"../Logs/{nombreArchivo}"
+rutaArchivo = f"../logs_ui/{nombreArchivo}"
 
 nombreArchivoSemantico = f"semantico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivoSemantico = f"../Logs/{nombreArchivoSemantico}"
+rutaArchivoSemantico = f"../logs_ui/{nombreArchivoSemantico}"
 
 arch = open(rutaArchivo, "w", encoding="UTF-8")
 archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")
@@ -44,12 +44,10 @@ def write_sintactic_logs(code):
 
 def write_semantic_logs(code):
     global archSemantico
-    archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")
     global arch
+    archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")
     arch = open(rutaArchivo, "w", encoding="UTF-8")
     parser.parse(code)
-    for var, tipo in tabla_simbolos["variables"].items():
-        archSemantico.write(f"{var}, {tipo}  \n")
     archSemantico.close()
     arch.close()
 
@@ -397,7 +395,7 @@ def p_assignment(p):
 
 def p_assignment_untyped(p):
     '''assignment : ID EQUALS expression
-                | indexing EQUALS expression'''
+    | indexing_asign EQUALS expression'''
 
     # Levin Moran
     nombre = p[1]
@@ -608,6 +606,25 @@ def p_indexing(p):
     #end kevin mejia
 # End Kevin Mejia
 
+def p_indexing_asign(p):
+    '''indexing_asign : ID LSQBRACKET INTEGER_TYPE RSQBRACKET
+    | ID LSQBRACKET ID RSQBRACKET
+    | ID LSQBRACKET expression RSQBRACKET'''
+    #start kevin mejia
+    if isinstance(p[3], int):
+        #Se devuelve p[0] porque nos interesa el tipo de dato de la lista, dado que p[3] ya sabemos que es int
+         p[0] = [p[1]]
+    elif p[3] in tabla_simbolos["variables"]:
+        tipo = tabla_simbolos["variables"][p[3]]
+        if tipo != "int":
+            archSemantico.write(f"Semantic error: {p[3]} isn't an integer type.\n")
+        else:
+            #Lo mismo de arriba pero ahora con variable
+            p[0] = [p[1]]
+    else:
+         archSemantico.write(f"Semantic error: {p[3]} isn't an integer type.\n")
+    #end kevin mejia
+# End Kevin Mejia
 
 #Start_Levin Moran
 
@@ -624,20 +641,6 @@ lexer = lex.lex()
 
 # # Build the parser
 parser = yacc.yacc()
-
-
-buffer = ''''''
-archivo = open("../Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
-for line in archivo:
-  if line.startswith("\ufeff"):
-    line = line.strip("\ufeff")
-  buffer += line
-archivo.close()
-
-
-asignaciones = parser.parse(buffer)
-
-
 arch.close()
 archSemantico.close()
 
