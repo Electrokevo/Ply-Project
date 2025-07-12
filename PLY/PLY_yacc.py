@@ -10,6 +10,10 @@ from datetime import datetime
 
 usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
+
+nombreArchivoLexic = f"lexic-{usuarioGit}-{fechaHora}.txt"
+rutaArchivoLexic = f"../Logs/{nombreArchivoLexic}"
+
 nombreArchivo = f"sintactico-{usuarioGit}-{fechaHora}.txt"
 rutaArchivo = f"../Logs/{nombreArchivo}"
 
@@ -18,6 +22,34 @@ rutaArchivoSemantico = f"../Logs/{nombreArchivoSemantico}"
 
 arch = open(rutaArchivo, "w", encoding="UTF-8")
 archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")
+
+def write_lexic_logs(code):
+    lexer.input(code)
+
+    # Tokenize
+    # Modified by Levin Moran
+    archivo = open(rutaArchivoLexic, "w", encoding="UTF-8") 
+    while True:
+        tok = lexer.token()
+        if not tok: 
+            break      # No more input
+        archivo.write(f"{tok}\n")
+    archivo.close()
+
+def write_sintactic_logs(code):
+    arch = open(rutaArchivo, "w", encoding="UTF-8")
+    parser.parse(code)
+    arch.close()
+
+def write_semantic_logs(code):
+    archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")
+    parser.parse(code)
+    for var, tipo in tabla_simbolos["variables"].items():
+        archSemantico.write(f"{var}, {tipo}  \n")
+    archSemantico.close()
+
+
+
 #End_Levin Moran
 
 #reglas en minúscula y tokens en mayúscula
@@ -556,16 +588,7 @@ lexer = lex.lex()
 parser = yacc.yacc()
 
 
-buffer = ''''''
-archivo = open("../Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
-for line in archivo:
-  if line.startswith("\ufeff"):
-    line = line.strip("\ufeff")
-  buffer += line
-archivo.close()
 
-
-asignaciones = parser.parse(buffer)
 
 '''for asignacion in asignaciones:
     arch.write(f"Asignación correcta: {asignacion} \n")'''
