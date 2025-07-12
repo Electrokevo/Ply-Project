@@ -77,7 +77,7 @@ Rule 51    else -> ELSE block body
 Rule 52    loop -> while_loop
 Rule 53    loop -> loop_for
 Rule 54    loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-Rule 55    loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
+Rule 55    loop_for -> loop_for body
 Rule 56    while_loop -> WHILE LPAREN logical_expression RPAREN block
 Rule 57    while_loop -> WHILE LPAREN logical_expression RPAREN block body
 Rule 58    logical_expression -> logical_factor logical_operator logical_expression
@@ -180,7 +180,7 @@ FALSE                : 62
 FILE                 : 
 FLOAT                : 117
 FLOAT_TYPE           : 101
-FOR                  : 54 55
+FOR                  : 54
 GREATER_EQUALS_THAN  : 73
 GREATER_THAN         : 71 79
 ID                   : 9 9 11 12 23 30 39 40 63 82 83 85 86 97 109 127 128 128 129
@@ -194,7 +194,7 @@ LESS_EQUALS_THAN     : 74
 LESS_THAN            : 72 79
 LIST                 : 79
 LONG                 : 124
-LPAREN               : 25 26 27 28 33 34 39 40 41 42 43 44 45 46 47 48 49 54 55 56 57 67 94
+LPAREN               : 25 26 27 28 33 34 39 40 41 42 43 44 45 46 47 48 49 54 56 57 67 94
 LSQBRACKET           : 80 81 95 127 128 129
 MINUS                : 88 105
 MINUS_EQUAL          : 
@@ -214,10 +214,10 @@ PROTECTED            : 112
 PUBLIC               : 110
 RBRACKET             : 13
 RETURN               : 30 31 32
-RPAREN               : 25 26 27 28 33 34 39 40 41 42 43 44 45 46 47 48 49 54 55 56 57 67 94
+RPAREN               : 25 26 27 28 33 34 39 40 41 42 43 44 45 46 47 48 49 54 56 57 67 94
 RSQBRACKET           : 80 81 95 127 128 129
 SBYTE                : 121
-SEMICOLON            : 5 6 14 15 54 54 55 55
+SEMICOLON            : 5 6 14 15 54 54
 SHORT                : 125
 STATIC               : 8 27 28
 STRING               : 100
@@ -237,8 +237,8 @@ error                :
 Nonterminals, with rules where they appear
 
 arguments            : 34 36 38 95
-assignment           : 19 54 54 55 55
-block                : 7 8 25 26 27 28 40 43 44 45 46 47 48 49 50 51 54 55 56 57
+assignment           : 19 54 54
+block                : 7 8 25 26 27 28 40 43 44 45 46 47 48 49 50 51 54 56 57
 body                 : 13 15 29 44 51 55 57
 class                : 1 2
 data_structure       : 115
@@ -257,11 +257,11 @@ if                   : 16
 indexing             : 64 84 98
 lambda_function      : 
 lines                : 14 15
-logical_expression   : 43 44 45 46 47 48 49 54 55 56 57 58 59 59 67
+logical_expression   : 43 44 45 46 47 48 49 54 56 57 58 59 59 67
 logical_factor       : 58 60
 logical_operator     : 58 59
 loop                 : 17
-loop_for             : 53
+loop_for             : 53 55
 modifier             : 7 8 25 26 27 28
 names                : 25 26 27 28 33 34 37 38
 namespace            : 1 2
@@ -601,7 +601,7 @@ state 25
     (56) while_loop -> . WHILE LPAREN logical_expression RPAREN block
     (57) while_loop -> . WHILE LPAREN logical_expression RPAREN block body
     (54) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
+    (55) loop_for -> . loop_for body
     (110) modifier -> . PUBLIC
     (111) modifier -> . PRIVATE
     (112) modifier -> . PROTECTED
@@ -847,7 +847,7 @@ state 31
     (56) while_loop -> . WHILE LPAREN logical_expression RPAREN block
     (57) while_loop -> . WHILE LPAREN logical_expression RPAREN block body
     (54) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
+    (55) loop_for -> . loop_for body
     (110) modifier -> . PUBLIC
     (111) modifier -> . PRIVATE
     (112) modifier -> . PROTECTED
@@ -1154,39 +1154,212 @@ state 38
 state 39
 
     (53) loop -> loop_for .
+    (55) loop_for -> loop_for . body
+    (14) body -> . lines SEMICOLON
+    (15) body -> . lines SEMICOLON body
+    (16) body -> . if
+    (17) body -> . loop
+    (18) body -> . function
+    (19) lines -> . assignment
+    (20) lines -> . expression
+    (21) lines -> . declaration
+    (22) lines -> . return
+    (43) if -> . IF LPAREN logical_expression RPAREN block
+    (44) if -> . IF LPAREN logical_expression RPAREN block body
+    (45) if -> . IF LPAREN logical_expression RPAREN block elseif
+    (46) if -> . IF LPAREN logical_expression RPAREN block else
+    (52) loop -> . while_loop
+    (53) loop -> . loop_for
+    (25) function -> . modifier data_type names LPAREN declarations RPAREN block
+    (26) function -> . modifier VOID names LPAREN declarations RPAREN block
+    (27) function -> . modifier STATIC data_type names LPAREN declarations RPAREN block
+    (28) function -> . modifier STATIC VOID names LPAREN declarations RPAREN block
+    (29) function -> . function body
+    (82) assignment -> . data_type ID EQUALS expression
+    (83) assignment -> . ID EQUALS expression
+    (84) assignment -> . indexing EQUALS expression
+    (85) assignment -> . ID PLUSONE
+    (86) assignment -> . CLASSOBJECT ID
+    (41) expression -> . object_access LPAREN expression RPAREN
+    (42) expression -> . object_access LPAREN RPAREN
+    (87) expression -> . expression PLUS term
+    (88) expression -> . expression MINUS term
+    (89) expression -> . term
+    (109) declaration -> . data_type ID
+    (30) return -> . RETURN ID
+    (31) return -> . RETURN type
+    (32) return -> . RETURN expression
+    (56) while_loop -> . WHILE LPAREN logical_expression RPAREN block
+    (57) while_loop -> . WHILE LPAREN logical_expression RPAREN block body
+    (54) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
+    (55) loop_for -> . loop_for body
+    (110) modifier -> . PUBLIC
+    (111) modifier -> . PRIVATE
+    (112) modifier -> . PROTECTED
+    (113) modifier -> . INTERNAL
+    (114) data_type -> . primitive
+    (115) data_type -> . data_structure
+    (127) indexing -> . ID LSQBRACKET INTEGER_TYPE RSQBRACKET
+    (128) indexing -> . ID LSQBRACKET ID RSQBRACKET
+    (129) indexing -> . ID LSQBRACKET expression RSQBRACKET
+    (9) object_access -> . ID DOT ID
+    (10) object_access -> . CLASSOBJECT DOT CLASSOBJECT
+    (11) object_access -> . ID DOT CLASSOBJECT
+    (12) object_access -> . CLASSOBJECT DOT ID
+    (90) term -> . term TIMES factor
+    (91) term -> . term DIVIDE factor
+    (92) term -> . factor
+    (116) primitive -> . INT
+    (117) primitive -> . FLOAT
+    (118) primitive -> . BOOL
+    (119) primitive -> . BYTE
+    (120) primitive -> . CHAR
+    (121) primitive -> . SBYTE
+    (122) primitive -> . DECIMAL
+    (123) primitive -> . DOUBLE
+    (124) primitive -> . LONG
+    (125) primitive -> . SHORT
+    (126) primitive -> . UINT
+    (77) data_structure -> . data_structure_list
+    (78) data_structure -> . data_structure_array
+    (93) factor -> . type
+    (94) factor -> . LPAREN expression RPAREN
+    (95) factor -> . LSQBRACKET arguments RSQBRACKET
+    (96) factor -> . object_access
+    (97) factor -> . ID
+    (98) factor -> . indexing
+    (99) factor -> . function_call
+    (100) factor -> . STRING
+    (79) data_structure_list -> . LIST LESS_THAN data_type GREATER_THAN
+    (80) data_structure_array -> . primitive LSQBRACKET RSQBRACKET
+    (81) data_structure_array -> . CLASSOBJECT LSQBRACKET RSQBRACKET
+    (101) type -> . FLOAT_TYPE
+    (102) type -> . DOUBLE_TYPE
+    (103) type -> . DECIMAL_TYPE
+    (104) type -> . INTEGER_TYPE
+    (105) type -> . MINUS type
+    (33) function_call -> . names LPAREN RPAREN
+    (34) function_call -> . names LPAREN arguments RPAREN
+    (23) names -> . ID
+    (24) names -> . CLASSOBJECT
 
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for CLASSOBJECT resolved as shift
+  ! shift/reduce conflict for RETURN resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for FOR resolved as shift
+  ! shift/reduce conflict for PUBLIC resolved as shift
+  ! shift/reduce conflict for PRIVATE resolved as shift
+  ! shift/reduce conflict for PROTECTED resolved as shift
+  ! shift/reduce conflict for INTERNAL resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for FLOAT resolved as shift
+  ! shift/reduce conflict for BOOL resolved as shift
+  ! shift/reduce conflict for BYTE resolved as shift
+  ! shift/reduce conflict for CHAR resolved as shift
+  ! shift/reduce conflict for SBYTE resolved as shift
+  ! shift/reduce conflict for DECIMAL resolved as shift
+  ! shift/reduce conflict for DOUBLE resolved as shift
+  ! shift/reduce conflict for LONG resolved as shift
+  ! shift/reduce conflict for SHORT resolved as shift
+  ! shift/reduce conflict for UINT resolved as shift
+  ! shift/reduce conflict for LPAREN resolved as shift
+  ! shift/reduce conflict for LSQBRACKET resolved as shift
+  ! shift/reduce conflict for STRING resolved as shift
+  ! shift/reduce conflict for LIST resolved as shift
+  ! shift/reduce conflict for FLOAT_TYPE resolved as shift
+  ! shift/reduce conflict for DOUBLE_TYPE resolved as shift
+  ! shift/reduce conflict for DECIMAL_TYPE resolved as shift
+  ! shift/reduce conflict for INTEGER_TYPE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
     RBRACKET        reduce using rule 53 (loop -> loop_for .)
-    IF              reduce using rule 53 (loop -> loop_for .)
-    ID              reduce using rule 53 (loop -> loop_for .)
-    CLASSOBJECT     reduce using rule 53 (loop -> loop_for .)
-    RETURN          reduce using rule 53 (loop -> loop_for .)
-    WHILE           reduce using rule 53 (loop -> loop_for .)
-    FOR             reduce using rule 53 (loop -> loop_for .)
-    PUBLIC          reduce using rule 53 (loop -> loop_for .)
-    PRIVATE         reduce using rule 53 (loop -> loop_for .)
-    PROTECTED       reduce using rule 53 (loop -> loop_for .)
-    INTERNAL        reduce using rule 53 (loop -> loop_for .)
-    INT             reduce using rule 53 (loop -> loop_for .)
-    FLOAT           reduce using rule 53 (loop -> loop_for .)
-    BOOL            reduce using rule 53 (loop -> loop_for .)
-    BYTE            reduce using rule 53 (loop -> loop_for .)
-    CHAR            reduce using rule 53 (loop -> loop_for .)
-    SBYTE           reduce using rule 53 (loop -> loop_for .)
-    DECIMAL         reduce using rule 53 (loop -> loop_for .)
-    DOUBLE          reduce using rule 53 (loop -> loop_for .)
-    LONG            reduce using rule 53 (loop -> loop_for .)
-    SHORT           reduce using rule 53 (loop -> loop_for .)
-    UINT            reduce using rule 53 (loop -> loop_for .)
-    LPAREN          reduce using rule 53 (loop -> loop_for .)
-    LSQBRACKET      reduce using rule 53 (loop -> loop_for .)
-    STRING          reduce using rule 53 (loop -> loop_for .)
-    LIST            reduce using rule 53 (loop -> loop_for .)
-    FLOAT_TYPE      reduce using rule 53 (loop -> loop_for .)
-    DOUBLE_TYPE     reduce using rule 53 (loop -> loop_for .)
-    DECIMAL_TYPE    reduce using rule 53 (loop -> loop_for .)
-    INTEGER_TYPE    reduce using rule 53 (loop -> loop_for .)
-    MINUS           reduce using rule 53 (loop -> loop_for .)
+    IF              shift and go to state 36
+    ID              shift and go to state 43
+    CLASSOBJECT     shift and go to state 45
+    RETURN          shift and go to state 49
+    WHILE           shift and go to state 51
+    FOR             shift and go to state 52
+    PUBLIC          shift and go to state 10
+    PRIVATE         shift and go to state 11
+    PROTECTED       shift and go to state 12
+    INTERNAL        shift and go to state 13
+    INT             shift and go to state 58
+    FLOAT           shift and go to state 59
+    BOOL            shift and go to state 60
+    BYTE            shift and go to state 61
+    CHAR            shift and go to state 62
+    SBYTE           shift and go to state 63
+    DECIMAL         shift and go to state 64
+    DOUBLE          shift and go to state 65
+    LONG            shift and go to state 66
+    SHORT           shift and go to state 67
+    UINT            shift and go to state 68
+    LPAREN          shift and go to state 37
+    LSQBRACKET      shift and go to state 55
+    STRING          shift and go to state 72
+    LIST            shift and go to state 73
+    FLOAT_TYPE      shift and go to state 74
+    DOUBLE_TYPE     shift and go to state 75
+    DECIMAL_TYPE    shift and go to state 76
+    INTEGER_TYPE    shift and go to state 56
+    MINUS           shift and go to state 48
 
+  ! IF              [ reduce using rule 53 (loop -> loop_for .) ]
+  ! ID              [ reduce using rule 53 (loop -> loop_for .) ]
+  ! CLASSOBJECT     [ reduce using rule 53 (loop -> loop_for .) ]
+  ! RETURN          [ reduce using rule 53 (loop -> loop_for .) ]
+  ! WHILE           [ reduce using rule 53 (loop -> loop_for .) ]
+  ! FOR             [ reduce using rule 53 (loop -> loop_for .) ]
+  ! PUBLIC          [ reduce using rule 53 (loop -> loop_for .) ]
+  ! PRIVATE         [ reduce using rule 53 (loop -> loop_for .) ]
+  ! PROTECTED       [ reduce using rule 53 (loop -> loop_for .) ]
+  ! INTERNAL        [ reduce using rule 53 (loop -> loop_for .) ]
+  ! INT             [ reduce using rule 53 (loop -> loop_for .) ]
+  ! FLOAT           [ reduce using rule 53 (loop -> loop_for .) ]
+  ! BOOL            [ reduce using rule 53 (loop -> loop_for .) ]
+  ! BYTE            [ reduce using rule 53 (loop -> loop_for .) ]
+  ! CHAR            [ reduce using rule 53 (loop -> loop_for .) ]
+  ! SBYTE           [ reduce using rule 53 (loop -> loop_for .) ]
+  ! DECIMAL         [ reduce using rule 53 (loop -> loop_for .) ]
+  ! DOUBLE          [ reduce using rule 53 (loop -> loop_for .) ]
+  ! LONG            [ reduce using rule 53 (loop -> loop_for .) ]
+  ! SHORT           [ reduce using rule 53 (loop -> loop_for .) ]
+  ! UINT            [ reduce using rule 53 (loop -> loop_for .) ]
+  ! LPAREN          [ reduce using rule 53 (loop -> loop_for .) ]
+  ! LSQBRACKET      [ reduce using rule 53 (loop -> loop_for .) ]
+  ! STRING          [ reduce using rule 53 (loop -> loop_for .) ]
+  ! LIST            [ reduce using rule 53 (loop -> loop_for .) ]
+  ! FLOAT_TYPE      [ reduce using rule 53 (loop -> loop_for .) ]
+  ! DOUBLE_TYPE     [ reduce using rule 53 (loop -> loop_for .) ]
+  ! DECIMAL_TYPE    [ reduce using rule 53 (loop -> loop_for .) ]
+  ! INTEGER_TYPE    [ reduce using rule 53 (loop -> loop_for .) ]
+  ! MINUS           [ reduce using rule 53 (loop -> loop_for .) ]
+
+    loop_for                       shift and go to state 39
+    body                           shift and go to state 88
+    lines                          shift and go to state 28
+    if                             shift and go to state 29
+    loop                           shift and go to state 30
+    function                       shift and go to state 31
+    assignment                     shift and go to state 32
+    expression                     shift and go to state 33
+    declaration                    shift and go to state 34
+    return                         shift and go to state 35
+    while_loop                     shift and go to state 38
+    modifier                       shift and go to state 40
+    data_type                      shift and go to state 41
+    names                          shift and go to state 42
+    indexing                       shift and go to state 44
+    object_access                  shift and go to state 46
+    term                           shift and go to state 47
+    type                           shift and go to state 50
+    primitive                      shift and go to state 53
+    data_structure                 shift and go to state 54
+    factor                         shift and go to state 57
+    data_structure_list            shift and go to state 69
+    data_structure_array           shift and go to state 70
+    function_call                  shift and go to state 71
 
 state 40
 
@@ -1213,8 +1386,8 @@ state 40
     (80) data_structure_array -> . primitive LSQBRACKET RSQBRACKET
     (81) data_structure_array -> . CLASSOBJECT LSQBRACKET RSQBRACKET
 
-    VOID            shift and go to state 89
-    STATIC          shift and go to state 90
+    VOID            shift and go to state 90
+    STATIC          shift and go to state 91
     INT             shift and go to state 58
     FLOAT           shift and go to state 59
     BOOL            shift and go to state 60
@@ -1227,9 +1400,9 @@ state 40
     SHORT           shift and go to state 67
     UINT            shift and go to state 68
     LIST            shift and go to state 73
-    CLASSOBJECT     shift and go to state 91
+    CLASSOBJECT     shift and go to state 92
 
-    data_type                      shift and go to state 88
+    data_type                      shift and go to state 89
     primitive                      shift and go to state 53
     data_structure                 shift and go to state 54
     data_structure_list            shift and go to state 69
@@ -1240,7 +1413,7 @@ state 41
     (82) assignment -> data_type . ID EQUALS expression
     (109) declaration -> data_type . ID
 
-    ID              shift and go to state 92
+    ID              shift and go to state 93
 
 
 state 42
@@ -1248,7 +1421,7 @@ state 42
     (33) function_call -> names . LPAREN RPAREN
     (34) function_call -> names . LPAREN arguments RPAREN
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
 
 
 state 43
@@ -1263,10 +1436,10 @@ state 43
     (97) factor -> ID .
     (23) names -> ID .
 
-    EQUALS          shift and go to state 94
-    PLUSONE         shift and go to state 95
-    LSQBRACKET      shift and go to state 96
-    DOT             shift and go to state 97
+    EQUALS          shift and go to state 95
+    PLUSONE         shift and go to state 96
+    LSQBRACKET      shift and go to state 97
+    DOT             shift and go to state 98
     TIMES           reduce using rule 97 (factor -> ID .)
     DIVIDE          reduce using rule 97 (factor -> ID .)
     PLUS            reduce using rule 97 (factor -> ID .)
@@ -1280,7 +1453,7 @@ state 44
     (84) assignment -> indexing . EQUALS expression
     (98) factor -> indexing .
 
-    EQUALS          shift and go to state 98
+    EQUALS          shift and go to state 99
     TIMES           reduce using rule 98 (factor -> indexing .)
     DIVIDE          reduce using rule 98 (factor -> indexing .)
     PLUS            reduce using rule 98 (factor -> indexing .)
@@ -1296,9 +1469,9 @@ state 45
     (81) data_structure_array -> CLASSOBJECT . LSQBRACKET RSQBRACKET
     (24) names -> CLASSOBJECT .
 
-    ID              shift and go to state 99
-    DOT             shift and go to state 100
-    LSQBRACKET      shift and go to state 101
+    ID              shift and go to state 100
+    DOT             shift and go to state 101
+    LSQBRACKET      shift and go to state 102
     LPAREN          reduce using rule 24 (names -> CLASSOBJECT .)
 
 
@@ -1308,7 +1481,7 @@ state 46
     (42) expression -> object_access . LPAREN RPAREN
     (96) factor -> object_access .
 
-    LPAREN          shift and go to state 102
+    LPAREN          shift and go to state 103
     TIMES           reduce using rule 96 (factor -> object_access .)
     DIVIDE          reduce using rule 96 (factor -> object_access .)
     PLUS            reduce using rule 96 (factor -> object_access .)
@@ -1331,8 +1504,8 @@ state 47
     RPAREN          reduce using rule 89 (expression -> term .)
     COMMA           reduce using rule 89 (expression -> term .)
     RSQBRACKET      reduce using rule 89 (expression -> term .)
-    TIMES           shift and go to state 103
-    DIVIDE          shift and go to state 104
+    TIMES           shift and go to state 104
+    DIVIDE          shift and go to state 105
 
 
 state 48
@@ -1350,7 +1523,7 @@ state 48
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
 
-    type                           shift and go to state 105
+    type                           shift and go to state 106
 
 state 49
 
@@ -1390,7 +1563,7 @@ state 49
     (23) names -> . ID
     (24) names -> . CLASSOBJECT
 
-    ID              shift and go to state 106
+    ID              shift and go to state 107
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
     DECIMAL_TYPE    shift and go to state 76
@@ -1401,8 +1574,8 @@ state 49
     LSQBRACKET      shift and go to state 55
     STRING          shift and go to state 72
 
-    type                           shift and go to state 107
-    expression                     shift and go to state 108
+    type                           shift and go to state 108
+    expression                     shift and go to state 109
     object_access                  shift and go to state 46
     term                           shift and go to state 47
     factor                         shift and go to state 57
@@ -1429,15 +1602,14 @@ state 51
     (56) while_loop -> WHILE . LPAREN logical_expression RPAREN block
     (57) while_loop -> WHILE . LPAREN logical_expression RPAREN block body
 
-    LPAREN          shift and go to state 109
+    LPAREN          shift and go to state 110
 
 
 state 52
 
     (54) loop_for -> FOR . LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> FOR . LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
 
-    LPAREN          shift and go to state 110
+    LPAREN          shift and go to state 111
 
 
 state 53
@@ -1448,7 +1620,7 @@ state 53
     ID              reduce using rule 114 (data_type -> primitive .)
     CLASSOBJECT     reduce using rule 114 (data_type -> primitive .)
     GREATER_THAN    reduce using rule 114 (data_type -> primitive .)
-    LSQBRACKET      shift and go to state 111
+    LSQBRACKET      shift and go to state 112
 
 
 state 54
@@ -1500,8 +1672,8 @@ state 55
     (33) function_call -> . names LPAREN RPAREN
     (34) function_call -> . names LPAREN arguments RPAREN
 
-    ID              shift and go to state 115
-    CLASSOBJECT     shift and go to state 116
+    ID              shift and go to state 116
+    CLASSOBJECT     shift and go to state 117
     LPAREN          shift and go to state 37
     LSQBRACKET      shift and go to state 55
     STRING          shift and go to state 72
@@ -1511,9 +1683,9 @@ state 55
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
 
-    arguments                      shift and go to state 112
-    expression                     shift and go to state 113
-    names                          shift and go to state 114
+    arguments                      shift and go to state 113
+    expression                     shift and go to state 114
+    names                          shift and go to state 115
     object_access                  shift and go to state 46
     term                           shift and go to state 47
     factor                         shift and go to state 57
@@ -1718,7 +1890,7 @@ state 73
 
     (79) data_structure_list -> LIST . LESS_THAN data_type GREATER_THAN
 
-    LESS_THAN       shift and go to state 117
+    LESS_THAN       shift and go to state 118
 
 
 state 74
@@ -1877,7 +2049,7 @@ state 79
     (56) while_loop -> . WHILE LPAREN logical_expression RPAREN block
     (57) while_loop -> . WHILE LPAREN logical_expression RPAREN block body
     (54) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
+    (55) loop_for -> . loop_for body
     (110) modifier -> . PUBLIC
     (111) modifier -> . PRIVATE
     (112) modifier -> . PROTECTED
@@ -2022,7 +2194,7 @@ state 79
   ! MINUS           [ reduce using rule 14 (body -> lines SEMICOLON .) ]
 
     lines                          shift and go to state 28
-    body                           shift and go to state 118
+    body                           shift and go to state 119
     if                             shift and go to state 29
     loop                           shift and go to state 30
     function                       shift and go to state 31
@@ -2116,7 +2288,7 @@ state 81
 
     LPAREN          shift and go to state 37
     LSQBRACKET      shift and go to state 55
-    ID              shift and go to state 121
+    ID              shift and go to state 122
     STRING          shift and go to state 72
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
@@ -2125,10 +2297,10 @@ state 81
     MINUS           shift and go to state 48
     CLASSOBJECT     shift and go to state 86
 
-    term                           shift and go to state 119
+    term                           shift and go to state 120
     factor                         shift and go to state 57
     type                           shift and go to state 50
-    object_access                  shift and go to state 120
+    object_access                  shift and go to state 121
     indexing                       shift and go to state 87
     function_call                  shift and go to state 71
     names                          shift and go to state 42
@@ -2166,7 +2338,7 @@ state 82
 
     LPAREN          shift and go to state 37
     LSQBRACKET      shift and go to state 55
-    ID              shift and go to state 121
+    ID              shift and go to state 122
     STRING          shift and go to state 72
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
@@ -2175,10 +2347,10 @@ state 82
     MINUS           shift and go to state 48
     CLASSOBJECT     shift and go to state 86
 
-    term                           shift and go to state 122
+    term                           shift and go to state 123
     factor                         shift and go to state 57
     type                           shift and go to state 50
-    object_access                  shift and go to state 120
+    object_access                  shift and go to state 121
     indexing                       shift and go to state 87
     function_call                  shift and go to state 71
     names                          shift and go to state 42
@@ -2212,22 +2384,22 @@ state 83
     (11) object_access -> . ID DOT CLASSOBJECT
     (12) object_access -> . CLASSOBJECT DOT ID
 
-    TRUE            shift and go to state 126
-    FALSE           shift and go to state 127
-    ID              shift and go to state 128
-    LPAREN          shift and go to state 123
+    TRUE            shift and go to state 127
+    FALSE           shift and go to state 128
+    ID              shift and go to state 129
+    LPAREN          shift and go to state 124
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
     DECIMAL_TYPE    shift and go to state 76
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
-    CLASSOBJECT     shift and go to state 132
+    CLASSOBJECT     shift and go to state 133
 
-    logical_expression             shift and go to state 124
-    logical_factor                 shift and go to state 125
-    indexing                       shift and go to state 129
-    type                           shift and go to state 130
-    object_access                  shift and go to state 131
+    logical_expression             shift and go to state 125
+    logical_factor                 shift and go to state 126
+    indexing                       shift and go to state 130
+    type                           shift and go to state 131
+    object_access                  shift and go to state 132
 
 state 84
 
@@ -2235,7 +2407,7 @@ state 84
     (87) expression -> expression . PLUS term
     (88) expression -> expression . MINUS term
 
-    RPAREN          shift and go to state 133
+    RPAREN          shift and go to state 134
     PLUS            shift and go to state 81
     MINUS           shift and go to state 82
 
@@ -2250,14 +2422,14 @@ state 85
     (129) indexing -> ID . LSQBRACKET expression RSQBRACKET
     (23) names -> ID .
 
-    DOT             shift and go to state 97
+    DOT             shift and go to state 98
     TIMES           reduce using rule 97 (factor -> ID .)
     DIVIDE          reduce using rule 97 (factor -> ID .)
     RPAREN          reduce using rule 97 (factor -> ID .)
     PLUS            reduce using rule 97 (factor -> ID .)
     MINUS           reduce using rule 97 (factor -> ID .)
     SEMICOLON       reduce using rule 97 (factor -> ID .)
-    LSQBRACKET      shift and go to state 96
+    LSQBRACKET      shift and go to state 97
     LPAREN          reduce using rule 23 (names -> ID .)
 
 
@@ -2267,7 +2439,7 @@ state 86
     (12) object_access -> CLASSOBJECT . DOT ID
     (24) names -> CLASSOBJECT .
 
-    DOT             shift and go to state 100
+    DOT             shift and go to state 101
     LPAREN          reduce using rule 24 (names -> CLASSOBJECT .)
 
 
@@ -2287,27 +2459,64 @@ state 87
 
 state 88
 
+    (55) loop_for -> loop_for body .
+
+    IF              reduce using rule 55 (loop_for -> loop_for body .)
+    ID              reduce using rule 55 (loop_for -> loop_for body .)
+    CLASSOBJECT     reduce using rule 55 (loop_for -> loop_for body .)
+    RETURN          reduce using rule 55 (loop_for -> loop_for body .)
+    WHILE           reduce using rule 55 (loop_for -> loop_for body .)
+    FOR             reduce using rule 55 (loop_for -> loop_for body .)
+    PUBLIC          reduce using rule 55 (loop_for -> loop_for body .)
+    PRIVATE         reduce using rule 55 (loop_for -> loop_for body .)
+    PROTECTED       reduce using rule 55 (loop_for -> loop_for body .)
+    INTERNAL        reduce using rule 55 (loop_for -> loop_for body .)
+    INT             reduce using rule 55 (loop_for -> loop_for body .)
+    FLOAT           reduce using rule 55 (loop_for -> loop_for body .)
+    BOOL            reduce using rule 55 (loop_for -> loop_for body .)
+    BYTE            reduce using rule 55 (loop_for -> loop_for body .)
+    CHAR            reduce using rule 55 (loop_for -> loop_for body .)
+    SBYTE           reduce using rule 55 (loop_for -> loop_for body .)
+    DECIMAL         reduce using rule 55 (loop_for -> loop_for body .)
+    DOUBLE          reduce using rule 55 (loop_for -> loop_for body .)
+    LONG            reduce using rule 55 (loop_for -> loop_for body .)
+    SHORT           reduce using rule 55 (loop_for -> loop_for body .)
+    UINT            reduce using rule 55 (loop_for -> loop_for body .)
+    LPAREN          reduce using rule 55 (loop_for -> loop_for body .)
+    LSQBRACKET      reduce using rule 55 (loop_for -> loop_for body .)
+    STRING          reduce using rule 55 (loop_for -> loop_for body .)
+    LIST            reduce using rule 55 (loop_for -> loop_for body .)
+    FLOAT_TYPE      reduce using rule 55 (loop_for -> loop_for body .)
+    DOUBLE_TYPE     reduce using rule 55 (loop_for -> loop_for body .)
+    DECIMAL_TYPE    reduce using rule 55 (loop_for -> loop_for body .)
+    INTEGER_TYPE    reduce using rule 55 (loop_for -> loop_for body .)
+    MINUS           reduce using rule 55 (loop_for -> loop_for body .)
+    RBRACKET        reduce using rule 55 (loop_for -> loop_for body .)
+
+
+state 89
+
     (25) function -> modifier data_type . names LPAREN declarations RPAREN block
     (23) names -> . ID
     (24) names -> . CLASSOBJECT
 
-    ID              shift and go to state 135
-    CLASSOBJECT     shift and go to state 136
+    ID              shift and go to state 136
+    CLASSOBJECT     shift and go to state 137
 
-    names                          shift and go to state 134
+    names                          shift and go to state 135
 
-state 89
+state 90
 
     (26) function -> modifier VOID . names LPAREN declarations RPAREN block
     (23) names -> . ID
     (24) names -> . CLASSOBJECT
 
-    ID              shift and go to state 135
-    CLASSOBJECT     shift and go to state 136
+    ID              shift and go to state 136
+    CLASSOBJECT     shift and go to state 137
 
-    names                          shift and go to state 137
+    names                          shift and go to state 138
 
-state 90
+state 91
 
     (27) function -> modifier STATIC . data_type names LPAREN declarations RPAREN block
     (28) function -> modifier STATIC . VOID names LPAREN declarations RPAREN block
@@ -2330,7 +2539,7 @@ state 90
     (80) data_structure_array -> . primitive LSQBRACKET RSQBRACKET
     (81) data_structure_array -> . CLASSOBJECT LSQBRACKET RSQBRACKET
 
-    VOID            shift and go to state 139
+    VOID            shift and go to state 140
     INT             shift and go to state 58
     FLOAT           shift and go to state 59
     BOOL            shift and go to state 60
@@ -2343,31 +2552,31 @@ state 90
     SHORT           shift and go to state 67
     UINT            shift and go to state 68
     LIST            shift and go to state 73
-    CLASSOBJECT     shift and go to state 91
+    CLASSOBJECT     shift and go to state 92
 
-    data_type                      shift and go to state 138
+    data_type                      shift and go to state 139
     primitive                      shift and go to state 53
     data_structure                 shift and go to state 54
     data_structure_list            shift and go to state 69
     data_structure_array           shift and go to state 70
 
-state 91
+state 92
 
     (81) data_structure_array -> CLASSOBJECT . LSQBRACKET RSQBRACKET
 
-    LSQBRACKET      shift and go to state 101
+    LSQBRACKET      shift and go to state 102
 
 
-state 92
+state 93
 
     (82) assignment -> data_type ID . EQUALS expression
     (109) declaration -> data_type ID .
 
-    EQUALS          shift and go to state 140
+    EQUALS          shift and go to state 141
     SEMICOLON       reduce using rule 109 (declaration -> data_type ID .)
 
 
-state 93
+state 94
 
     (33) function_call -> names LPAREN . RPAREN
     (34) function_call -> names LPAREN . arguments RPAREN
@@ -2408,9 +2617,9 @@ state 93
     (33) function_call -> . names LPAREN RPAREN
     (34) function_call -> . names LPAREN arguments RPAREN
 
-    RPAREN          shift and go to state 141
-    ID              shift and go to state 115
-    CLASSOBJECT     shift and go to state 116
+    RPAREN          shift and go to state 142
+    ID              shift and go to state 116
+    CLASSOBJECT     shift and go to state 117
     LPAREN          shift and go to state 37
     LSQBRACKET      shift and go to state 55
     STRING          shift and go to state 72
@@ -2420,9 +2629,9 @@ state 93
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
 
-    names                          shift and go to state 114
-    arguments                      shift and go to state 142
-    expression                     shift and go to state 113
+    names                          shift and go to state 115
+    arguments                      shift and go to state 143
+    expression                     shift and go to state 114
     object_access                  shift and go to state 46
     term                           shift and go to state 47
     factor                         shift and go to state 57
@@ -2430,7 +2639,7 @@ state 93
     indexing                       shift and go to state 87
     function_call                  shift and go to state 71
 
-state 94
+state 95
 
     (83) assignment -> ID EQUALS . expression
     (41) expression -> . object_access LPAREN expression RPAREN
@@ -2477,7 +2686,7 @@ state 94
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
 
-    expression                     shift and go to state 143
+    expression                     shift and go to state 144
     object_access                  shift and go to state 46
     term                           shift and go to state 47
     factor                         shift and go to state 57
@@ -2486,7 +2695,7 @@ state 94
     function_call                  shift and go to state 71
     names                          shift and go to state 42
 
-state 95
+state 96
 
     (85) assignment -> ID PLUSONE .
 
@@ -2494,7 +2703,7 @@ state 95
     RPAREN          reduce using rule 85 (assignment -> ID PLUSONE .)
 
 
-state 96
+state 97
 
     (127) indexing -> ID LSQBRACKET . INTEGER_TYPE RSQBRACKET
     (128) indexing -> ID LSQBRACKET . ID RSQBRACKET
@@ -2532,8 +2741,8 @@ state 96
     (23) names -> . ID
     (24) names -> . CLASSOBJECT
 
-    INTEGER_TYPE    shift and go to state 145
-    ID              shift and go to state 144
+    INTEGER_TYPE    shift and go to state 146
+    ID              shift and go to state 145
     CLASSOBJECT     shift and go to state 86
     LPAREN          shift and go to state 37
     LSQBRACKET      shift and go to state 55
@@ -2543,7 +2752,7 @@ state 96
     DECIMAL_TYPE    shift and go to state 76
     MINUS           shift and go to state 48
 
-    expression                     shift and go to state 146
+    expression                     shift and go to state 147
     object_access                  shift and go to state 46
     term                           shift and go to state 47
     factor                         shift and go to state 57
@@ -2552,16 +2761,16 @@ state 96
     function_call                  shift and go to state 71
     names                          shift and go to state 42
 
-state 97
+state 98
 
     (9) object_access -> ID DOT . ID
     (11) object_access -> ID DOT . CLASSOBJECT
 
-    ID              shift and go to state 147
-    CLASSOBJECT     shift and go to state 148
+    ID              shift and go to state 148
+    CLASSOBJECT     shift and go to state 149
 
 
-state 98
+state 99
 
     (84) assignment -> indexing EQUALS . expression
     (41) expression -> . object_access LPAREN expression RPAREN
@@ -2609,7 +2818,7 @@ state 98
     MINUS           shift and go to state 48
 
     indexing                       shift and go to state 87
-    expression                     shift and go to state 149
+    expression                     shift and go to state 150
     object_access                  shift and go to state 46
     term                           shift and go to state 47
     factor                         shift and go to state 57
@@ -2617,7 +2826,7 @@ state 98
     function_call                  shift and go to state 71
     names                          shift and go to state 42
 
-state 99
+state 100
 
     (86) assignment -> CLASSOBJECT ID .
 
@@ -2625,23 +2834,23 @@ state 99
     RPAREN          reduce using rule 86 (assignment -> CLASSOBJECT ID .)
 
 
-state 100
+state 101
 
     (10) object_access -> CLASSOBJECT DOT . CLASSOBJECT
     (12) object_access -> CLASSOBJECT DOT . ID
 
-    CLASSOBJECT     shift and go to state 150
-    ID              shift and go to state 151
-
-
-state 101
-
-    (81) data_structure_array -> CLASSOBJECT LSQBRACKET . RSQBRACKET
-
-    RSQBRACKET      shift and go to state 152
+    CLASSOBJECT     shift and go to state 151
+    ID              shift and go to state 152
 
 
 state 102
+
+    (81) data_structure_array -> CLASSOBJECT LSQBRACKET . RSQBRACKET
+
+    RSQBRACKET      shift and go to state 153
+
+
+state 103
 
     (41) expression -> object_access LPAREN . expression RPAREN
     (42) expression -> object_access LPAREN . RPAREN
@@ -2678,7 +2887,7 @@ state 102
     (23) names -> . ID
     (24) names -> . CLASSOBJECT
 
-    RPAREN          shift and go to state 154
+    RPAREN          shift and go to state 155
     ID              shift and go to state 85
     CLASSOBJECT     shift and go to state 86
     LPAREN          shift and go to state 37
@@ -2691,7 +2900,7 @@ state 102
     MINUS           shift and go to state 48
 
     object_access                  shift and go to state 46
-    expression                     shift and go to state 153
+    expression                     shift and go to state 154
     term                           shift and go to state 47
     factor                         shift and go to state 57
     type                           shift and go to state 50
@@ -2699,7 +2908,7 @@ state 102
     function_call                  shift and go to state 71
     names                          shift and go to state 42
 
-state 103
+state 104
 
     (90) term -> term TIMES . factor
     (93) factor -> . type
@@ -2729,7 +2938,7 @@ state 103
 
     LPAREN          shift and go to state 37
     LSQBRACKET      shift and go to state 55
-    ID              shift and go to state 121
+    ID              shift and go to state 122
     STRING          shift and go to state 72
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
@@ -2738,14 +2947,14 @@ state 103
     MINUS           shift and go to state 48
     CLASSOBJECT     shift and go to state 86
 
-    factor                         shift and go to state 155
+    factor                         shift and go to state 156
     type                           shift and go to state 50
-    object_access                  shift and go to state 120
+    object_access                  shift and go to state 121
     indexing                       shift and go to state 87
     function_call                  shift and go to state 71
     names                          shift and go to state 42
 
-state 104
+state 105
 
     (91) term -> term DIVIDE . factor
     (93) factor -> . type
@@ -2775,7 +2984,7 @@ state 104
 
     LPAREN          shift and go to state 37
     LSQBRACKET      shift and go to state 55
-    ID              shift and go to state 121
+    ID              shift and go to state 122
     STRING          shift and go to state 72
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
@@ -2784,14 +2993,14 @@ state 104
     MINUS           shift and go to state 48
     CLASSOBJECT     shift and go to state 86
 
-    factor                         shift and go to state 156
+    factor                         shift and go to state 157
     type                           shift and go to state 50
-    object_access                  shift and go to state 120
+    object_access                  shift and go to state 121
     indexing                       shift and go to state 87
     function_call                  shift and go to state 71
     names                          shift and go to state 42
 
-state 105
+state 106
 
     (105) type -> MINUS type .
 
@@ -2814,7 +3023,7 @@ state 105
     DIFFERENT       reduce using rule 105 (type -> MINUS type .)
 
 
-state 106
+state 107
 
     (30) return -> RETURN ID .
     (9) object_access -> ID . DOT ID
@@ -2827,18 +3036,18 @@ state 106
 
   ! reduce/reduce conflict for SEMICOLON resolved using rule 30 (return -> RETURN ID .)
     SEMICOLON       reduce using rule 30 (return -> RETURN ID .)
-    DOT             shift and go to state 97
+    DOT             shift and go to state 98
     TIMES           reduce using rule 97 (factor -> ID .)
     DIVIDE          reduce using rule 97 (factor -> ID .)
     PLUS            reduce using rule 97 (factor -> ID .)
     MINUS           reduce using rule 97 (factor -> ID .)
-    LSQBRACKET      shift and go to state 96
+    LSQBRACKET      shift and go to state 97
     LPAREN          reduce using rule 23 (names -> ID .)
 
   ! SEMICOLON       [ reduce using rule 97 (factor -> ID .) ]
 
 
-state 107
+state 108
 
     (31) return -> RETURN type .
     (93) factor -> type .
@@ -2853,7 +3062,7 @@ state 107
   ! SEMICOLON       [ reduce using rule 93 (factor -> type .) ]
 
 
-state 108
+state 109
 
     (32) return -> RETURN expression .
     (87) expression -> expression . PLUS term
@@ -2864,7 +3073,7 @@ state 108
     MINUS           shift and go to state 82
 
 
-state 109
+state 110
 
     (56) while_loop -> WHILE LPAREN . logical_expression RPAREN block
     (57) while_loop -> WHILE LPAREN . logical_expression RPAREN block body
@@ -2891,27 +3100,26 @@ state 109
     (11) object_access -> . ID DOT CLASSOBJECT
     (12) object_access -> . CLASSOBJECT DOT ID
 
-    TRUE            shift and go to state 126
-    FALSE           shift and go to state 127
-    ID              shift and go to state 128
-    LPAREN          shift and go to state 123
+    TRUE            shift and go to state 127
+    FALSE           shift and go to state 128
+    ID              shift and go to state 129
+    LPAREN          shift and go to state 124
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
     DECIMAL_TYPE    shift and go to state 76
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
-    CLASSOBJECT     shift and go to state 132
+    CLASSOBJECT     shift and go to state 133
 
-    logical_expression             shift and go to state 157
-    logical_factor                 shift and go to state 125
-    indexing                       shift and go to state 129
-    type                           shift and go to state 130
-    object_access                  shift and go to state 131
+    logical_expression             shift and go to state 158
+    logical_factor                 shift and go to state 126
+    indexing                       shift and go to state 130
+    type                           shift and go to state 131
+    object_access                  shift and go to state 132
 
-state 110
+state 111
 
     (54) loop_for -> FOR LPAREN . assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> FOR LPAREN . assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
     (82) assignment -> . data_type ID EQUALS expression
     (83) assignment -> . ID EQUALS expression
     (84) assignment -> . indexing EQUALS expression
@@ -2939,8 +3147,8 @@ state 110
     (80) data_structure_array -> . primitive LSQBRACKET RSQBRACKET
     (81) data_structure_array -> . CLASSOBJECT LSQBRACKET RSQBRACKET
 
-    ID              shift and go to state 160
-    CLASSOBJECT     shift and go to state 162
+    ID              shift and go to state 161
+    CLASSOBJECT     shift and go to state 163
     INT             shift and go to state 58
     FLOAT           shift and go to state 59
     BOOL            shift and go to state 60
@@ -2954,29 +3162,29 @@ state 110
     UINT            shift and go to state 68
     LIST            shift and go to state 73
 
-    assignment                     shift and go to state 158
-    data_type                      shift and go to state 159
-    indexing                       shift and go to state 161
+    assignment                     shift and go to state 159
+    data_type                      shift and go to state 160
+    indexing                       shift and go to state 162
     primitive                      shift and go to state 53
     data_structure                 shift and go to state 54
     data_structure_list            shift and go to state 69
     data_structure_array           shift and go to state 70
 
-state 111
-
-    (80) data_structure_array -> primitive LSQBRACKET . RSQBRACKET
-
-    RSQBRACKET      shift and go to state 163
-
-
 state 112
 
-    (95) factor -> LSQBRACKET arguments . RSQBRACKET
+    (80) data_structure_array -> primitive LSQBRACKET . RSQBRACKET
 
     RSQBRACKET      shift and go to state 164
 
 
 state 113
+
+    (95) factor -> LSQBRACKET arguments . RSQBRACKET
+
+    RSQBRACKET      shift and go to state 165
+
+
+state 114
 
     (35) arguments -> expression .
     (36) arguments -> expression . COMMA arguments
@@ -2985,12 +3193,12 @@ state 113
 
     RSQBRACKET      reduce using rule 35 (arguments -> expression .)
     RPAREN          reduce using rule 35 (arguments -> expression .)
-    COMMA           shift and go to state 165
+    COMMA           shift and go to state 166
     PLUS            shift and go to state 81
     MINUS           shift and go to state 82
 
 
-state 114
+state 115
 
     (37) arguments -> names .
     (38) arguments -> names . COMMA arguments
@@ -2999,11 +3207,11 @@ state 114
 
     RSQBRACKET      reduce using rule 37 (arguments -> names .)
     RPAREN          reduce using rule 37 (arguments -> names .)
-    COMMA           shift and go to state 166
-    LPAREN          shift and go to state 93
+    COMMA           shift and go to state 167
+    LPAREN          shift and go to state 94
 
 
-state 115
+state 116
 
     (23) names -> ID .
     (9) object_access -> ID . DOT ID
@@ -3020,19 +3228,19 @@ state 115
     LPAREN          reduce using rule 23 (names -> ID .)
     RSQBRACKET      reduce using rule 23 (names -> ID .)
     RPAREN          reduce using rule 23 (names -> ID .)
-    DOT             shift and go to state 97
+    DOT             shift and go to state 98
     TIMES           reduce using rule 97 (factor -> ID .)
     DIVIDE          reduce using rule 97 (factor -> ID .)
     PLUS            reduce using rule 97 (factor -> ID .)
     MINUS           reduce using rule 97 (factor -> ID .)
-    LSQBRACKET      shift and go to state 96
+    LSQBRACKET      shift and go to state 97
 
   ! COMMA           [ reduce using rule 97 (factor -> ID .) ]
   ! RSQBRACKET      [ reduce using rule 97 (factor -> ID .) ]
   ! RPAREN          [ reduce using rule 97 (factor -> ID .) ]
 
 
-state 116
+state 117
 
     (24) names -> CLASSOBJECT .
     (10) object_access -> CLASSOBJECT . DOT CLASSOBJECT
@@ -3042,10 +3250,10 @@ state 116
     LPAREN          reduce using rule 24 (names -> CLASSOBJECT .)
     RSQBRACKET      reduce using rule 24 (names -> CLASSOBJECT .)
     RPAREN          reduce using rule 24 (names -> CLASSOBJECT .)
-    DOT             shift and go to state 100
+    DOT             shift and go to state 101
 
 
-state 117
+state 118
 
     (79) data_structure_list -> LIST LESS_THAN . data_type GREATER_THAN
     (114) data_type -> . primitive
@@ -3079,15 +3287,15 @@ state 117
     SHORT           shift and go to state 67
     UINT            shift and go to state 68
     LIST            shift and go to state 73
-    CLASSOBJECT     shift and go to state 91
+    CLASSOBJECT     shift and go to state 92
 
-    data_type                      shift and go to state 167
+    data_type                      shift and go to state 168
     primitive                      shift and go to state 53
     data_structure                 shift and go to state 54
     data_structure_list            shift and go to state 69
     data_structure_array           shift and go to state 70
 
-state 118
+state 119
 
     (15) body -> lines SEMICOLON body .
 
@@ -3124,7 +3332,7 @@ state 118
     MINUS           reduce using rule 15 (body -> lines SEMICOLON body .)
 
 
-state 119
+state 120
 
     (87) expression -> expression PLUS term .
     (90) term -> term . TIMES factor
@@ -3136,11 +3344,11 @@ state 119
     RPAREN          reduce using rule 87 (expression -> expression PLUS term .)
     COMMA           reduce using rule 87 (expression -> expression PLUS term .)
     RSQBRACKET      reduce using rule 87 (expression -> expression PLUS term .)
-    TIMES           shift and go to state 103
-    DIVIDE          shift and go to state 104
+    TIMES           shift and go to state 104
+    DIVIDE          shift and go to state 105
 
 
-state 120
+state 121
 
     (96) factor -> object_access .
 
@@ -3154,7 +3362,7 @@ state 120
     RSQBRACKET      reduce using rule 96 (factor -> object_access .)
 
 
-state 121
+state 122
 
     (97) factor -> ID .
     (9) object_access -> ID . DOT ID
@@ -3172,12 +3380,12 @@ state 121
     RPAREN          reduce using rule 97 (factor -> ID .)
     COMMA           reduce using rule 97 (factor -> ID .)
     RSQBRACKET      reduce using rule 97 (factor -> ID .)
-    DOT             shift and go to state 97
-    LSQBRACKET      shift and go to state 96
+    DOT             shift and go to state 98
+    LSQBRACKET      shift and go to state 97
     LPAREN          reduce using rule 23 (names -> ID .)
 
 
-state 122
+state 123
 
     (88) expression -> expression MINUS term .
     (90) term -> term . TIMES factor
@@ -3189,11 +3397,11 @@ state 122
     RPAREN          reduce using rule 88 (expression -> expression MINUS term .)
     COMMA           reduce using rule 88 (expression -> expression MINUS term .)
     RSQBRACKET      reduce using rule 88 (expression -> expression MINUS term .)
-    TIMES           shift and go to state 103
-    DIVIDE          shift and go to state 104
+    TIMES           shift and go to state 104
+    DIVIDE          shift and go to state 105
 
 
-state 123
+state 124
 
     (67) logical_factor -> LPAREN . logical_expression RPAREN
     (58) logical_expression -> . logical_factor logical_operator logical_expression
@@ -3219,24 +3427,24 @@ state 123
     (11) object_access -> . ID DOT CLASSOBJECT
     (12) object_access -> . CLASSOBJECT DOT ID
 
-    TRUE            shift and go to state 126
-    FALSE           shift and go to state 127
-    ID              shift and go to state 128
-    LPAREN          shift and go to state 123
+    TRUE            shift and go to state 127
+    FALSE           shift and go to state 128
+    ID              shift and go to state 129
+    LPAREN          shift and go to state 124
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
     DECIMAL_TYPE    shift and go to state 76
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
-    CLASSOBJECT     shift and go to state 132
+    CLASSOBJECT     shift and go to state 133
 
-    logical_expression             shift and go to state 168
-    logical_factor                 shift and go to state 125
-    indexing                       shift and go to state 129
-    type                           shift and go to state 130
-    object_access                  shift and go to state 131
+    logical_expression             shift and go to state 169
+    logical_factor                 shift and go to state 126
+    indexing                       shift and go to state 130
+    type                           shift and go to state 131
+    object_access                  shift and go to state 132
 
-state 124
+state 125
 
     (43) if -> IF LPAREN logical_expression . RPAREN block
     (44) if -> IF LPAREN logical_expression . RPAREN block body
@@ -3253,20 +3461,20 @@ state 124
     (75) logical_operator -> . EQUALITY
     (76) logical_operator -> . DIFFERENT
 
-    RPAREN          shift and go to state 169
-    OR              shift and go to state 171
-    AND             shift and go to state 172
-    NOT             shift and go to state 173
-    GREATER_THAN    shift and go to state 174
-    LESS_THAN       shift and go to state 175
-    GREATER_EQUALS_THAN shift and go to state 176
-    LESS_EQUALS_THAN shift and go to state 177
-    EQUALITY        shift and go to state 178
-    DIFFERENT       shift and go to state 179
+    RPAREN          shift and go to state 170
+    OR              shift and go to state 172
+    AND             shift and go to state 173
+    NOT             shift and go to state 174
+    GREATER_THAN    shift and go to state 175
+    LESS_THAN       shift and go to state 176
+    GREATER_EQUALS_THAN shift and go to state 177
+    LESS_EQUALS_THAN shift and go to state 178
+    EQUALITY        shift and go to state 179
+    DIFFERENT       shift and go to state 180
 
-    logical_operator               shift and go to state 170
+    logical_operator               shift and go to state 171
 
-state 125
+state 126
 
     (58) logical_expression -> logical_factor . logical_operator logical_expression
     (60) logical_expression -> logical_factor .
@@ -3291,15 +3499,15 @@ state 125
   ! shift/reduce conflict for DIFFERENT resolved as shift
     RPAREN          reduce using rule 60 (logical_expression -> logical_factor .)
     SEMICOLON       reduce using rule 60 (logical_expression -> logical_factor .)
-    OR              shift and go to state 171
-    AND             shift and go to state 172
-    NOT             shift and go to state 173
-    GREATER_THAN    shift and go to state 174
-    LESS_THAN       shift and go to state 175
-    GREATER_EQUALS_THAN shift and go to state 176
-    LESS_EQUALS_THAN shift and go to state 177
-    EQUALITY        shift and go to state 178
-    DIFFERENT       shift and go to state 179
+    OR              shift and go to state 172
+    AND             shift and go to state 173
+    NOT             shift and go to state 174
+    GREATER_THAN    shift and go to state 175
+    LESS_THAN       shift and go to state 176
+    GREATER_EQUALS_THAN shift and go to state 177
+    LESS_EQUALS_THAN shift and go to state 178
+    EQUALITY        shift and go to state 179
+    DIFFERENT       shift and go to state 180
 
   ! OR              [ reduce using rule 60 (logical_expression -> logical_factor .) ]
   ! AND             [ reduce using rule 60 (logical_expression -> logical_factor .) ]
@@ -3311,9 +3519,9 @@ state 125
   ! EQUALITY        [ reduce using rule 60 (logical_expression -> logical_factor .) ]
   ! DIFFERENT       [ reduce using rule 60 (logical_expression -> logical_factor .) ]
 
-    logical_operator               shift and go to state 180
+    logical_operator               shift and go to state 181
 
-state 126
+state 127
 
     (61) logical_factor -> TRUE .
 
@@ -3330,7 +3538,7 @@ state 126
     SEMICOLON       reduce using rule 61 (logical_factor -> TRUE .)
 
 
-state 127
+state 128
 
     (62) logical_factor -> FALSE .
 
@@ -3347,7 +3555,7 @@ state 127
     SEMICOLON       reduce using rule 62 (logical_factor -> FALSE .)
 
 
-state 128
+state 129
 
     (63) logical_factor -> ID .
     (127) indexing -> ID . LSQBRACKET INTEGER_TYPE RSQBRACKET
@@ -3367,11 +3575,11 @@ state 128
     DIFFERENT       reduce using rule 63 (logical_factor -> ID .)
     RPAREN          reduce using rule 63 (logical_factor -> ID .)
     SEMICOLON       reduce using rule 63 (logical_factor -> ID .)
-    LSQBRACKET      shift and go to state 96
-    DOT             shift and go to state 97
+    LSQBRACKET      shift and go to state 97
+    DOT             shift and go to state 98
 
 
-state 129
+state 130
 
     (64) logical_factor -> indexing .
 
@@ -3388,7 +3596,7 @@ state 129
     SEMICOLON       reduce using rule 64 (logical_factor -> indexing .)
 
 
-state 130
+state 131
 
     (65) logical_factor -> type .
 
@@ -3405,7 +3613,7 @@ state 130
     SEMICOLON       reduce using rule 65 (logical_factor -> type .)
 
 
-state 131
+state 132
 
     (66) logical_factor -> object_access .
 
@@ -3422,15 +3630,15 @@ state 131
     SEMICOLON       reduce using rule 66 (logical_factor -> object_access .)
 
 
-state 132
+state 133
 
     (10) object_access -> CLASSOBJECT . DOT CLASSOBJECT
     (12) object_access -> CLASSOBJECT . DOT ID
 
-    DOT             shift and go to state 100
+    DOT             shift and go to state 101
 
 
-state 133
+state 134
 
     (94) factor -> LPAREN expression RPAREN .
 
@@ -3444,57 +3652,57 @@ state 133
     RSQBRACKET      reduce using rule 94 (factor -> LPAREN expression RPAREN .)
 
 
-state 134
+state 135
 
     (25) function -> modifier data_type names . LPAREN declarations RPAREN block
 
-    LPAREN          shift and go to state 181
+    LPAREN          shift and go to state 182
 
 
-state 135
+state 136
 
     (23) names -> ID .
 
     LPAREN          reduce using rule 23 (names -> ID .)
 
 
-state 136
+state 137
 
     (24) names -> CLASSOBJECT .
 
     LPAREN          reduce using rule 24 (names -> CLASSOBJECT .)
 
 
-state 137
+state 138
 
     (26) function -> modifier VOID names . LPAREN declarations RPAREN block
 
-    LPAREN          shift and go to state 182
+    LPAREN          shift and go to state 183
 
 
-state 138
+state 139
 
     (27) function -> modifier STATIC data_type . names LPAREN declarations RPAREN block
     (23) names -> . ID
     (24) names -> . CLASSOBJECT
 
-    ID              shift and go to state 135
-    CLASSOBJECT     shift and go to state 136
+    ID              shift and go to state 136
+    CLASSOBJECT     shift and go to state 137
 
-    names                          shift and go to state 183
+    names                          shift and go to state 184
 
-state 139
+state 140
 
     (28) function -> modifier STATIC VOID . names LPAREN declarations RPAREN block
     (23) names -> . ID
     (24) names -> . CLASSOBJECT
 
-    ID              shift and go to state 135
-    CLASSOBJECT     shift and go to state 136
+    ID              shift and go to state 136
+    CLASSOBJECT     shift and go to state 137
 
-    names                          shift and go to state 184
+    names                          shift and go to state 185
 
-state 140
+state 141
 
     (82) assignment -> data_type ID EQUALS . expression
     (41) expression -> . object_access LPAREN expression RPAREN
@@ -3541,7 +3749,7 @@ state 140
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
 
-    expression                     shift and go to state 185
+    expression                     shift and go to state 186
     object_access                  shift and go to state 46
     term                           shift and go to state 47
     factor                         shift and go to state 57
@@ -3550,7 +3758,7 @@ state 140
     function_call                  shift and go to state 71
     names                          shift and go to state 42
 
-state 141
+state 142
 
     (33) function_call -> names LPAREN RPAREN .
 
@@ -3564,14 +3772,14 @@ state 141
     RSQBRACKET      reduce using rule 33 (function_call -> names LPAREN RPAREN .)
 
 
-state 142
+state 143
 
     (34) function_call -> names LPAREN arguments . RPAREN
 
-    RPAREN          shift and go to state 186
+    RPAREN          shift and go to state 187
 
 
-state 143
+state 144
 
     (83) assignment -> ID EQUALS expression .
     (87) expression -> expression . PLUS term
@@ -3583,7 +3791,7 @@ state 143
     MINUS           shift and go to state 82
 
 
-state 144
+state 145
 
     (128) indexing -> ID LSQBRACKET ID . RSQBRACKET
     (9) object_access -> ID . DOT ID
@@ -3595,25 +3803,25 @@ state 144
     (23) names -> ID .
 
   ! shift/reduce conflict for RSQBRACKET resolved as shift
-    RSQBRACKET      shift and go to state 187
-    DOT             shift and go to state 97
+    RSQBRACKET      shift and go to state 188
+    DOT             shift and go to state 98
     TIMES           reduce using rule 97 (factor -> ID .)
     DIVIDE          reduce using rule 97 (factor -> ID .)
     PLUS            reduce using rule 97 (factor -> ID .)
     MINUS           reduce using rule 97 (factor -> ID .)
-    LSQBRACKET      shift and go to state 96
+    LSQBRACKET      shift and go to state 97
     LPAREN          reduce using rule 23 (names -> ID .)
 
   ! RSQBRACKET      [ reduce using rule 97 (factor -> ID .) ]
 
 
-state 145
+state 146
 
     (127) indexing -> ID LSQBRACKET INTEGER_TYPE . RSQBRACKET
     (104) type -> INTEGER_TYPE .
 
   ! shift/reduce conflict for RSQBRACKET resolved as shift
-    RSQBRACKET      shift and go to state 188
+    RSQBRACKET      shift and go to state 189
     TIMES           reduce using rule 104 (type -> INTEGER_TYPE .)
     DIVIDE          reduce using rule 104 (type -> INTEGER_TYPE .)
     PLUS            reduce using rule 104 (type -> INTEGER_TYPE .)
@@ -3622,18 +3830,18 @@ state 145
   ! RSQBRACKET      [ reduce using rule 104 (type -> INTEGER_TYPE .) ]
 
 
-state 146
+state 147
 
     (129) indexing -> ID LSQBRACKET expression . RSQBRACKET
     (87) expression -> expression . PLUS term
     (88) expression -> expression . MINUS term
 
-    RSQBRACKET      shift and go to state 189
+    RSQBRACKET      shift and go to state 190
     PLUS            shift and go to state 81
     MINUS           shift and go to state 82
 
 
-state 147
+state 148
 
     (9) object_access -> ID DOT ID .
 
@@ -3657,7 +3865,7 @@ state 147
     DIFFERENT       reduce using rule 9 (object_access -> ID DOT ID .)
 
 
-state 148
+state 149
 
     (11) object_access -> ID DOT CLASSOBJECT .
 
@@ -3681,7 +3889,7 @@ state 148
     DIFFERENT       reduce using rule 11 (object_access -> ID DOT CLASSOBJECT .)
 
 
-state 149
+state 150
 
     (84) assignment -> indexing EQUALS expression .
     (87) expression -> expression . PLUS term
@@ -3693,7 +3901,7 @@ state 149
     MINUS           shift and go to state 82
 
 
-state 150
+state 151
 
     (10) object_access -> CLASSOBJECT DOT CLASSOBJECT .
 
@@ -3717,7 +3925,7 @@ state 150
     DIFFERENT       reduce using rule 10 (object_access -> CLASSOBJECT DOT CLASSOBJECT .)
 
 
-state 151
+state 152
 
     (12) object_access -> CLASSOBJECT DOT ID .
 
@@ -3741,7 +3949,7 @@ state 151
     DIFFERENT       reduce using rule 12 (object_access -> CLASSOBJECT DOT ID .)
 
 
-state 152
+state 153
 
     (81) data_structure_array -> CLASSOBJECT LSQBRACKET RSQBRACKET .
 
@@ -3750,18 +3958,18 @@ state 152
     GREATER_THAN    reduce using rule 81 (data_structure_array -> CLASSOBJECT LSQBRACKET RSQBRACKET .)
 
 
-state 153
+state 154
 
     (41) expression -> object_access LPAREN expression . RPAREN
     (87) expression -> expression . PLUS term
     (88) expression -> expression . MINUS term
 
-    RPAREN          shift and go to state 190
+    RPAREN          shift and go to state 191
     PLUS            shift and go to state 81
     MINUS           shift and go to state 82
 
 
-state 154
+state 155
 
     (42) expression -> object_access LPAREN RPAREN .
 
@@ -3773,7 +3981,7 @@ state 154
     RSQBRACKET      reduce using rule 42 (expression -> object_access LPAREN RPAREN .)
 
 
-state 155
+state 156
 
     (90) term -> term TIMES factor .
 
@@ -3787,7 +3995,7 @@ state 155
     RSQBRACKET      reduce using rule 90 (term -> term TIMES factor .)
 
 
-state 156
+state 157
 
     (91) term -> term DIVIDE factor .
 
@@ -3801,7 +4009,7 @@ state 156
     RSQBRACKET      reduce using rule 91 (term -> term DIVIDE factor .)
 
 
-state 157
+state 158
 
     (56) while_loop -> WHILE LPAREN logical_expression . RPAREN block
     (57) while_loop -> WHILE LPAREN logical_expression . RPAREN block body
@@ -3816,35 +4024,34 @@ state 157
     (75) logical_operator -> . EQUALITY
     (76) logical_operator -> . DIFFERENT
 
-    RPAREN          shift and go to state 191
-    OR              shift and go to state 171
-    AND             shift and go to state 172
-    NOT             shift and go to state 173
-    GREATER_THAN    shift and go to state 174
-    LESS_THAN       shift and go to state 175
-    GREATER_EQUALS_THAN shift and go to state 176
-    LESS_EQUALS_THAN shift and go to state 177
-    EQUALITY        shift and go to state 178
-    DIFFERENT       shift and go to state 179
+    RPAREN          shift and go to state 192
+    OR              shift and go to state 172
+    AND             shift and go to state 173
+    NOT             shift and go to state 174
+    GREATER_THAN    shift and go to state 175
+    LESS_THAN       shift and go to state 176
+    GREATER_EQUALS_THAN shift and go to state 177
+    LESS_EQUALS_THAN shift and go to state 178
+    EQUALITY        shift and go to state 179
+    DIFFERENT       shift and go to state 180
 
-    logical_operator               shift and go to state 170
-
-state 158
-
-    (54) loop_for -> FOR LPAREN assignment . SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> FOR LPAREN assignment . SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
-
-    SEMICOLON       shift and go to state 192
-
+    logical_operator               shift and go to state 171
 
 state 159
 
-    (82) assignment -> data_type . ID EQUALS expression
+    (54) loop_for -> FOR LPAREN assignment . SEMICOLON logical_expression SEMICOLON assignment RPAREN block
 
-    ID              shift and go to state 193
+    SEMICOLON       shift and go to state 193
 
 
 state 160
+
+    (82) assignment -> data_type . ID EQUALS expression
+
+    ID              shift and go to state 194
+
+
+state 161
 
     (83) assignment -> ID . EQUALS expression
     (85) assignment -> ID . PLUSONE
@@ -3852,28 +4059,28 @@ state 160
     (128) indexing -> ID . LSQBRACKET ID RSQBRACKET
     (129) indexing -> ID . LSQBRACKET expression RSQBRACKET
 
-    EQUALS          shift and go to state 94
-    PLUSONE         shift and go to state 95
-    LSQBRACKET      shift and go to state 96
-
-
-state 161
-
-    (84) assignment -> indexing . EQUALS expression
-
-    EQUALS          shift and go to state 98
+    EQUALS          shift and go to state 95
+    PLUSONE         shift and go to state 96
+    LSQBRACKET      shift and go to state 97
 
 
 state 162
 
-    (86) assignment -> CLASSOBJECT . ID
-    (81) data_structure_array -> CLASSOBJECT . LSQBRACKET RSQBRACKET
+    (84) assignment -> indexing . EQUALS expression
 
-    ID              shift and go to state 99
-    LSQBRACKET      shift and go to state 101
+    EQUALS          shift and go to state 99
 
 
 state 163
+
+    (86) assignment -> CLASSOBJECT . ID
+    (81) data_structure_array -> CLASSOBJECT . LSQBRACKET RSQBRACKET
+
+    ID              shift and go to state 100
+    LSQBRACKET      shift and go to state 102
+
+
+state 164
 
     (80) data_structure_array -> primitive LSQBRACKET RSQBRACKET .
 
@@ -3882,7 +4089,7 @@ state 163
     GREATER_THAN    reduce using rule 80 (data_structure_array -> primitive LSQBRACKET RSQBRACKET .)
 
 
-state 164
+state 165
 
     (95) factor -> LSQBRACKET arguments RSQBRACKET .
 
@@ -3896,7 +4103,7 @@ state 164
     RSQBRACKET      reduce using rule 95 (factor -> LSQBRACKET arguments RSQBRACKET .)
 
 
-state 165
+state 166
 
     (36) arguments -> expression COMMA . arguments
     (35) arguments -> . expression
@@ -3936,8 +4143,8 @@ state 165
     (33) function_call -> . names LPAREN RPAREN
     (34) function_call -> . names LPAREN arguments RPAREN
 
-    ID              shift and go to state 115
-    CLASSOBJECT     shift and go to state 116
+    ID              shift and go to state 116
+    CLASSOBJECT     shift and go to state 117
     LPAREN          shift and go to state 37
     LSQBRACKET      shift and go to state 55
     STRING          shift and go to state 72
@@ -3947,9 +4154,9 @@ state 165
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
 
-    expression                     shift and go to state 113
-    arguments                      shift and go to state 194
-    names                          shift and go to state 114
+    expression                     shift and go to state 114
+    arguments                      shift and go to state 195
+    names                          shift and go to state 115
     object_access                  shift and go to state 46
     term                           shift and go to state 47
     factor                         shift and go to state 57
@@ -3957,7 +4164,7 @@ state 165
     indexing                       shift and go to state 87
     function_call                  shift and go to state 71
 
-state 166
+state 167
 
     (38) arguments -> names COMMA . arguments
     (35) arguments -> . expression
@@ -3997,8 +4204,8 @@ state 166
     (33) function_call -> . names LPAREN RPAREN
     (34) function_call -> . names LPAREN arguments RPAREN
 
-    ID              shift and go to state 115
-    CLASSOBJECT     shift and go to state 116
+    ID              shift and go to state 116
+    CLASSOBJECT     shift and go to state 117
     LPAREN          shift and go to state 37
     LSQBRACKET      shift and go to state 55
     STRING          shift and go to state 72
@@ -4008,9 +4215,9 @@ state 166
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
 
-    names                          shift and go to state 114
-    arguments                      shift and go to state 195
-    expression                     shift and go to state 113
+    names                          shift and go to state 115
+    arguments                      shift and go to state 196
+    expression                     shift and go to state 114
     object_access                  shift and go to state 46
     term                           shift and go to state 47
     factor                         shift and go to state 57
@@ -4018,14 +4225,14 @@ state 166
     indexing                       shift and go to state 87
     function_call                  shift and go to state 71
 
-state 167
+state 168
 
     (79) data_structure_list -> LIST LESS_THAN data_type . GREATER_THAN
 
-    GREATER_THAN    shift and go to state 196
+    GREATER_THAN    shift and go to state 197
 
 
-state 168
+state 169
 
     (67) logical_factor -> LPAREN logical_expression . RPAREN
     (59) logical_expression -> logical_expression . logical_operator logical_expression
@@ -4039,20 +4246,20 @@ state 168
     (75) logical_operator -> . EQUALITY
     (76) logical_operator -> . DIFFERENT
 
-    RPAREN          shift and go to state 197
-    OR              shift and go to state 171
-    AND             shift and go to state 172
-    NOT             shift and go to state 173
-    GREATER_THAN    shift and go to state 174
-    LESS_THAN       shift and go to state 175
-    GREATER_EQUALS_THAN shift and go to state 176
-    LESS_EQUALS_THAN shift and go to state 177
-    EQUALITY        shift and go to state 178
-    DIFFERENT       shift and go to state 179
+    RPAREN          shift and go to state 198
+    OR              shift and go to state 172
+    AND             shift and go to state 173
+    NOT             shift and go to state 174
+    GREATER_THAN    shift and go to state 175
+    LESS_THAN       shift and go to state 176
+    GREATER_EQUALS_THAN shift and go to state 177
+    LESS_EQUALS_THAN shift and go to state 178
+    EQUALITY        shift and go to state 179
+    DIFFERENT       shift and go to state 180
 
-    logical_operator               shift and go to state 170
+    logical_operator               shift and go to state 171
 
-state 169
+state 170
 
     (43) if -> IF LPAREN logical_expression RPAREN . block
     (44) if -> IF LPAREN logical_expression RPAREN . block body
@@ -4062,9 +4269,9 @@ state 169
 
     LBRACKET        shift and go to state 25
 
-    block                          shift and go to state 198
+    block                          shift and go to state 199
 
-state 170
+state 171
 
     (59) logical_expression -> logical_expression logical_operator . logical_expression
     (58) logical_expression -> . logical_factor logical_operator logical_expression
@@ -4090,24 +4297,24 @@ state 170
     (11) object_access -> . ID DOT CLASSOBJECT
     (12) object_access -> . CLASSOBJECT DOT ID
 
-    TRUE            shift and go to state 126
-    FALSE           shift and go to state 127
-    ID              shift and go to state 128
-    LPAREN          shift and go to state 123
+    TRUE            shift and go to state 127
+    FALSE           shift and go to state 128
+    ID              shift and go to state 129
+    LPAREN          shift and go to state 124
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
     DECIMAL_TYPE    shift and go to state 76
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
-    CLASSOBJECT     shift and go to state 132
+    CLASSOBJECT     shift and go to state 133
 
-    logical_expression             shift and go to state 199
-    logical_factor                 shift and go to state 125
-    indexing                       shift and go to state 129
-    type                           shift and go to state 130
-    object_access                  shift and go to state 131
+    logical_expression             shift and go to state 200
+    logical_factor                 shift and go to state 126
+    indexing                       shift and go to state 130
+    type                           shift and go to state 131
+    object_access                  shift and go to state 132
 
-state 171
+state 172
 
     (68) logical_operator -> OR .
 
@@ -4123,7 +4330,7 @@ state 171
     CLASSOBJECT     reduce using rule 68 (logical_operator -> OR .)
 
 
-state 172
+state 173
 
     (69) logical_operator -> AND .
 
@@ -4139,7 +4346,7 @@ state 172
     CLASSOBJECT     reduce using rule 69 (logical_operator -> AND .)
 
 
-state 173
+state 174
 
     (70) logical_operator -> NOT .
 
@@ -4155,7 +4362,7 @@ state 173
     CLASSOBJECT     reduce using rule 70 (logical_operator -> NOT .)
 
 
-state 174
+state 175
 
     (71) logical_operator -> GREATER_THAN .
 
@@ -4171,7 +4378,7 @@ state 174
     CLASSOBJECT     reduce using rule 71 (logical_operator -> GREATER_THAN .)
 
 
-state 175
+state 176
 
     (72) logical_operator -> LESS_THAN .
 
@@ -4187,7 +4394,7 @@ state 175
     CLASSOBJECT     reduce using rule 72 (logical_operator -> LESS_THAN .)
 
 
-state 176
+state 177
 
     (73) logical_operator -> GREATER_EQUALS_THAN .
 
@@ -4203,7 +4410,7 @@ state 176
     CLASSOBJECT     reduce using rule 73 (logical_operator -> GREATER_EQUALS_THAN .)
 
 
-state 177
+state 178
 
     (74) logical_operator -> LESS_EQUALS_THAN .
 
@@ -4219,7 +4426,7 @@ state 177
     CLASSOBJECT     reduce using rule 74 (logical_operator -> LESS_EQUALS_THAN .)
 
 
-state 178
+state 179
 
     (75) logical_operator -> EQUALITY .
 
@@ -4235,7 +4442,7 @@ state 178
     CLASSOBJECT     reduce using rule 75 (logical_operator -> EQUALITY .)
 
 
-state 179
+state 180
 
     (76) logical_operator -> DIFFERENT .
 
@@ -4251,7 +4458,7 @@ state 179
     CLASSOBJECT     reduce using rule 76 (logical_operator -> DIFFERENT .)
 
 
-state 180
+state 181
 
     (58) logical_expression -> logical_factor logical_operator . logical_expression
     (58) logical_expression -> . logical_factor logical_operator logical_expression
@@ -4277,24 +4484,24 @@ state 180
     (11) object_access -> . ID DOT CLASSOBJECT
     (12) object_access -> . CLASSOBJECT DOT ID
 
-    TRUE            shift and go to state 126
-    FALSE           shift and go to state 127
-    ID              shift and go to state 128
-    LPAREN          shift and go to state 123
+    TRUE            shift and go to state 127
+    FALSE           shift and go to state 128
+    ID              shift and go to state 129
+    LPAREN          shift and go to state 124
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
     DECIMAL_TYPE    shift and go to state 76
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
-    CLASSOBJECT     shift and go to state 132
+    CLASSOBJECT     shift and go to state 133
 
-    logical_factor                 shift and go to state 125
-    logical_expression             shift and go to state 200
-    indexing                       shift and go to state 129
-    type                           shift and go to state 130
-    object_access                  shift and go to state 131
+    logical_factor                 shift and go to state 126
+    logical_expression             shift and go to state 201
+    indexing                       shift and go to state 130
+    type                           shift and go to state 131
+    object_access                  shift and go to state 132
 
-state 181
+state 182
 
     (25) function -> modifier data_type names LPAREN . declarations RPAREN block
     (106) declarations -> . declaration
@@ -4332,17 +4539,17 @@ state 181
     SHORT           shift and go to state 67
     UINT            shift and go to state 68
     LIST            shift and go to state 73
-    CLASSOBJECT     shift and go to state 91
+    CLASSOBJECT     shift and go to state 92
 
-    data_type                      shift and go to state 201
-    declarations                   shift and go to state 202
-    declaration                    shift and go to state 203
+    data_type                      shift and go to state 202
+    declarations                   shift and go to state 203
+    declaration                    shift and go to state 204
     primitive                      shift and go to state 53
     data_structure                 shift and go to state 54
     data_structure_list            shift and go to state 69
     data_structure_array           shift and go to state 70
 
-state 182
+state 183
 
     (26) function -> modifier VOID names LPAREN . declarations RPAREN block
     (106) declarations -> . declaration
@@ -4380,31 +4587,31 @@ state 182
     SHORT           shift and go to state 67
     UINT            shift and go to state 68
     LIST            shift and go to state 73
-    CLASSOBJECT     shift and go to state 91
+    CLASSOBJECT     shift and go to state 92
 
-    declarations                   shift and go to state 204
-    declaration                    shift and go to state 203
-    data_type                      shift and go to state 201
+    declarations                   shift and go to state 205
+    declaration                    shift and go to state 204
+    data_type                      shift and go to state 202
     primitive                      shift and go to state 53
     data_structure                 shift and go to state 54
     data_structure_list            shift and go to state 69
     data_structure_array           shift and go to state 70
 
-state 183
-
-    (27) function -> modifier STATIC data_type names . LPAREN declarations RPAREN block
-
-    LPAREN          shift and go to state 205
-
-
 state 184
 
-    (28) function -> modifier STATIC VOID names . LPAREN declarations RPAREN block
+    (27) function -> modifier STATIC data_type names . LPAREN declarations RPAREN block
 
     LPAREN          shift and go to state 206
 
 
 state 185
+
+    (28) function -> modifier STATIC VOID names . LPAREN declarations RPAREN block
+
+    LPAREN          shift and go to state 207
+
+
+state 186
 
     (82) assignment -> data_type ID EQUALS expression .
     (87) expression -> expression . PLUS term
@@ -4416,7 +4623,7 @@ state 185
     MINUS           shift and go to state 82
 
 
-state 186
+state 187
 
     (34) function_call -> names LPAREN arguments RPAREN .
 
@@ -4430,7 +4637,7 @@ state 186
     RSQBRACKET      reduce using rule 34 (function_call -> names LPAREN arguments RPAREN .)
 
 
-state 187
+state 188
 
     (128) indexing -> ID LSQBRACKET ID RSQBRACKET .
 
@@ -4454,7 +4661,7 @@ state 187
     DIFFERENT       reduce using rule 128 (indexing -> ID LSQBRACKET ID RSQBRACKET .)
 
 
-state 188
+state 189
 
     (127) indexing -> ID LSQBRACKET INTEGER_TYPE RSQBRACKET .
 
@@ -4478,7 +4685,7 @@ state 188
     DIFFERENT       reduce using rule 127 (indexing -> ID LSQBRACKET INTEGER_TYPE RSQBRACKET .)
 
 
-state 189
+state 190
 
     (129) indexing -> ID LSQBRACKET expression RSQBRACKET .
 
@@ -4502,7 +4709,7 @@ state 189
     DIFFERENT       reduce using rule 129 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
 
 
-state 190
+state 191
 
     (41) expression -> object_access LPAREN expression RPAREN .
 
@@ -4514,7 +4721,7 @@ state 190
     RSQBRACKET      reduce using rule 41 (expression -> object_access LPAREN expression RPAREN .)
 
 
-state 191
+state 192
 
     (56) while_loop -> WHILE LPAREN logical_expression RPAREN . block
     (57) while_loop -> WHILE LPAREN logical_expression RPAREN . block body
@@ -4522,12 +4729,11 @@ state 191
 
     LBRACKET        shift and go to state 25
 
-    block                          shift and go to state 207
+    block                          shift and go to state 208
 
-state 192
+state 193
 
     (54) loop_for -> FOR LPAREN assignment SEMICOLON . logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> FOR LPAREN assignment SEMICOLON . logical_expression SEMICOLON assignment RPAREN block body
     (58) logical_expression -> . logical_factor logical_operator logical_expression
     (59) logical_expression -> . logical_expression logical_operator logical_expression
     (60) logical_expression -> . logical_factor
@@ -4551,31 +4757,31 @@ state 192
     (11) object_access -> . ID DOT CLASSOBJECT
     (12) object_access -> . CLASSOBJECT DOT ID
 
-    TRUE            shift and go to state 126
-    FALSE           shift and go to state 127
-    ID              shift and go to state 128
-    LPAREN          shift and go to state 123
+    TRUE            shift and go to state 127
+    FALSE           shift and go to state 128
+    ID              shift and go to state 129
+    LPAREN          shift and go to state 124
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
     DECIMAL_TYPE    shift and go to state 76
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
-    CLASSOBJECT     shift and go to state 132
+    CLASSOBJECT     shift and go to state 133
 
-    logical_expression             shift and go to state 208
-    logical_factor                 shift and go to state 125
-    indexing                       shift and go to state 129
-    type                           shift and go to state 130
-    object_access                  shift and go to state 131
+    logical_expression             shift and go to state 209
+    logical_factor                 shift and go to state 126
+    indexing                       shift and go to state 130
+    type                           shift and go to state 131
+    object_access                  shift and go to state 132
 
-state 193
+state 194
 
     (82) assignment -> data_type ID . EQUALS expression
 
-    EQUALS          shift and go to state 140
+    EQUALS          shift and go to state 141
 
 
-state 194
+state 195
 
     (36) arguments -> expression COMMA arguments .
 
@@ -4583,7 +4789,7 @@ state 194
     RPAREN          reduce using rule 36 (arguments -> expression COMMA arguments .)
 
 
-state 195
+state 196
 
     (38) arguments -> names COMMA arguments .
 
@@ -4591,7 +4797,7 @@ state 195
     RPAREN          reduce using rule 38 (arguments -> names COMMA arguments .)
 
 
-state 196
+state 197
 
     (79) data_structure_list -> LIST LESS_THAN data_type GREATER_THAN .
 
@@ -4600,7 +4806,7 @@ state 196
     GREATER_THAN    reduce using rule 79 (data_structure_list -> LIST LESS_THAN data_type GREATER_THAN .)
 
 
-state 197
+state 198
 
     (67) logical_factor -> LPAREN logical_expression RPAREN .
 
@@ -4617,7 +4823,7 @@ state 197
     SEMICOLON       reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
 
 
-state 198
+state 199
 
     (43) if -> IF LPAREN logical_expression RPAREN block .
     (44) if -> IF LPAREN logical_expression RPAREN block . body
@@ -4665,7 +4871,7 @@ state 198
     (56) while_loop -> . WHILE LPAREN logical_expression RPAREN block
     (57) while_loop -> . WHILE LPAREN logical_expression RPAREN block body
     (54) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
+    (55) loop_for -> . loop_for body
     (110) modifier -> . PUBLIC
     (111) modifier -> . PRIVATE
     (112) modifier -> . PROTECTED
@@ -4747,7 +4953,7 @@ state 198
   ! shift/reduce conflict for INTEGER_TYPE resolved as shift
   ! shift/reduce conflict for MINUS resolved as shift
     RBRACKET        reduce using rule 43 (if -> IF LPAREN logical_expression RPAREN block .)
-    ELSE            shift and go to state 212
+    ELSE            shift and go to state 213
     IF              shift and go to state 36
     ID              shift and go to state 43
     CLASSOBJECT     shift and go to state 45
@@ -4810,9 +5016,9 @@ state 198
   ! INTEGER_TYPE    [ reduce using rule 43 (if -> IF LPAREN logical_expression RPAREN block .) ]
   ! MINUS           [ reduce using rule 43 (if -> IF LPAREN logical_expression RPAREN block .) ]
 
-    body                           shift and go to state 209
-    elseif                         shift and go to state 210
-    else                           shift and go to state 211
+    body                           shift and go to state 210
+    elseif                         shift and go to state 211
+    else                           shift and go to state 212
     lines                          shift and go to state 28
     if                             shift and go to state 29
     loop                           shift and go to state 30
@@ -4837,7 +5043,7 @@ state 198
     data_structure_array           shift and go to state 70
     function_call                  shift and go to state 71
 
-state 199
+state 200
 
     (59) logical_expression -> logical_expression logical_operator logical_expression .
     (59) logical_expression -> logical_expression . logical_operator logical_expression
@@ -4862,15 +5068,15 @@ state 199
   ! shift/reduce conflict for DIFFERENT resolved as shift
     RPAREN          reduce using rule 59 (logical_expression -> logical_expression logical_operator logical_expression .)
     SEMICOLON       reduce using rule 59 (logical_expression -> logical_expression logical_operator logical_expression .)
-    OR              shift and go to state 171
-    AND             shift and go to state 172
-    NOT             shift and go to state 173
-    GREATER_THAN    shift and go to state 174
-    LESS_THAN       shift and go to state 175
-    GREATER_EQUALS_THAN shift and go to state 176
-    LESS_EQUALS_THAN shift and go to state 177
-    EQUALITY        shift and go to state 178
-    DIFFERENT       shift and go to state 179
+    OR              shift and go to state 172
+    AND             shift and go to state 173
+    NOT             shift and go to state 174
+    GREATER_THAN    shift and go to state 175
+    LESS_THAN       shift and go to state 176
+    GREATER_EQUALS_THAN shift and go to state 177
+    LESS_EQUALS_THAN shift and go to state 178
+    EQUALITY        shift and go to state 179
+    DIFFERENT       shift and go to state 180
 
   ! OR              [ reduce using rule 59 (logical_expression -> logical_expression logical_operator logical_expression .) ]
   ! AND             [ reduce using rule 59 (logical_expression -> logical_expression logical_operator logical_expression .) ]
@@ -4882,9 +5088,9 @@ state 199
   ! EQUALITY        [ reduce using rule 59 (logical_expression -> logical_expression logical_operator logical_expression .) ]
   ! DIFFERENT       [ reduce using rule 59 (logical_expression -> logical_expression logical_operator logical_expression .) ]
 
-    logical_operator               shift and go to state 170
+    logical_operator               shift and go to state 171
 
-state 200
+state 201
 
     (58) logical_expression -> logical_factor logical_operator logical_expression .
     (59) logical_expression -> logical_expression . logical_operator logical_expression
@@ -4909,15 +5115,15 @@ state 200
   ! shift/reduce conflict for DIFFERENT resolved as shift
     RPAREN          reduce using rule 58 (logical_expression -> logical_factor logical_operator logical_expression .)
     SEMICOLON       reduce using rule 58 (logical_expression -> logical_factor logical_operator logical_expression .)
-    OR              shift and go to state 171
-    AND             shift and go to state 172
-    NOT             shift and go to state 173
-    GREATER_THAN    shift and go to state 174
-    LESS_THAN       shift and go to state 175
-    GREATER_EQUALS_THAN shift and go to state 176
-    LESS_EQUALS_THAN shift and go to state 177
-    EQUALITY        shift and go to state 178
-    DIFFERENT       shift and go to state 179
+    OR              shift and go to state 172
+    AND             shift and go to state 173
+    NOT             shift and go to state 174
+    GREATER_THAN    shift and go to state 175
+    LESS_THAN       shift and go to state 176
+    GREATER_EQUALS_THAN shift and go to state 177
+    LESS_EQUALS_THAN shift and go to state 178
+    EQUALITY        shift and go to state 179
+    DIFFERENT       shift and go to state 180
 
   ! OR              [ reduce using rule 58 (logical_expression -> logical_factor logical_operator logical_expression .) ]
   ! AND             [ reduce using rule 58 (logical_expression -> logical_factor logical_operator logical_expression .) ]
@@ -4929,40 +5135,40 @@ state 200
   ! EQUALITY        [ reduce using rule 58 (logical_expression -> logical_factor logical_operator logical_expression .) ]
   ! DIFFERENT       [ reduce using rule 58 (logical_expression -> logical_factor logical_operator logical_expression .) ]
 
-    logical_operator               shift and go to state 170
-
-state 201
-
-    (109) declaration -> data_type . ID
-
-    ID              shift and go to state 213
-
+    logical_operator               shift and go to state 171
 
 state 202
 
-    (25) function -> modifier data_type names LPAREN declarations . RPAREN block
+    (109) declaration -> data_type . ID
 
-    RPAREN          shift and go to state 214
+    ID              shift and go to state 214
 
 
 state 203
+
+    (25) function -> modifier data_type names LPAREN declarations . RPAREN block
+
+    RPAREN          shift and go to state 215
+
+
+state 204
 
     (106) declarations -> declaration .
     (107) declarations -> declaration . COMMA
     (108) declarations -> declaration . COMMA declarations
 
     RPAREN          reduce using rule 106 (declarations -> declaration .)
-    COMMA           shift and go to state 215
-
-
-state 204
-
-    (26) function -> modifier VOID names LPAREN declarations . RPAREN block
-
-    RPAREN          shift and go to state 216
+    COMMA           shift and go to state 216
 
 
 state 205
+
+    (26) function -> modifier VOID names LPAREN declarations . RPAREN block
+
+    RPAREN          shift and go to state 217
+
+
+state 206
 
     (27) function -> modifier STATIC data_type names LPAREN . declarations RPAREN block
     (106) declarations -> . declaration
@@ -5000,17 +5206,17 @@ state 205
     SHORT           shift and go to state 67
     UINT            shift and go to state 68
     LIST            shift and go to state 73
-    CLASSOBJECT     shift and go to state 91
+    CLASSOBJECT     shift and go to state 92
 
-    data_type                      shift and go to state 201
-    declarations                   shift and go to state 217
-    declaration                    shift and go to state 203
+    data_type                      shift and go to state 202
+    declarations                   shift and go to state 218
+    declaration                    shift and go to state 204
     primitive                      shift and go to state 53
     data_structure                 shift and go to state 54
     data_structure_list            shift and go to state 69
     data_structure_array           shift and go to state 70
 
-state 206
+state 207
 
     (28) function -> modifier STATIC VOID names LPAREN . declarations RPAREN block
     (106) declarations -> . declaration
@@ -5048,17 +5254,17 @@ state 206
     SHORT           shift and go to state 67
     UINT            shift and go to state 68
     LIST            shift and go to state 73
-    CLASSOBJECT     shift and go to state 91
+    CLASSOBJECT     shift and go to state 92
 
-    declarations                   shift and go to state 218
-    declaration                    shift and go to state 203
-    data_type                      shift and go to state 201
+    declarations                   shift and go to state 219
+    declaration                    shift and go to state 204
+    data_type                      shift and go to state 202
     primitive                      shift and go to state 53
     data_structure                 shift and go to state 54
     data_structure_list            shift and go to state 69
     data_structure_array           shift and go to state 70
 
-state 207
+state 208
 
     (56) while_loop -> WHILE LPAREN logical_expression RPAREN block .
     (57) while_loop -> WHILE LPAREN logical_expression RPAREN block . body
@@ -5099,7 +5305,7 @@ state 207
     (56) while_loop -> . WHILE LPAREN logical_expression RPAREN block
     (57) while_loop -> . WHILE LPAREN logical_expression RPAREN block body
     (54) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
+    (55) loop_for -> . loop_for body
     (110) modifier -> . PUBLIC
     (111) modifier -> . PRIVATE
     (112) modifier -> . PROTECTED
@@ -5243,7 +5449,7 @@ state 207
   ! INTEGER_TYPE    [ reduce using rule 56 (while_loop -> WHILE LPAREN logical_expression RPAREN block .) ]
   ! MINUS           [ reduce using rule 56 (while_loop -> WHILE LPAREN logical_expression RPAREN block .) ]
 
-    body                           shift and go to state 219
+    body                           shift and go to state 220
     lines                          shift and go to state 28
     if                             shift and go to state 29
     loop                           shift and go to state 30
@@ -5268,10 +5474,9 @@ state 207
     data_structure_array           shift and go to state 70
     function_call                  shift and go to state 71
 
-state 208
+state 209
 
     (54) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression . SEMICOLON assignment RPAREN block
-    (55) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression . SEMICOLON assignment RPAREN block body
     (59) logical_expression -> logical_expression . logical_operator logical_expression
     (68) logical_operator -> . OR
     (69) logical_operator -> . AND
@@ -5283,20 +5488,20 @@ state 208
     (75) logical_operator -> . EQUALITY
     (76) logical_operator -> . DIFFERENT
 
-    SEMICOLON       shift and go to state 220
-    OR              shift and go to state 171
-    AND             shift and go to state 172
-    NOT             shift and go to state 173
-    GREATER_THAN    shift and go to state 174
-    LESS_THAN       shift and go to state 175
-    GREATER_EQUALS_THAN shift and go to state 176
-    LESS_EQUALS_THAN shift and go to state 177
-    EQUALITY        shift and go to state 178
-    DIFFERENT       shift and go to state 179
+    SEMICOLON       shift and go to state 221
+    OR              shift and go to state 172
+    AND             shift and go to state 173
+    NOT             shift and go to state 174
+    GREATER_THAN    shift and go to state 175
+    LESS_THAN       shift and go to state 176
+    GREATER_EQUALS_THAN shift and go to state 177
+    LESS_EQUALS_THAN shift and go to state 178
+    EQUALITY        shift and go to state 179
+    DIFFERENT       shift and go to state 180
 
-    logical_operator               shift and go to state 170
+    logical_operator               shift and go to state 171
 
-state 209
+state 210
 
     (44) if -> IF LPAREN logical_expression RPAREN block body .
 
@@ -5333,7 +5538,7 @@ state 209
     MINUS           reduce using rule 44 (if -> IF LPAREN logical_expression RPAREN block body .)
 
 
-state 210
+state 211
 
     (45) if -> IF LPAREN logical_expression RPAREN block elseif .
 
@@ -5370,7 +5575,7 @@ state 210
     MINUS           reduce using rule 45 (if -> IF LPAREN logical_expression RPAREN block elseif .)
 
 
-state 211
+state 212
 
     (46) if -> IF LPAREN logical_expression RPAREN block else .
 
@@ -5407,7 +5612,7 @@ state 211
     MINUS           reduce using rule 46 (if -> IF LPAREN logical_expression RPAREN block else .)
 
 
-state 212
+state 213
 
     (47) elseif -> ELSE . IF LPAREN logical_expression RPAREN block
     (48) elseif -> ELSE . IF LPAREN logical_expression RPAREN block elseif
@@ -5416,12 +5621,12 @@ state 212
     (51) else -> ELSE . block body
     (13) block -> . LBRACKET body RBRACKET
 
-    IF              shift and go to state 221
+    IF              shift and go to state 222
     LBRACKET        shift and go to state 25
 
-    block                          shift and go to state 222
+    block                          shift and go to state 223
 
-state 213
+state 214
 
     (109) declaration -> data_type ID .
 
@@ -5429,16 +5634,16 @@ state 213
     RPAREN          reduce using rule 109 (declaration -> data_type ID .)
 
 
-state 214
+state 215
 
     (25) function -> modifier data_type names LPAREN declarations RPAREN . block
     (13) block -> . LBRACKET body RBRACKET
 
     LBRACKET        shift and go to state 25
 
-    block                          shift and go to state 223
+    block                          shift and go to state 224
 
-state 215
+state 216
 
     (107) declarations -> declaration COMMA .
     (108) declarations -> declaration COMMA . declarations
@@ -5478,40 +5683,40 @@ state 215
     SHORT           shift and go to state 67
     UINT            shift and go to state 68
     LIST            shift and go to state 73
-    CLASSOBJECT     shift and go to state 91
+    CLASSOBJECT     shift and go to state 92
 
-    declaration                    shift and go to state 203
-    declarations                   shift and go to state 224
-    data_type                      shift and go to state 201
+    declaration                    shift and go to state 204
+    declarations                   shift and go to state 225
+    data_type                      shift and go to state 202
     primitive                      shift and go to state 53
     data_structure                 shift and go to state 54
     data_structure_list            shift and go to state 69
     data_structure_array           shift and go to state 70
 
-state 216
+state 217
 
     (26) function -> modifier VOID names LPAREN declarations RPAREN . block
     (13) block -> . LBRACKET body RBRACKET
 
     LBRACKET        shift and go to state 25
 
-    block                          shift and go to state 225
-
-state 217
-
-    (27) function -> modifier STATIC data_type names LPAREN declarations . RPAREN block
-
-    RPAREN          shift and go to state 226
-
+    block                          shift and go to state 226
 
 state 218
 
-    (28) function -> modifier STATIC VOID names LPAREN declarations . RPAREN block
+    (27) function -> modifier STATIC data_type names LPAREN declarations . RPAREN block
 
     RPAREN          shift and go to state 227
 
 
 state 219
+
+    (28) function -> modifier STATIC VOID names LPAREN declarations . RPAREN block
+
+    RPAREN          shift and go to state 228
+
+
+state 220
 
     (57) while_loop -> WHILE LPAREN logical_expression RPAREN block body .
 
@@ -5548,10 +5753,9 @@ state 219
     MINUS           reduce using rule 57 (while_loop -> WHILE LPAREN logical_expression RPAREN block body .)
 
 
-state 220
+state 221
 
     (54) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON . assignment RPAREN block
-    (55) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON . assignment RPAREN block body
     (82) assignment -> . data_type ID EQUALS expression
     (83) assignment -> . ID EQUALS expression
     (84) assignment -> . indexing EQUALS expression
@@ -5579,8 +5783,8 @@ state 220
     (80) data_structure_array -> . primitive LSQBRACKET RSQBRACKET
     (81) data_structure_array -> . CLASSOBJECT LSQBRACKET RSQBRACKET
 
-    ID              shift and go to state 160
-    CLASSOBJECT     shift and go to state 162
+    ID              shift and go to state 161
+    CLASSOBJECT     shift and go to state 163
     INT             shift and go to state 58
     FLOAT           shift and go to state 59
     BOOL            shift and go to state 60
@@ -5594,24 +5798,24 @@ state 220
     UINT            shift and go to state 68
     LIST            shift and go to state 73
 
-    assignment                     shift and go to state 228
-    data_type                      shift and go to state 159
-    indexing                       shift and go to state 161
+    assignment                     shift and go to state 229
+    data_type                      shift and go to state 160
+    indexing                       shift and go to state 162
     primitive                      shift and go to state 53
     data_structure                 shift and go to state 54
     data_structure_list            shift and go to state 69
     data_structure_array           shift and go to state 70
 
-state 221
+state 222
 
     (47) elseif -> ELSE IF . LPAREN logical_expression RPAREN block
     (48) elseif -> ELSE IF . LPAREN logical_expression RPAREN block elseif
     (49) elseif -> ELSE IF . LPAREN logical_expression RPAREN block else
 
-    LPAREN          shift and go to state 229
+    LPAREN          shift and go to state 230
 
 
-state 222
+state 223
 
     (50) else -> ELSE block .
     (51) else -> ELSE block . body
@@ -5652,7 +5856,7 @@ state 222
     (56) while_loop -> . WHILE LPAREN logical_expression RPAREN block
     (57) while_loop -> . WHILE LPAREN logical_expression RPAREN block body
     (54) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
+    (55) loop_for -> . loop_for body
     (110) modifier -> . PUBLIC
     (111) modifier -> . PRIVATE
     (112) modifier -> . PROTECTED
@@ -5796,7 +6000,7 @@ state 222
   ! INTEGER_TYPE    [ reduce using rule 50 (else -> ELSE block .) ]
   ! MINUS           [ reduce using rule 50 (else -> ELSE block .) ]
 
-    body                           shift and go to state 230
+    body                           shift and go to state 231
     lines                          shift and go to state 28
     if                             shift and go to state 29
     loop                           shift and go to state 30
@@ -5821,7 +6025,7 @@ state 222
     data_structure_array           shift and go to state 70
     function_call                  shift and go to state 71
 
-state 223
+state 224
 
     (25) function -> modifier data_type names LPAREN declarations RPAREN block .
 
@@ -5858,14 +6062,14 @@ state 223
     RBRACKET        reduce using rule 25 (function -> modifier data_type names LPAREN declarations RPAREN block .)
 
 
-state 224
+state 225
 
     (108) declarations -> declaration COMMA declarations .
 
     RPAREN          reduce using rule 108 (declarations -> declaration COMMA declarations .)
 
 
-state 225
+state 226
 
     (26) function -> modifier VOID names LPAREN declarations RPAREN block .
 
@@ -5902,18 +6106,9 @@ state 225
     RBRACKET        reduce using rule 26 (function -> modifier VOID names LPAREN declarations RPAREN block .)
 
 
-state 226
-
-    (27) function -> modifier STATIC data_type names LPAREN declarations RPAREN . block
-    (13) block -> . LBRACKET body RBRACKET
-
-    LBRACKET        shift and go to state 25
-
-    block                          shift and go to state 231
-
 state 227
 
-    (28) function -> modifier STATIC VOID names LPAREN declarations RPAREN . block
+    (27) function -> modifier STATIC data_type names LPAREN declarations RPAREN . block
     (13) block -> . LBRACKET body RBRACKET
 
     LBRACKET        shift and go to state 25
@@ -5922,13 +6117,21 @@ state 227
 
 state 228
 
-    (54) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment . RPAREN block
-    (55) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment . RPAREN block body
+    (28) function -> modifier STATIC VOID names LPAREN declarations RPAREN . block
+    (13) block -> . LBRACKET body RBRACKET
 
-    RPAREN          shift and go to state 233
+    LBRACKET        shift and go to state 25
 
+    block                          shift and go to state 233
 
 state 229
+
+    (54) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment . RPAREN block
+
+    RPAREN          shift and go to state 234
+
+
+state 230
 
     (47) elseif -> ELSE IF LPAREN . logical_expression RPAREN block
     (48) elseif -> ELSE IF LPAREN . logical_expression RPAREN block elseif
@@ -5956,24 +6159,24 @@ state 229
     (11) object_access -> . ID DOT CLASSOBJECT
     (12) object_access -> . CLASSOBJECT DOT ID
 
-    TRUE            shift and go to state 126
-    FALSE           shift and go to state 127
-    ID              shift and go to state 128
-    LPAREN          shift and go to state 123
+    TRUE            shift and go to state 127
+    FALSE           shift and go to state 128
+    ID              shift and go to state 129
+    LPAREN          shift and go to state 124
     FLOAT_TYPE      shift and go to state 74
     DOUBLE_TYPE     shift and go to state 75
     DECIMAL_TYPE    shift and go to state 76
     INTEGER_TYPE    shift and go to state 56
     MINUS           shift and go to state 48
-    CLASSOBJECT     shift and go to state 132
+    CLASSOBJECT     shift and go to state 133
 
-    logical_expression             shift and go to state 234
-    logical_factor                 shift and go to state 125
-    indexing                       shift and go to state 129
-    type                           shift and go to state 130
-    object_access                  shift and go to state 131
+    logical_expression             shift and go to state 235
+    logical_factor                 shift and go to state 126
+    indexing                       shift and go to state 130
+    type                           shift and go to state 131
+    object_access                  shift and go to state 132
 
-state 230
+state 231
 
     (51) else -> ELSE block body .
 
@@ -6010,7 +6213,7 @@ state 230
     RBRACKET        reduce using rule 51 (else -> ELSE block body .)
 
 
-state 231
+state 232
 
     (27) function -> modifier STATIC data_type names LPAREN declarations RPAREN block .
 
@@ -6047,7 +6250,7 @@ state 231
     RBRACKET        reduce using rule 27 (function -> modifier STATIC data_type names LPAREN declarations RPAREN block .)
 
 
-state 232
+state 233
 
     (28) function -> modifier STATIC VOID names LPAREN declarations RPAREN block .
 
@@ -6084,17 +6287,16 @@ state 232
     RBRACKET        reduce using rule 28 (function -> modifier STATIC VOID names LPAREN declarations RPAREN block .)
 
 
-state 233
+state 234
 
     (54) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN . block
-    (55) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN . block body
     (13) block -> . LBRACKET body RBRACKET
 
     LBRACKET        shift and go to state 25
 
-    block                          shift and go to state 235
+    block                          shift and go to state 236
 
-state 234
+state 235
 
     (47) elseif -> ELSE IF LPAREN logical_expression . RPAREN block
     (48) elseif -> ELSE IF LPAREN logical_expression . RPAREN block elseif
@@ -6110,230 +6312,57 @@ state 234
     (75) logical_operator -> . EQUALITY
     (76) logical_operator -> . DIFFERENT
 
-    RPAREN          shift and go to state 236
-    OR              shift and go to state 171
-    AND             shift and go to state 172
-    NOT             shift and go to state 173
-    GREATER_THAN    shift and go to state 174
-    LESS_THAN       shift and go to state 175
-    GREATER_EQUALS_THAN shift and go to state 176
-    LESS_EQUALS_THAN shift and go to state 177
-    EQUALITY        shift and go to state 178
-    DIFFERENT       shift and go to state 179
+    RPAREN          shift and go to state 237
+    OR              shift and go to state 172
+    AND             shift and go to state 173
+    NOT             shift and go to state 174
+    GREATER_THAN    shift and go to state 175
+    LESS_THAN       shift and go to state 176
+    GREATER_EQUALS_THAN shift and go to state 177
+    LESS_EQUALS_THAN shift and go to state 178
+    EQUALITY        shift and go to state 179
+    DIFFERENT       shift and go to state 180
 
-    logical_operator               shift and go to state 170
-
-state 235
-
-    (54) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .
-    (55) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block . body
-    (14) body -> . lines SEMICOLON
-    (15) body -> . lines SEMICOLON body
-    (16) body -> . if
-    (17) body -> . loop
-    (18) body -> . function
-    (19) lines -> . assignment
-    (20) lines -> . expression
-    (21) lines -> . declaration
-    (22) lines -> . return
-    (43) if -> . IF LPAREN logical_expression RPAREN block
-    (44) if -> . IF LPAREN logical_expression RPAREN block body
-    (45) if -> . IF LPAREN logical_expression RPAREN block elseif
-    (46) if -> . IF LPAREN logical_expression RPAREN block else
-    (52) loop -> . while_loop
-    (53) loop -> . loop_for
-    (25) function -> . modifier data_type names LPAREN declarations RPAREN block
-    (26) function -> . modifier VOID names LPAREN declarations RPAREN block
-    (27) function -> . modifier STATIC data_type names LPAREN declarations RPAREN block
-    (28) function -> . modifier STATIC VOID names LPAREN declarations RPAREN block
-    (29) function -> . function body
-    (82) assignment -> . data_type ID EQUALS expression
-    (83) assignment -> . ID EQUALS expression
-    (84) assignment -> . indexing EQUALS expression
-    (85) assignment -> . ID PLUSONE
-    (86) assignment -> . CLASSOBJECT ID
-    (41) expression -> . object_access LPAREN expression RPAREN
-    (42) expression -> . object_access LPAREN RPAREN
-    (87) expression -> . expression PLUS term
-    (88) expression -> . expression MINUS term
-    (89) expression -> . term
-    (109) declaration -> . data_type ID
-    (30) return -> . RETURN ID
-    (31) return -> . RETURN type
-    (32) return -> . RETURN expression
-    (56) while_loop -> . WHILE LPAREN logical_expression RPAREN block
-    (57) while_loop -> . WHILE LPAREN logical_expression RPAREN block body
-    (54) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    (55) loop_for -> . FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body
-    (110) modifier -> . PUBLIC
-    (111) modifier -> . PRIVATE
-    (112) modifier -> . PROTECTED
-    (113) modifier -> . INTERNAL
-    (114) data_type -> . primitive
-    (115) data_type -> . data_structure
-    (127) indexing -> . ID LSQBRACKET INTEGER_TYPE RSQBRACKET
-    (128) indexing -> . ID LSQBRACKET ID RSQBRACKET
-    (129) indexing -> . ID LSQBRACKET expression RSQBRACKET
-    (9) object_access -> . ID DOT ID
-    (10) object_access -> . CLASSOBJECT DOT CLASSOBJECT
-    (11) object_access -> . ID DOT CLASSOBJECT
-    (12) object_access -> . CLASSOBJECT DOT ID
-    (90) term -> . term TIMES factor
-    (91) term -> . term DIVIDE factor
-    (92) term -> . factor
-    (116) primitive -> . INT
-    (117) primitive -> . FLOAT
-    (118) primitive -> . BOOL
-    (119) primitive -> . BYTE
-    (120) primitive -> . CHAR
-    (121) primitive -> . SBYTE
-    (122) primitive -> . DECIMAL
-    (123) primitive -> . DOUBLE
-    (124) primitive -> . LONG
-    (125) primitive -> . SHORT
-    (126) primitive -> . UINT
-    (77) data_structure -> . data_structure_list
-    (78) data_structure -> . data_structure_array
-    (93) factor -> . type
-    (94) factor -> . LPAREN expression RPAREN
-    (95) factor -> . LSQBRACKET arguments RSQBRACKET
-    (96) factor -> . object_access
-    (97) factor -> . ID
-    (98) factor -> . indexing
-    (99) factor -> . function_call
-    (100) factor -> . STRING
-    (79) data_structure_list -> . LIST LESS_THAN data_type GREATER_THAN
-    (80) data_structure_array -> . primitive LSQBRACKET RSQBRACKET
-    (81) data_structure_array -> . CLASSOBJECT LSQBRACKET RSQBRACKET
-    (101) type -> . FLOAT_TYPE
-    (102) type -> . DOUBLE_TYPE
-    (103) type -> . DECIMAL_TYPE
-    (104) type -> . INTEGER_TYPE
-    (105) type -> . MINUS type
-    (33) function_call -> . names LPAREN RPAREN
-    (34) function_call -> . names LPAREN arguments RPAREN
-    (23) names -> . ID
-    (24) names -> . CLASSOBJECT
-
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for CLASSOBJECT resolved as shift
-  ! shift/reduce conflict for RETURN resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for FOR resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for INTERNAL resolved as shift
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for BOOL resolved as shift
-  ! shift/reduce conflict for BYTE resolved as shift
-  ! shift/reduce conflict for CHAR resolved as shift
-  ! shift/reduce conflict for SBYTE resolved as shift
-  ! shift/reduce conflict for DECIMAL resolved as shift
-  ! shift/reduce conflict for DOUBLE resolved as shift
-  ! shift/reduce conflict for LONG resolved as shift
-  ! shift/reduce conflict for SHORT resolved as shift
-  ! shift/reduce conflict for UINT resolved as shift
-  ! shift/reduce conflict for LPAREN resolved as shift
-  ! shift/reduce conflict for LSQBRACKET resolved as shift
-  ! shift/reduce conflict for STRING resolved as shift
-  ! shift/reduce conflict for LIST resolved as shift
-  ! shift/reduce conflict for FLOAT_TYPE resolved as shift
-  ! shift/reduce conflict for DOUBLE_TYPE resolved as shift
-  ! shift/reduce conflict for DECIMAL_TYPE resolved as shift
-  ! shift/reduce conflict for INTEGER_TYPE resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-    RBRACKET        reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
-    IF              shift and go to state 36
-    ID              shift and go to state 43
-    CLASSOBJECT     shift and go to state 45
-    RETURN          shift and go to state 49
-    WHILE           shift and go to state 51
-    FOR             shift and go to state 52
-    PUBLIC          shift and go to state 10
-    PRIVATE         shift and go to state 11
-    PROTECTED       shift and go to state 12
-    INTERNAL        shift and go to state 13
-    INT             shift and go to state 58
-    FLOAT           shift and go to state 59
-    BOOL            shift and go to state 60
-    BYTE            shift and go to state 61
-    CHAR            shift and go to state 62
-    SBYTE           shift and go to state 63
-    DECIMAL         shift and go to state 64
-    DOUBLE          shift and go to state 65
-    LONG            shift and go to state 66
-    SHORT           shift and go to state 67
-    UINT            shift and go to state 68
-    LPAREN          shift and go to state 37
-    LSQBRACKET      shift and go to state 55
-    STRING          shift and go to state 72
-    LIST            shift and go to state 73
-    FLOAT_TYPE      shift and go to state 74
-    DOUBLE_TYPE     shift and go to state 75
-    DECIMAL_TYPE    shift and go to state 76
-    INTEGER_TYPE    shift and go to state 56
-    MINUS           shift and go to state 48
-
-  ! IF              [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! ID              [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! CLASSOBJECT     [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! RETURN          [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! WHILE           [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! FOR             [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! PUBLIC          [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! PRIVATE         [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! PROTECTED       [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! INTERNAL        [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! INT             [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! FLOAT           [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! BOOL            [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! BYTE            [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! CHAR            [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! SBYTE           [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! DECIMAL         [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! DOUBLE          [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! LONG            [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! SHORT           [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! UINT            [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! LPAREN          [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! LSQBRACKET      [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! STRING          [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! LIST            [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! FLOAT_TYPE      [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! DOUBLE_TYPE     [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! DECIMAL_TYPE    [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! INTEGER_TYPE    [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-  ! MINUS           [ reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .) ]
-
-    assignment                     shift and go to state 32
-    body                           shift and go to state 237
-    lines                          shift and go to state 28
-    if                             shift and go to state 29
-    loop                           shift and go to state 30
-    function                       shift and go to state 31
-    expression                     shift and go to state 33
-    declaration                    shift and go to state 34
-    return                         shift and go to state 35
-    while_loop                     shift and go to state 38
-    loop_for                       shift and go to state 39
-    modifier                       shift and go to state 40
-    data_type                      shift and go to state 41
-    names                          shift and go to state 42
-    indexing                       shift and go to state 44
-    object_access                  shift and go to state 46
-    term                           shift and go to state 47
-    type                           shift and go to state 50
-    primitive                      shift and go to state 53
-    data_structure                 shift and go to state 54
-    factor                         shift and go to state 57
-    data_structure_list            shift and go to state 69
-    data_structure_array           shift and go to state 70
-    function_call                  shift and go to state 71
+    logical_operator               shift and go to state 171
 
 state 236
+
+    (54) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .
+
+    IF              reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    ID              reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    CLASSOBJECT     reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    RETURN          reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    WHILE           reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    FOR             reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    PUBLIC          reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    PRIVATE         reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    PROTECTED       reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    INTERNAL        reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    INT             reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    FLOAT           reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    BOOL            reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    BYTE            reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    CHAR            reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    SBYTE           reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    DECIMAL         reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    DOUBLE          reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    LONG            reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    SHORT           reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    UINT            reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    LPAREN          reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    LSQBRACKET      reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    STRING          reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    LIST            reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    FLOAT_TYPE      reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    DOUBLE_TYPE     reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    DECIMAL_TYPE    reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    INTEGER_TYPE    reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    MINUS           reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+    RBRACKET        reduce using rule 54 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block .)
+
+
+state 237
 
     (47) elseif -> ELSE IF LPAREN logical_expression RPAREN . block
     (48) elseif -> ELSE IF LPAREN logical_expression RPAREN . block elseif
@@ -6343,43 +6372,6 @@ state 236
     LBRACKET        shift and go to state 25
 
     block                          shift and go to state 238
-
-state 237
-
-    (55) loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .
-
-    RBRACKET        reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    IF              reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    ID              reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    CLASSOBJECT     reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    RETURN          reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    WHILE           reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    FOR             reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    PUBLIC          reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    PRIVATE         reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    PROTECTED       reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    INTERNAL        reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    INT             reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    FLOAT           reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    BOOL            reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    BYTE            reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    CHAR            reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    SBYTE           reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    DECIMAL         reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    DOUBLE          reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    LONG            reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    SHORT           reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    UINT            reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    LPAREN          reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    LSQBRACKET      reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    STRING          reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    LIST            reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    FLOAT_TYPE      reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    DOUBLE_TYPE     reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    DECIMAL_TYPE    reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    INTEGER_TYPE    reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-    MINUS           reduce using rule 55 (loop_for -> FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body .)
-
 
 state 238
 
@@ -6423,7 +6415,7 @@ state 238
     INTEGER_TYPE    reduce using rule 47 (elseif -> ELSE IF LPAREN logical_expression RPAREN block .)
     MINUS           reduce using rule 47 (elseif -> ELSE IF LPAREN logical_expression RPAREN block .)
     RBRACKET        reduce using rule 47 (elseif -> ELSE IF LPAREN logical_expression RPAREN block .)
-    ELSE            shift and go to state 212
+    ELSE            shift and go to state 213
 
     elseif                         shift and go to state 239
     else                           shift and go to state 240
@@ -6534,6 +6526,36 @@ WARNING: shift/reduce conflict for DOUBLE_TYPE in state 31 resolved as shift
 WARNING: shift/reduce conflict for DECIMAL_TYPE in state 31 resolved as shift
 WARNING: shift/reduce conflict for INTEGER_TYPE in state 31 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 31 resolved as shift
+WARNING: shift/reduce conflict for IF in state 39 resolved as shift
+WARNING: shift/reduce conflict for ID in state 39 resolved as shift
+WARNING: shift/reduce conflict for CLASSOBJECT in state 39 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 39 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 39 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 39 resolved as shift
+WARNING: shift/reduce conflict for PUBLIC in state 39 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE in state 39 resolved as shift
+WARNING: shift/reduce conflict for PROTECTED in state 39 resolved as shift
+WARNING: shift/reduce conflict for INTERNAL in state 39 resolved as shift
+WARNING: shift/reduce conflict for INT in state 39 resolved as shift
+WARNING: shift/reduce conflict for FLOAT in state 39 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 39 resolved as shift
+WARNING: shift/reduce conflict for BYTE in state 39 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 39 resolved as shift
+WARNING: shift/reduce conflict for SBYTE in state 39 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 39 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE in state 39 resolved as shift
+WARNING: shift/reduce conflict for LONG in state 39 resolved as shift
+WARNING: shift/reduce conflict for SHORT in state 39 resolved as shift
+WARNING: shift/reduce conflict for UINT in state 39 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 39 resolved as shift
+WARNING: shift/reduce conflict for LSQBRACKET in state 39 resolved as shift
+WARNING: shift/reduce conflict for STRING in state 39 resolved as shift
+WARNING: shift/reduce conflict for LIST in state 39 resolved as shift
+WARNING: shift/reduce conflict for FLOAT_TYPE in state 39 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE_TYPE in state 39 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL_TYPE in state 39 resolved as shift
+WARNING: shift/reduce conflict for INTEGER_TYPE in state 39 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 39 resolved as shift
 WARNING: shift/reduce conflict for IF in state 79 resolved as shift
 WARNING: shift/reduce conflict for ID in state 79 resolved as shift
 WARNING: shift/reduce conflict for CLASSOBJECT in state 79 resolved as shift
@@ -6564,56 +6586,47 @@ WARNING: shift/reduce conflict for DOUBLE_TYPE in state 79 resolved as shift
 WARNING: shift/reduce conflict for DECIMAL_TYPE in state 79 resolved as shift
 WARNING: shift/reduce conflict for INTEGER_TYPE in state 79 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 79 resolved as shift
-WARNING: shift/reduce conflict for OR in state 125 resolved as shift
-WARNING: shift/reduce conflict for AND in state 125 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 125 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 125 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 125 resolved as shift
-WARNING: shift/reduce conflict for GREATER_EQUALS_THAN in state 125 resolved as shift
-WARNING: shift/reduce conflict for LESS_EQUALS_THAN in state 125 resolved as shift
-WARNING: shift/reduce conflict for EQUALITY in state 125 resolved as shift
-WARNING: shift/reduce conflict for DIFFERENT in state 125 resolved as shift
-WARNING: shift/reduce conflict for RSQBRACKET in state 144 resolved as shift
+WARNING: shift/reduce conflict for OR in state 126 resolved as shift
+WARNING: shift/reduce conflict for AND in state 126 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 126 resolved as shift
+WARNING: shift/reduce conflict for GREATER_THAN in state 126 resolved as shift
+WARNING: shift/reduce conflict for LESS_THAN in state 126 resolved as shift
+WARNING: shift/reduce conflict for GREATER_EQUALS_THAN in state 126 resolved as shift
+WARNING: shift/reduce conflict for LESS_EQUALS_THAN in state 126 resolved as shift
+WARNING: shift/reduce conflict for EQUALITY in state 126 resolved as shift
+WARNING: shift/reduce conflict for DIFFERENT in state 126 resolved as shift
 WARNING: shift/reduce conflict for RSQBRACKET in state 145 resolved as shift
-WARNING: shift/reduce conflict for IF in state 198 resolved as shift
-WARNING: shift/reduce conflict for ID in state 198 resolved as shift
-WARNING: shift/reduce conflict for CLASSOBJECT in state 198 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 198 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 198 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 198 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 198 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 198 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 198 resolved as shift
-WARNING: shift/reduce conflict for INTERNAL in state 198 resolved as shift
-WARNING: shift/reduce conflict for INT in state 198 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 198 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 198 resolved as shift
-WARNING: shift/reduce conflict for BYTE in state 198 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 198 resolved as shift
-WARNING: shift/reduce conflict for SBYTE in state 198 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 198 resolved as shift
-WARNING: shift/reduce conflict for DOUBLE in state 198 resolved as shift
-WARNING: shift/reduce conflict for LONG in state 198 resolved as shift
-WARNING: shift/reduce conflict for SHORT in state 198 resolved as shift
-WARNING: shift/reduce conflict for UINT in state 198 resolved as shift
-WARNING: shift/reduce conflict for LPAREN in state 198 resolved as shift
-WARNING: shift/reduce conflict for LSQBRACKET in state 198 resolved as shift
-WARNING: shift/reduce conflict for STRING in state 198 resolved as shift
-WARNING: shift/reduce conflict for LIST in state 198 resolved as shift
-WARNING: shift/reduce conflict for FLOAT_TYPE in state 198 resolved as shift
-WARNING: shift/reduce conflict for DOUBLE_TYPE in state 198 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL_TYPE in state 198 resolved as shift
-WARNING: shift/reduce conflict for INTEGER_TYPE in state 198 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 198 resolved as shift
-WARNING: shift/reduce conflict for OR in state 199 resolved as shift
-WARNING: shift/reduce conflict for AND in state 199 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 199 resolved as shift
-WARNING: shift/reduce conflict for GREATER_THAN in state 199 resolved as shift
-WARNING: shift/reduce conflict for LESS_THAN in state 199 resolved as shift
-WARNING: shift/reduce conflict for GREATER_EQUALS_THAN in state 199 resolved as shift
-WARNING: shift/reduce conflict for LESS_EQUALS_THAN in state 199 resolved as shift
-WARNING: shift/reduce conflict for EQUALITY in state 199 resolved as shift
-WARNING: shift/reduce conflict for DIFFERENT in state 199 resolved as shift
+WARNING: shift/reduce conflict for RSQBRACKET in state 146 resolved as shift
+WARNING: shift/reduce conflict for IF in state 199 resolved as shift
+WARNING: shift/reduce conflict for ID in state 199 resolved as shift
+WARNING: shift/reduce conflict for CLASSOBJECT in state 199 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 199 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 199 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 199 resolved as shift
+WARNING: shift/reduce conflict for PUBLIC in state 199 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE in state 199 resolved as shift
+WARNING: shift/reduce conflict for PROTECTED in state 199 resolved as shift
+WARNING: shift/reduce conflict for INTERNAL in state 199 resolved as shift
+WARNING: shift/reduce conflict for INT in state 199 resolved as shift
+WARNING: shift/reduce conflict for FLOAT in state 199 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 199 resolved as shift
+WARNING: shift/reduce conflict for BYTE in state 199 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 199 resolved as shift
+WARNING: shift/reduce conflict for SBYTE in state 199 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 199 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE in state 199 resolved as shift
+WARNING: shift/reduce conflict for LONG in state 199 resolved as shift
+WARNING: shift/reduce conflict for SHORT in state 199 resolved as shift
+WARNING: shift/reduce conflict for UINT in state 199 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 199 resolved as shift
+WARNING: shift/reduce conflict for LSQBRACKET in state 199 resolved as shift
+WARNING: shift/reduce conflict for STRING in state 199 resolved as shift
+WARNING: shift/reduce conflict for LIST in state 199 resolved as shift
+WARNING: shift/reduce conflict for FLOAT_TYPE in state 199 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE_TYPE in state 199 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL_TYPE in state 199 resolved as shift
+WARNING: shift/reduce conflict for INTEGER_TYPE in state 199 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 199 resolved as shift
 WARNING: shift/reduce conflict for OR in state 200 resolved as shift
 WARNING: shift/reduce conflict for AND in state 200 resolved as shift
 WARNING: shift/reduce conflict for NOT in state 200 resolved as shift
@@ -6623,99 +6636,78 @@ WARNING: shift/reduce conflict for GREATER_EQUALS_THAN in state 200 resolved as 
 WARNING: shift/reduce conflict for LESS_EQUALS_THAN in state 200 resolved as shift
 WARNING: shift/reduce conflict for EQUALITY in state 200 resolved as shift
 WARNING: shift/reduce conflict for DIFFERENT in state 200 resolved as shift
-WARNING: shift/reduce conflict for IF in state 207 resolved as shift
-WARNING: shift/reduce conflict for ID in state 207 resolved as shift
-WARNING: shift/reduce conflict for CLASSOBJECT in state 207 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 207 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 207 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 207 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 207 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 207 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 207 resolved as shift
-WARNING: shift/reduce conflict for INTERNAL in state 207 resolved as shift
-WARNING: shift/reduce conflict for INT in state 207 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 207 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 207 resolved as shift
-WARNING: shift/reduce conflict for BYTE in state 207 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 207 resolved as shift
-WARNING: shift/reduce conflict for SBYTE in state 207 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 207 resolved as shift
-WARNING: shift/reduce conflict for DOUBLE in state 207 resolved as shift
-WARNING: shift/reduce conflict for LONG in state 207 resolved as shift
-WARNING: shift/reduce conflict for SHORT in state 207 resolved as shift
-WARNING: shift/reduce conflict for UINT in state 207 resolved as shift
-WARNING: shift/reduce conflict for LPAREN in state 207 resolved as shift
-WARNING: shift/reduce conflict for LSQBRACKET in state 207 resolved as shift
-WARNING: shift/reduce conflict for STRING in state 207 resolved as shift
-WARNING: shift/reduce conflict for LIST in state 207 resolved as shift
-WARNING: shift/reduce conflict for FLOAT_TYPE in state 207 resolved as shift
-WARNING: shift/reduce conflict for DOUBLE_TYPE in state 207 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL_TYPE in state 207 resolved as shift
-WARNING: shift/reduce conflict for INTEGER_TYPE in state 207 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 207 resolved as shift
-WARNING: shift/reduce conflict for IF in state 222 resolved as shift
-WARNING: shift/reduce conflict for ID in state 222 resolved as shift
-WARNING: shift/reduce conflict for CLASSOBJECT in state 222 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 222 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 222 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 222 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 222 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 222 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 222 resolved as shift
-WARNING: shift/reduce conflict for INTERNAL in state 222 resolved as shift
-WARNING: shift/reduce conflict for INT in state 222 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 222 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 222 resolved as shift
-WARNING: shift/reduce conflict for BYTE in state 222 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 222 resolved as shift
-WARNING: shift/reduce conflict for SBYTE in state 222 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 222 resolved as shift
-WARNING: shift/reduce conflict for DOUBLE in state 222 resolved as shift
-WARNING: shift/reduce conflict for LONG in state 222 resolved as shift
-WARNING: shift/reduce conflict for SHORT in state 222 resolved as shift
-WARNING: shift/reduce conflict for UINT in state 222 resolved as shift
-WARNING: shift/reduce conflict for LPAREN in state 222 resolved as shift
-WARNING: shift/reduce conflict for LSQBRACKET in state 222 resolved as shift
-WARNING: shift/reduce conflict for STRING in state 222 resolved as shift
-WARNING: shift/reduce conflict for LIST in state 222 resolved as shift
-WARNING: shift/reduce conflict for FLOAT_TYPE in state 222 resolved as shift
-WARNING: shift/reduce conflict for DOUBLE_TYPE in state 222 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL_TYPE in state 222 resolved as shift
-WARNING: shift/reduce conflict for INTEGER_TYPE in state 222 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 222 resolved as shift
-WARNING: shift/reduce conflict for IF in state 235 resolved as shift
-WARNING: shift/reduce conflict for ID in state 235 resolved as shift
-WARNING: shift/reduce conflict for CLASSOBJECT in state 235 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 235 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 235 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 235 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 235 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 235 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 235 resolved as shift
-WARNING: shift/reduce conflict for INTERNAL in state 235 resolved as shift
-WARNING: shift/reduce conflict for INT in state 235 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 235 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 235 resolved as shift
-WARNING: shift/reduce conflict for BYTE in state 235 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 235 resolved as shift
-WARNING: shift/reduce conflict for SBYTE in state 235 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL in state 235 resolved as shift
-WARNING: shift/reduce conflict for DOUBLE in state 235 resolved as shift
-WARNING: shift/reduce conflict for LONG in state 235 resolved as shift
-WARNING: shift/reduce conflict for SHORT in state 235 resolved as shift
-WARNING: shift/reduce conflict for UINT in state 235 resolved as shift
-WARNING: shift/reduce conflict for LPAREN in state 235 resolved as shift
-WARNING: shift/reduce conflict for LSQBRACKET in state 235 resolved as shift
-WARNING: shift/reduce conflict for STRING in state 235 resolved as shift
-WARNING: shift/reduce conflict for LIST in state 235 resolved as shift
-WARNING: shift/reduce conflict for FLOAT_TYPE in state 235 resolved as shift
-WARNING: shift/reduce conflict for DOUBLE_TYPE in state 235 resolved as shift
-WARNING: shift/reduce conflict for DECIMAL_TYPE in state 235 resolved as shift
-WARNING: shift/reduce conflict for INTEGER_TYPE in state 235 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 235 resolved as shift
-WARNING: reduce/reduce conflict in state 106 resolved using rule (return -> RETURN ID)
-WARNING: rejected rule (factor -> ID) in state 106
-WARNING: reduce/reduce conflict in state 107 resolved using rule (return -> RETURN type)
-WARNING: rejected rule (factor -> type) in state 107
-WARNING: reduce/reduce conflict in state 115 resolved using rule (names -> ID)
-WARNING: rejected rule (factor -> ID) in state 115
+WARNING: shift/reduce conflict for OR in state 201 resolved as shift
+WARNING: shift/reduce conflict for AND in state 201 resolved as shift
+WARNING: shift/reduce conflict for NOT in state 201 resolved as shift
+WARNING: shift/reduce conflict for GREATER_THAN in state 201 resolved as shift
+WARNING: shift/reduce conflict for LESS_THAN in state 201 resolved as shift
+WARNING: shift/reduce conflict for GREATER_EQUALS_THAN in state 201 resolved as shift
+WARNING: shift/reduce conflict for LESS_EQUALS_THAN in state 201 resolved as shift
+WARNING: shift/reduce conflict for EQUALITY in state 201 resolved as shift
+WARNING: shift/reduce conflict for DIFFERENT in state 201 resolved as shift
+WARNING: shift/reduce conflict for IF in state 208 resolved as shift
+WARNING: shift/reduce conflict for ID in state 208 resolved as shift
+WARNING: shift/reduce conflict for CLASSOBJECT in state 208 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 208 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 208 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 208 resolved as shift
+WARNING: shift/reduce conflict for PUBLIC in state 208 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE in state 208 resolved as shift
+WARNING: shift/reduce conflict for PROTECTED in state 208 resolved as shift
+WARNING: shift/reduce conflict for INTERNAL in state 208 resolved as shift
+WARNING: shift/reduce conflict for INT in state 208 resolved as shift
+WARNING: shift/reduce conflict for FLOAT in state 208 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 208 resolved as shift
+WARNING: shift/reduce conflict for BYTE in state 208 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 208 resolved as shift
+WARNING: shift/reduce conflict for SBYTE in state 208 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 208 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE in state 208 resolved as shift
+WARNING: shift/reduce conflict for LONG in state 208 resolved as shift
+WARNING: shift/reduce conflict for SHORT in state 208 resolved as shift
+WARNING: shift/reduce conflict for UINT in state 208 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 208 resolved as shift
+WARNING: shift/reduce conflict for LSQBRACKET in state 208 resolved as shift
+WARNING: shift/reduce conflict for STRING in state 208 resolved as shift
+WARNING: shift/reduce conflict for LIST in state 208 resolved as shift
+WARNING: shift/reduce conflict for FLOAT_TYPE in state 208 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE_TYPE in state 208 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL_TYPE in state 208 resolved as shift
+WARNING: shift/reduce conflict for INTEGER_TYPE in state 208 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 208 resolved as shift
+WARNING: shift/reduce conflict for IF in state 223 resolved as shift
+WARNING: shift/reduce conflict for ID in state 223 resolved as shift
+WARNING: shift/reduce conflict for CLASSOBJECT in state 223 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 223 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 223 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 223 resolved as shift
+WARNING: shift/reduce conflict for PUBLIC in state 223 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE in state 223 resolved as shift
+WARNING: shift/reduce conflict for PROTECTED in state 223 resolved as shift
+WARNING: shift/reduce conflict for INTERNAL in state 223 resolved as shift
+WARNING: shift/reduce conflict for INT in state 223 resolved as shift
+WARNING: shift/reduce conflict for FLOAT in state 223 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 223 resolved as shift
+WARNING: shift/reduce conflict for BYTE in state 223 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 223 resolved as shift
+WARNING: shift/reduce conflict for SBYTE in state 223 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL in state 223 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE in state 223 resolved as shift
+WARNING: shift/reduce conflict for LONG in state 223 resolved as shift
+WARNING: shift/reduce conflict for SHORT in state 223 resolved as shift
+WARNING: shift/reduce conflict for UINT in state 223 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 223 resolved as shift
+WARNING: shift/reduce conflict for LSQBRACKET in state 223 resolved as shift
+WARNING: shift/reduce conflict for STRING in state 223 resolved as shift
+WARNING: shift/reduce conflict for LIST in state 223 resolved as shift
+WARNING: shift/reduce conflict for FLOAT_TYPE in state 223 resolved as shift
+WARNING: shift/reduce conflict for DOUBLE_TYPE in state 223 resolved as shift
+WARNING: shift/reduce conflict for DECIMAL_TYPE in state 223 resolved as shift
+WARNING: shift/reduce conflict for INTEGER_TYPE in state 223 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 223 resolved as shift
+WARNING: reduce/reduce conflict in state 107 resolved using rule (return -> RETURN ID)
+WARNING: rejected rule (factor -> ID) in state 107
+WARNING: reduce/reduce conflict in state 108 resolved using rule (return -> RETURN type)
+WARNING: rejected rule (factor -> type) in state 108
+WARNING: reduce/reduce conflict in state 116 resolved using rule (names -> ID)
+WARNING: rejected rule (factor -> ID) in state 116

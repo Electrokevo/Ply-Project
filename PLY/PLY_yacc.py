@@ -220,7 +220,15 @@ def p_loop(p):
 #Start_Levin Moran
 def p_loop_for(p):
     '''loop_for : FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block
-    | FOR LPAREN assignment SEMICOLON logical_expression SEMICOLON assignment RPAREN block body'''
+    | loop_for body'''
+
+    # Levin Moran
+    if len(p) == 3:
+        p[0] = p[1]
+    else:
+        if p[5] != "bool":
+            archSemantico.write(f"Error semántico: La expresión en paréntesis retorna {p[5]}\n")
+
 #End_Levin Moran
 
 # Start Kevin Mejia
@@ -228,7 +236,6 @@ def p_while_loop(p: yacc.Production):
     '''while_loop : WHILE LPAREN logical_expression RPAREN block
     | WHILE LPAREN logical_expression RPAREN block body'''
     #start kevin mejia
-    boolean = p[3]
     if p[3] == "bool":
         p[0] = p[3]
     else:
@@ -583,7 +590,7 @@ parser = yacc.yacc()
 
 
 buffer = ''''''
-archivo = open("./Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
+archivo = open("./Algorithms/SyntaxTests/QuickSort.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")
