@@ -12,13 +12,13 @@ usuarioGit = getoutput("git config user.name")
 fechaHora = datetime.now().strftime("%Y_%m_%d-%H_%M_%S") # Formato: 2025_06_13-12_00_00
 
 nombreArchivoLexic = f"lexic-{usuarioGit}-{fechaHora}.txt"
-rutaArchivoLexic = f"../Logs/{nombreArchivoLexic}"
+rutaArchivoLexic = f"../Ply-Project/Logs/{nombreArchivoLexic}"
 
 nombreArchivo = f"sintactico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivo = f"./Logs/{nombreArchivo}"
+rutaArchivo = f"../Ply-Project/Logs/{nombreArchivo}"
 
 nombreArchivoSemantico = f"semantico-{usuarioGit}-{fechaHora}.txt"
-rutaArchivoSemantico = f"./Logs/{nombreArchivoSemantico}"
+rutaArchivoSemantico = f"../Ply-Project/Logs/{nombreArchivoSemantico}"
 
 arch = open(rutaArchivo, "w", encoding="UTF-8")
 archSemantico = open(rutaArchivoSemantico, "w", encoding="UTF-8")
@@ -622,7 +622,7 @@ parser = yacc.yacc()
 
 
 buffer = ''''''
-archivo = open("./Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
+archivo = open("../Ply-Project/Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")

@@ -3537,16 +3537,6 @@ state 127
     RPAREN          reduce using rule 61 (logical_factor -> TRUE .)
     SEMICOLON       reduce using rule 61 (logical_factor -> TRUE .)
 
-  ! OR              [ reduce using rule 60 (logical_expression -> logical_factor .) ]
-  ! AND             [ reduce using rule 60 (logical_expression -> logical_factor .) ]
-  ! NOT             [ reduce using rule 60 (logical_expression -> logical_factor .) ]
-  ! GREATER_THAN    [ reduce using rule 60 (logical_expression -> logical_factor .) ]
-  ! LESS_THAN       [ reduce using rule 60 (logical_expression -> logical_factor .) ]
-  ! GREATER_EQUALS_THAN [ reduce using rule 60 (logical_expression -> logical_factor .) ]
-  ! LESS_EQUALS_THAN [ reduce using rule 60 (logical_expression -> logical_factor .) ]
-  ! EQUALITY        [ reduce using rule 60 (logical_expression -> logical_factor .) ]
-
-    logical_operator               shift and go to state 171
 
 state 128
 
@@ -4081,7 +4071,7 @@ state 162
     EQUALS          shift and go to state 99
 
 
-state 162
+state 163
 
     (86) assignment -> CLASSOBJECT . ID
     (81) data_structure_array -> CLASSOBJECT . LSQBRACKET RSQBRACKET
@@ -4404,7 +4394,7 @@ state 176
     CLASSOBJECT     reduce using rule 72 (logical_operator -> LESS_THAN .)
 
 
-state 178
+state 177
 
     (73) logical_operator -> GREATER_EQUALS_THAN .
 
@@ -4721,29 +4711,6 @@ state 190
 
 state 191
 
-    (126) indexing -> ID LSQBRACKET expression RSQBRACKET .
-
-    EQUALS          reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    TIMES           reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    DIVIDE          reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    PLUS            reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    MINUS           reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    SEMICOLON       reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    RPAREN          reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    COMMA           reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    RSQBRACKET      reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    OR              reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    AND             reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    NOT             reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    GREATER_THAN    reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    LESS_THAN       reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    GREATER_EQUALS_THAN reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    LESS_EQUALS_THAN reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-    EQUALITY        reduce using rule 126 (indexing -> ID LSQBRACKET expression RSQBRACKET .)
-
-
-state 183
-
     (41) expression -> object_access LPAREN expression RPAREN .
 
     PLUS            reduce using rule 41 (expression -> object_access LPAREN expression RPAREN .)
@@ -4857,22 +4824,6 @@ state 198
 
 
 state 199
-
-    (67) logical_factor -> LPAREN logical_expression RPAREN .
-
-    OR              reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
-    AND             reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
-    NOT             reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
-    GREATER_THAN    reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
-    LESS_THAN       reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
-    GREATER_EQUALS_THAN reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
-    LESS_EQUALS_THAN reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
-    EQUALITY        reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
-    RPAREN          reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
-    SEMICOLON       reduce using rule 67 (logical_factor -> LPAREN logical_expression RPAREN .)
-
-
-state 189
 
     (43) if -> IF LPAREN logical_expression RPAREN block .
     (44) if -> IF LPAREN logical_expression RPAREN block . body
