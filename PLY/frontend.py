@@ -3,6 +3,9 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import filedialog as fd
 
+from PLY_yacc import *
+
+
 def open_cs_file():
     # file type
     filetypes = (
@@ -20,21 +23,38 @@ def validar_todo():
 
 #pasar codigo al ply y conectar la salida de los logs con 'console_text'
 def validar_lexico():
+    console_text.delete('1.0', tk.END)
     code = code_text.get('1.0', tk.END)
-    pass
+    write_lexic_logs(code)
+    archivo = open(rutaArchivoLexic, "r", encoding="UTF-8") 
+    logs = archivo.read()
+    console_text.insert('1.0', logs)
+    archivo.close()
 
 def validar_sintaxis():
+    console_text.delete('1.0', tk.END)
     code = code_text.get('1.0', tk.END)
-    pass
+    parser.parse(code)
+    arch = open(rutaArchivo, "r", encoding="UTF-8")
+    logs = arch.read()
+    console_text.insert('1.0', logs)
+    arch.close()
 
 def validar_semantica():
+    console_text.delete('1.0', tk.END)
     code = code_text.get('1.0', tk.END)
+    parser.parse(code)
+    archSemantico = open(rutaArchivoSemantico, "r", encoding="UTF-8")
+    logs = archSemantico.read()
+    console_text.insert('1.0', logs)
+    archSemantico.close()
+
     pass
 
 # ---------- Setup ----------
 root = tk.Tk()
 root.title("C#")
-root.geometry("1000x600")
+root.geometry("1200x800")
 root.configure(bg="#121212")
 
 # ---------- Styles ----------
