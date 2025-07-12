@@ -64,8 +64,7 @@ style.map("TButton", background=[("active", "#333333")])
 sidebar = ttk.Frame(root, style="Sidebar.TFrame", width=150)
 sidebar.pack(side=tk.LEFT, fill=tk.Y)
 
-# Logo (placeholder image path)
-logo_image = Image.open("../Ply-Project/PLY/assets/logo.ico")  # <-- Replace with real path
+logo_image = Image.open("assets/logo.ico")
 logo_image = logo_image.resize((80, 80))
 logo_photo = ImageTk.PhotoImage(logo_image)
 logo_label = ttk.Label(sidebar, image=logo_photo, style="Sidebar.TLabel")

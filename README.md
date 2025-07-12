@@ -8,11 +8,15 @@
 
 El archivo a ejecutar es PLY.py, se lo puede ejecutar con el siguiente comando dentro de la carpeta PLY:
 
-`python PLY.py`
+`python frontend.py`
 
 Al ejecutarlo no se deberia mostrar nada en consola, pero se crea un nuevo archivo en la carpeta logs, con el nombre del usuario que clono el repositoria y la fecha.
 
 Este archivo contiene todos los tokens que el lexer analizo, incluye informacion como el tipo de token, su valor y la posicion del mismo.
+
+Las librererias necesarias para ejecutar el programa son:
+-tkinter: usado para la UI (viene por defecto en python, pero en algunos casos hay que activarlo)
+-pillow: usado para insertar las imagenes (el logo)
 
 Nota: Por alguna razon al clonar el repositorio la carpeta de logs y de los algoritmos se clona dentro o fuera de la carpeta PLY, por lo que en caso de recibir un error al ejecutar el archivo PLY.py, por favor intente cambiar el path de los archivos en el mismo PLY.py
 
