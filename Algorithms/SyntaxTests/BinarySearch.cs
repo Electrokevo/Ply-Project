@@ -6,8 +6,6 @@ public class BinarySearch
 {
     public static int search(int[] array, int target)
     {
-        int[] test = [2,3,4,5,5];
-        List<int> lista = [2,3,4,5,5];
         int left = 0;
         int right = array.Length - 1;
         while (left <= right)
