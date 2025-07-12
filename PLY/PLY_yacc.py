@@ -107,10 +107,6 @@ def p_lines(p):
     | return'''
     p[0] = p[1]
     
-def p_names(p):
-    '''names : ID
-            | CLASSOBJECT'''
-    p[0] = p[1]
 
 def p_names(p):
     '''names : ID
@@ -158,6 +154,8 @@ def p_arguments(p):
                  | expression COMMA arguments
                  | names
                  | names COMMA arguments'''
+
+    # Levin Moran
     name = [p[1]]
     if len(p) == 2:
         p[0] = name
@@ -165,10 +163,6 @@ def p_arguments(p):
         dato = p[3]
         p[0] = name + dato
         
-
-    
-
-
 
 # End Kevin Mejia
 #Start_Levin Moran
@@ -200,7 +194,7 @@ def p_if(p):
     if p[3] == "bool":
         p[0] = p[3]
     else:
-        print(f"Semantic error: The expression between parenthesis doesn't result in a boolean'")
+        archSemantico.write(f"Semantic error: The expression between parenthesis doesn't result in a boolean \n")
 
 
 def p_elseif(p):
@@ -210,7 +204,7 @@ def p_elseif(p):
     if p[4] == "bool":
         p[0] = p[3]
     else:
-        print(f"Semantic error: The expression between parenthesis doesn't result in a boolean'")
+        archSemantico.write(f"Semantic error: The expression between parenthesis doesn't result in a boolean \n")
 
 # Modified by Levin Moran
 def p_else(p):
@@ -309,7 +303,7 @@ def p_logical_factor(p):
         elif isinstance(type, str) or type == "string":
             p[0] = "string"
         else:
-            print(f"Semantic error: type {type} not recognized\n")
+            archSemantico.write(f"Semantic error: type {type} not recognized \n")
     #end kevin mejia
 
 def p_logical_operator(p):
@@ -361,6 +355,7 @@ def p_assignment_untyped(p):
     '''assignment : ID EQUALS expression
                 | indexing EQUALS expression'''
 
+    # Levin Moran
     nombre = p[1]
     data = p[3]
 
@@ -376,6 +371,8 @@ def p_assignment_untyped(p):
 
 def p_assignment_plus_one(p):
     '''assignment : ID PLUSONE'''
+    
+    # Levin Moran
     nombre = p[1]
 
     if nombre not in tabla_simbolos["variables"]:
@@ -389,7 +386,10 @@ def p_assignment_plus_one(p):
             archSemantico.write(f"Error de tipo: variable '{nombre}' de tipo '{tipado}' no puede ser incrementada \n")
 
 def p_assignment_class(p):
-    '''assignment_class : CLASSOBJECT ID'''
+    '''assignment : CLASSOBJECT ID'''
+    
+    
+    # Levin Moran
     nombre = p[2]
     clase = p[1]
 
@@ -504,6 +504,7 @@ def p_declarations(p):
 def p_declaration(p):
     '''declaration : data_type ID'''
 
+    # Levin Moran
     nombre = p[2]
     tipado = p[1]
 
@@ -592,11 +593,6 @@ archivo.close()
 
 asignaciones = parser.parse(buffer)
 
-'''for asignacion in asignaciones:
-    arch.write(f"Asignación correcta: {asignacion} \n")'''
-
-for var, tipo in tabla_simbolos["variables"].items():
-    archSemantico.write(f"{var}, {tipo}  \n")
 
 arch.close()
 archSemantico.close()

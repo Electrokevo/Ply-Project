@@ -1,0 +1,16 @@
+Error de tipo: variable 'pi' declarada como 'int' pero se asigna un valor de tipo 'None'
+Error semántico: Variable 'pi' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error semántico: Variable 'pi' no declarada 
+Error de tipo: operación entre 'None' y 'int' no permitida 
+Error semántico: La variable 'arr' ya está declarada 
+Error semántico: La variable 'low' ya está declarada 
+Error semántico: La variable 'high' ya está declarada 
+Error semántico: Variable 'int' no declarada 
+Error semántico: Variable 'int' no declarada 
+Semantic error: int isn't an integer type.
+Error de tipo: variable 'temp' declarada como 'int' pero se asigna un valor de tipo 'None'
+Semantic error: int isn't an integer type.
+Error semántico: Variable 'None' no declarada 
+Error semántico: Variable 'temp' no declarada 
+Error semántico: Variable 'int' no declarada 
