@@ -239,7 +239,7 @@ def p_while_loop(p: yacc.Production):
     if p[3] == "bool":
         p[0] = p[3]
     else:
-        archSemantico.write(f"Semantic error: The expression between parenthesis result in {p[3]}")
+        archSemantico.write(f"Error semántico: La expresión en paréntesis retorna {p[3]}")
     #end kevin mejia
 
 def p_logical_expression(p):
@@ -577,7 +577,7 @@ def p_indexing(p):
 # Error rule for syntax errors
 def p_error(p):
     if p:
-        arch.write(f"Syntax error at token {p.type}, value '{p.value}'\n")
+        arch.write(f"Syntax error at token {p.type}, value '{p.value}, at line {p.lineno}'\n")
         parser.errok()
     else:
         arch.write("Syntax error at EOF")
@@ -590,7 +590,7 @@ parser = yacc.yacc()
 
 
 buffer = ''''''
-archivo = open("./Algorithms/SyntaxTests/QuickSort.cs", "r", encoding="UTF-8")
+archivo = open("./Algorithms/SyntaxTests/BinarySearch.cs", "r", encoding="UTF-8")
 for line in archivo:
   if line.startswith("\ufeff"):
     line = line.strip("\ufeff")
