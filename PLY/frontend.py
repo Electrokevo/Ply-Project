@@ -13,7 +13,7 @@ def open_cs_file():
     )
     f = fd.askopenfile(filetypes=filetypes)
     code_text.delete('1.0', tk.END)
-    code_text.insert('1.0', f.read())
+    code_text.insert('1.0', f.read().strip())
 
 #pasar codigo al ply y conectar la salida de los logs con 'console_text'
 def validar_lexico():
@@ -123,7 +123,7 @@ console_label = ttk.Label(console_frame, text="Consola", font=("Helvetica", 14))
 console_label.pack(anchor="w")
 
 #TODO: CONECTAR LOGS CON LA CONSOLA
-console_text = tk.Text(console_frame, height=4, bg="#1a1a1a", fg="#eeeeee", insertbackground="#eeeeee", font=("Consolas", 10))
+console_text = tk.Text(console_frame, height=20, bg="#1a1a1a", fg="#eeeeee", insertbackground="#eeeeee", font=("Consolas", 10))
 console_text.pack(fill=tk.X)
 console_text.insert("1.0", ">error ")
 
