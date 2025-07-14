@@ -246,8 +246,7 @@ def p_if(p):
     if p[3] == "bool":
         p[0] = p[3]
     else:
-        archSemantico.write(f"Semantic error: The expression between parenthesis doesn't result in a boolean \n")
-
+        archSemantico.write(f"Error Semantico: La expresion entre parentesis no resulta en un booleano.\n")
 
 def p_elseif(p):
     '''elseif : ELSE IF LPAREN logical_expression RPAREN block
@@ -256,7 +255,7 @@ def p_elseif(p):
     if p[4] == "bool":
         p[0] = p[3]
     else:
-        archSemantico.write(f"Semantic error: The expression between parenthesis doesn't result in a boolean \n")
+        archSemantico.write(f"Error Semantico: La expresion entre parentesis no resulta en un booleano.\n")
 
 # Modified by Levin Moran
 def p_else(p):
@@ -307,9 +306,9 @@ def p_logical_expression(p):
             type1 = p[1]
             type2 = p[3]
             if type1 != "bool":
-                archSemantico.write(f"Semantic error: Type {type1} is not allow with operator {operator}\n")
+                archSemantico.write(f"Error semantico: El tipo '{type1}' no se puede usar junto al operador '{operator}'\n")
             elif type2 != "bool":
-                archSemantico.write(f"Semantic error: Type {type2} is not allow with operator {operator}\n")
+                archSemantico.write(f"Error semantico: El tipo '{type2}' no se puede usar junto al operador '{operator}'\n")
             else:
                 p[0] = "bool"
         elif operator == ">" or operator == ">=" or operator == "<" or operator == "<=":
@@ -317,9 +316,9 @@ def p_logical_expression(p):
             type1 = p[1]
             type2 = p[3]
             if type1 not in allowed_types:
-                archSemantico.write(f"Semantic error: Type {type1} is not allow with operator {operator}\n")
+                archSemantico.write(f"Error semantico: El tipo '{type2}' no se puede usar junto al operador '{operator}'\n")
             elif type2 not in allowed_types:
-                archSemantico.write(f"Semantic error: Type {type2} is not allow with operator {operator}\n")
+                archSemantico.write(f"Error semantico: El tipo '{type2}' no se puede usar junto al operador '{operator}'\n")
             else:
                 p[0] = "bool"
         elif operator == "==" or operator == "!=":
@@ -333,9 +332,9 @@ def p_logical_expression(p):
             elif type1 == "bool" and type2 == "bool":
                 p[0] = "bool"
             else:
-                archSemantico.write(f"Semantic error: Type {type1} and type {type2} cannot use operator {operator}\n")
+                archSemantico.write(f"Error semantico: Los tipos '{type1}' y '{type2}' no pueden usar el operador '{operator}'\n")
         else:
-            archSemantico.write(f"Semantic error: Operator {operator} isn't recognize\n")
+                archSemantico.write(f"Error semantico: No se reconoce el operador '{operator}'\n")
     #end kevin mejia
 
 def p_logical_factor(p):
@@ -362,7 +361,7 @@ def p_logical_factor(p):
         elif isinstance(type, str) or type == "string":
             p[0] = "string"
         else:
-            archSemantico.write(f"Semantic error: type {type} not recognized \n")
+            archSemantico.write(f"Error semantico: No se reconoce el tipo '{type}'\n")
     #end kevin mejia
 
 def p_logical_operator(p):
@@ -408,7 +407,7 @@ def p_assignment(p):
     if tipado == data:
         tabla_simbolos["variables"][nombre] = data
     else:
-        archSemantico.write(f"Error de tipo: variable '{nombre}' declarada como '{tipado}' pero se asigna un valor de tipo '{data}'\n")
+        archSemantico.write(f"Error semántico: variable '{nombre}' declarada como '{tipado}' pero se asigna un valor de tipo '{data}'\n")
 
 def p_assignment_untyped(p):
     '''assignment : ID EQUALS expression
@@ -425,7 +424,7 @@ def p_assignment_untyped(p):
         if tipado == data:
             tabla_simbolos["variables"][nombre] = data
         else:
-            archSemantico.write(f"Error de tipo: variable '{nombre}' declarada como '{tipado}' pero se asigna un valor de tipo '{data}'\n")
+            archSemantico.write(f"Error semantico: variable '{nombre}' declarada como '{tipado}' pero se asigna un valor de tipo '{data}'\n")
 
 
 def p_assignment_plus_one(p):
@@ -442,7 +441,7 @@ def p_assignment_plus_one(p):
         if tipado in numbers:
             tabla_simbolos["variables"][nombre] = tipado
         else:
-            archSemantico.write(f"Error de tipo: variable '{nombre}' de tipo '{tipado}' no puede ser incrementada \n")
+            archSemantico.write(f"Error semantico: variable '{nombre}' de tipo '{tipado}' no puede ser incrementada \n")
 
 def p_assignment_class(p):
     '''assignment : CLASSOBJECT ID'''
@@ -614,12 +613,12 @@ def p_indexing(p):
     elif p[3] in tabla_simbolos["variables"]:
         tipo = tabla_simbolos["variables"][p[3]]
         if tipo != "int":
-            archSemantico.write(f"Semantic error: {p[3]} isn't an integer type.\n")
+            archSemantico.write(f"Error semantico: {p[3]} no se puede usar como un indice.\n")
         else:
             #Lo mismo de arriba pero ahora con variable
             p[0] = tabla_simbolos["variables"][p[1]]
     else:
-         archSemantico.write(f"Semantic error: {p[3]} isn't an integer type.\n")
+            archSemantico.write(f"Error semantico: {p[3]} no se puede usar como un indice.\n")
     #end kevin mejia
 # End Kevin Mejia
 
@@ -634,12 +633,12 @@ def p_indexing_asign(p):
     elif p[3] in tabla_simbolos["variables"]:
         tipo = tabla_simbolos["variables"][p[3]]
         if tipo != "int":
-            archSemantico.write(f"Semantic error: {p[3]} isn't an integer type.\n")
+            archSemantico.write(f"Error semantico: {p[3]} no se puede usar como un indice.\n")
         else:
             #Lo mismo de arriba pero ahora con variable
             p[0] = [p[1]]
     else:
-         archSemantico.write(f"Semantic error: {p[3]} isn't an integer type.\n")
+         archSemantico.write(f"Error semantico: {p[3]} no se puede usar como un indice.\n") 
     #end kevin mejia
 # End Kevin Mejia
 

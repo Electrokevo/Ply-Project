@@ -1,0 +1,4 @@
+Error semantico: double no se puede usar como un indice.
+Error semantico: No se reconoce el tipo 'None'
+Error semantico: Los tipos 'None' y 'int' no pueden usar el operador '=='
+Error Semantico: La expresion entre parentesis no resulta en un booleano.
